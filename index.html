@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SR-QA Insight - Dashboard Penjaminan Mutu & Analitik Prediktif</title>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/Logo-Sekolah-Rakyat-Putih.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/Logo-Sekolah-Rakyat-Putih.png">
+    <link rel="shortcut icon" type="image/png" href="assets/Logo-Sekolah-Rakyat-Putih.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/Logo-Sekolah-Rakyat-Putih.png">
+    
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="msapplication-TileColor" content="#4f46e5">
+    <meta name="description" content="SR-QA Insight - Dashboard Penjaminan Mutu Sistem, Perangkingan MPI Calon Siswa & Analitik Prediktif Sekolah Rakyat">
+    <meta name="application-name" content="SR-QA Insight">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .cursor-blink::after {
+            content: '▋';
+            display: inline-block;
+            color: #a855f7;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        body, body * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-mode {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        body.light-mode ::-webkit-scrollbar-track { background: #e2e8f0; }
+        body.light-mode ::-webkit-scrollbar-thumb { background: #94a3b8; }
+        body.light-mode ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        body.light-mode header {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        body.light-mode .bg-slate-800 {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+        body.light-mode .bg-slate-900 {
+            background-color: #f8fafc !important;
+        }
+        body.light-mode .bg-slate-900\/60,
+        body.light-mode .bg-slate-900\/80 {
+            background-color: #f1f5f9 !important;
+        }
+        body.light-mode .bg-slate-800\/50 {
+            background-color: rgba(255, 255, 255, 0.7) !important;
+            border-color: #e2e8f0 !important;
+        }
+        body.light-mode .bg-slate-700 {
+            background-color: #f1f5f9 !important;
+        }
+
+        body.light-mode .border-slate-700,
+        body.light-mode .border-slate-800 {
+            border-color: #e2e8f0 !important;
+        }
+
+        body.light-mode .text-slate-100,
+        body.light-mode .text-slate-200,
+        body.light-mode .text-slate-300 {
+            color: #0f172a !important;
+        }
+        body.light-mode .text-slate-400 {
+            color: #475569 !important;
+        }
+        body.light-mode .text-slate-500 {
+            color: #64748b !important;
+        }
+
+        body.light-mode button.bg-slate-700 {
+            background-color: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+        body.light-mode button.bg-slate-700:hover {
+            background-color: #cbd5e1 !important;
+        }
+
+        body.light-mode select.bg-slate-900,
+        body.light-mode input.bg-slate-900 {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+        body.light-mode .placeholder-slate-500::placeholder {
+            color: #94a3b8 !important;
+        }
+
+        body.light-mode .bg-gradient-to-br.from-sky-500\/10 {
+            background: linear-gradient(to bottom right, rgba(14, 165, 233, 0.08), rgba(2, 132, 199, 0.03)) !important;
+        }
+        body.light-mode .bg-gradient-to-br.from-emerald-500\/10 {
+            background: linear-gradient(to bottom right, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.03)) !important;
+        }
+        body.light-mode .bg-gradient-to-br.from-amber-500\/10 {
+            background: linear-gradient(to bottom right, rgba(245, 158, 11, 0.08), rgba(217, 119, 6, 0.03)) !important;
+        }
+        body.light-mode .bg-gradient-to-br.from-violet-500\/10 {
+            background: linear-gradient(to bottom right, rgba(139, 92, 246, 0.08), rgba(124, 58, 237, 0.03)) !important;
+        }
+
+        body.light-mode #llmOutput {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #334155 !important;
+        }
+        body.light-mode #llmOutput .text-slate-300 {
+            color: #334155 !important;
+        }
+        body.light-mode #llmOutput b {
+            color: #0f172a !important;
+        }
+
+        body.light-mode #chatHistory .bg-slate-800 {
+            background-color: #e0e7ff !important;
+        }
+        body.light-mode #chatHistory .bg-purple-900\/30 {
+            background-color: #f3e8ff !important;
+            border-color: #e9d5ff !important;
+        }
+        body.light-mode #chatHistory .text-slate-300 {
+            color: #334155 !important;
+        }
+
+        body.light-mode #chatHistory .text-slate-400.italic {
+            color: #64748b !important;
+        }
+
+        body.light-mode .cursor-blink::after {
+            color: #7c3aed;
+        }
+
+        body.light-mode .border-amber-400 {
+            color: #d97706 !important;
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: rgba(71, 85, 105, 0.2);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+            background: rgba(71, 85, 105, 0.35);
+            transform: scale(1.05);
+        }
+        body.light-mode .theme-toggle {
+            background: rgba(226, 232, 240, 0.6);
+            border-color: rgba(203, 213, 225, 0.5);
+        }
+        body.light-mode .theme-toggle:hover {
+            background: rgba(203, 213, 225, 0.9);
+        }
+
+        .theme-icon {
+            transition: transform 0.5s ease, opacity 0.3s ease;
+            position: absolute;
+        }
+        .theme-icon.hidden-icon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+        .theme-icon.visible-icon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        .logo-container {
+            width: 75px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            box-shadow: none;
+            border-radius: 12px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .logo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-dark { display: block; }
+        .logo-light { display: none; }
+
+        body.light-mode .logo-dark { display: none; }
+        body.light-mode .logo-light { display: block; }
+
+        .logo-fallback-icon {
+            color: #ffffff;
+        }
+        body.light-mode .logo-fallback-icon {
+            color: #0f172a;
+        }
+
+        .integration-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .integration-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--status-color, #10b981), transparent);
+        }
+        .pulse-dot {
+            animation: pulseDot 2s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .log-item {
+            transition: all 0.2s ease;
+        }
+        .log-item:hover {
+            transform: translateX(2px);
+        }
+
+        .cutoff-line {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.8), rgba(239, 68, 68, 0.2));
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
+
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="logo-container" id="logoBox">
+                    <img src="assets/Logo-Sekolah-Rakyat-Putih.png" 
+                         alt="Logo Sekolah Rakyat" 
+                         id="logoDark"
+                         class="logo-dark"
+                         onerror="handleLogoError('dark')">
+                    <img src="assets/Logo-Sekolah-Rakyat.png" 
+                         alt="Logo Sekolah Rakyat" 
+                         id="logoLight"
+                         class="logo-light"
+                         onerror="handleLogoError('light')">
+                    <i data-lucide="shield-check" id="logoFallback" class="w-7 h-7 hidden logo-fallback-icon"></i>
+                </div>
+                
+                <div class="flex flex-col">
+                    <h1 class="font-bold text-lg leading-tight">SR-QA INSIGHT</h1>
+                    <p class="text-xs text-slate-400 leading-tight">Penjaminan Mutu Sistem & Analitik Prediktif Sekolah Rakyat</p>
+                    
+                    <div class="hidden md:flex items-center flex-wrap gap-2 mt-1.5 text-[10px]">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                            AI Engine: Active
+                        </span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                            <i data-lucide="sparkles" class="w-2.5 h-2.5 mr-1"></i>
+                            GenAI: Online
+                        </span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                            <i data-lucide="award" class="w-2.5 h-2.5 mr-1"></i>
+                            MPI Ranking: Ready
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3 text-xs">
+                <span class="text-slate-400 hidden lg:inline">Kementerian Sosial RI</span>
+                
+                <button onclick="toggleTheme()" class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Ganti tema Dark/Light">
+                    <i data-lucide="sun" id="sunIcon" class="w-5 h-5 theme-icon visible-icon text-amber-300"></i>
+                    <i data-lucide="moon" id="moonIcon" class="w-5 h-5 theme-icon hidden-icon text-indigo-600"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+
+        <div class="space-y-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-sky-400"></i>
+                    <h2 class="font-semibold text-base text-slate-200">Statistik Makro Penyelenggaraan Sekolah Rakyat</h2>
+                </div>
+                <span class="text-xs text-slate-400">Data Terintegrasi Dapodik dan DTSEN • Per 14 Agustus 2026</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-gradient-to-br from-sky-500/10 to-sky-600/5 border border-sky-500/20 rounded-xl p-5 hover:border-sky-500/40 transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Sekolah</p>
+                            <p class="text-3xl font-bold text-sky-400 mt-2">283</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Tersebar di 34 provinsi</p>
+                        </div>
+                        <div class="p-2.5 bg-sky-500/10 text-sky-400 rounded-lg">
+                            <i data-lucide="school" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-sky-500/10">
+                        <div class="flex items-center text-[10px] text-emerald-400">
+                            <i data-lucide="trending-up" class="w-3 h-3 mr-1"></i>
+                            <span>+12 sekolah baru tahun ini</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border border-emerald-500/20 rounded-xl p-5 hover:border-emerald-500/40 transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Peserta Didik</p>
+                            <p class="text-3xl font-bold text-emerald-400 mt-2">25.607</p>
+                            <p class="text-[11px] text-slate-500 mt-1">34 siswa/sekolah rata-rata</p>
+                        </div>
+                        <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-emerald-500/10">
+                        <div class="flex items-center text-[10px] text-slate-400">
+                            <i data-lucide="user-check" class="w-3 h-3 mr-1"></i>
+                            <span>98.2% terverifikasi NIK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-xl p-5 hover:border-amber-500/40 transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Guru</p>
+                            <p class="text-3xl font-bold text-amber-400 mt-2">2.208</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Usia rata-rata 27 tahun</p>
+                        </div>
+                        <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-lg">
+                            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-amber-500/10">
+                        <div class="flex items-center text-[10px] text-slate-400">
+                            <i data-lucide="ratio" class="w-3 h-3 mr-1"></i>
+                            <span>Rasio 1:12 (Guru:Siswa)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-violet-500/10 to-violet-600/5 border border-violet-500/20 rounded-xl p-5 hover:border-violet-500/40 transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Tendik</p>
+                            <p class="text-3xl font-bold text-violet-400 mt-2">6.647</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Jumlah tendik terdaftar</p>
+                        </div>
+                        <div class="p-2.5 bg-violet-500/10 text-violet-400 rounded-lg">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-violet-500/10">
+                        <div class="flex items-center text-[10px] text-slate-400">
+                            <i data-lucide="shield" class="w-3 h-3 mr-1"></i>
+                            <span>Meliputi operator & admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">System Health (Prophet AI)</p>
+                    <p class="text-2xl font-bold text-emerald-400 mt-1">99.88%</p>
+                    <p class="text-[10px] text-slate-400 mt-1">SLA Target: &gt;99.5% (PASS)</p>
+                </div>
+                <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Anomali Data (Isolation Forest)</p>
+                    <p class="text-2xl font-bold text-amber-400 mt-1">25 Record</p>
+                    <p class="text-[10px] text-slate-400 mt-1">0.098% dari total data terverifikasi</p>
+                </div>
+                <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg">
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Prediksi Risiko Dropout (XGBoost)</p>
+                    <p class="text-2xl font-bold text-rose-400 mt-1">320 Siswa</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Kategori Risiko Tinggi (Perlu Intervensi)</p>
+                </div>
+                <div class="p-3 bg-rose-500/10 text-rose-400 rounded-lg">
+                    <i data-lucide="user-minus" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Prioritas Seleksi (MPI Score)</p>
+                    <p class="text-2xl font-bold text-cyan-400 mt-1">84.2 Rata-rata</p>
+                    <p class="text-[10px] text-slate-400 mt-1">1.250 Pendaftar Oversubscribed</p>
+                </div>
+                <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-lg">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center space-x-2 border-b border-slate-800 pb-2">
+                <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i>
+                <h2 class="font-semibold text-base text-slate-200">AI Penjaminan Mutu Sistem dan Data (QA & Integrity)</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-medium text-sm text-slate-200">Prediksi Beban dan Latensi Server (Prophet Model)</h3>
+                            <p class="text-xs text-slate-400">Perkiraan lonjakan akses LMS Sekolah Rakyat untuk predictive scaling</p>
+                        </div>
+                        <span class="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded">Time-Series AI</span>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="prophetChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-medium text-sm text-slate-200">Deteksi Anomali Data (Isolation Forest)</h3>
+                            <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded">Anomaly AI</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-3">Pemeriksaan otomatis NIK ganda, manipulasi, dan format invalid</p>
+                        
+                        <div id="anomalyList" class="space-y-2 overflow-y-auto max-h-96 pr-1"></div>
+                    </div>
+                    <button class="w-full mt-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs font-medium transition">
+                        Jalankan Automated QA Scan (Isolation Forest)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center space-x-2 border-b border-slate-800 pb-2">
+                <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-400"></i>
+                <h2 class="font-semibold text-base text-slate-200">AI Analitik Prediktif Siswa (Student Retention)</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-medium text-sm text-slate-200">Klasifikasi Risiko Dropout (XGBoost)</h3>
+                        <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">Supervised ML</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Analisis presensi, keaktifan LMS, dan histori bantuan</p>
+                    <div class="h-56 flex items-center justify-center">
+                        <canvas id="xgboostChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-medium text-sm text-slate-200">Klasterisasi Inklusi (K-Means)</h3>
+                        <span class="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded">Clustering AI</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Pemetaan kelompok kebutuhan intervensi sosial-pendidikan</p>
+                    <div class="h-56 flex items-center justify-center">
+                        <canvas id="kmeansChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <h3 class="font-medium text-sm text-slate-200">Rekomendasi Intervensi Dini</h3>
+                    <p class="text-xs text-slate-400">Tindakan otomatis berdasarkan output XGBoost</p>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-slate-900 rounded-lg border-l-4 border-rose-500 space-y-1">
+                            <p class="font-semibold text-slate-200">Pendampingan Sosial Lapangan</p>
+                            <p class="text-slate-400">Target: 320 Siswa Risiko Tinggi (Interaksi LMS &lt;20% dalam 14 hari).</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900 rounded-lg border-l-4 border-amber-500 space-y-1">
+                            <p class="font-semibold text-slate-200">Penguatan Bantuan Modal Belajar</p>
+                            <p class="text-slate-400">Target: Klaster 2 K-Means (Wilayah 3T & jaringan internet terbatas).</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900 rounded-lg border-l-4 border-emerald-500 space-y-1">
+                            <p class="font-semibold text-slate-200">Monitoring Rutin</p>
+                            <p class="text-slate-400">Target: 1.050 Siswa Risiko Rendah (Keaktifan tinggi & konsisten).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4" id="mpiDashboard">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="award" class="w-5 h-5 text-cyan-400"></i>
+                    <h2 class="font-semibold text-base text-slate-200">Perangkingan Calon Siswa Berbasis Multidimensional Poverty Index (MPI)</h2>
+                    <span class="text-[10px] bg-cyan-500 text-slate-950 font-bold px-1.5 py-0.5 rounded">Direktorat PSNK</span>
+                </div>
+                <span class="text-xs text-slate-400">Algoritma Penentuan Prioritas Paling Membutuhkan Sekolah Rakyat</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                    <p class="text-xs text-slate-400 font-medium">Total Pendaftar Terverifikasi</p>
+                    <p class="text-2xl font-bold text-slate-100 mt-1">1.250 Anak</p>
+                    <p class="text-[10px] text-cyan-400 mt-1">Target Kuota Keseluruhan: 500 Siswa</p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                    <p class="text-xs text-slate-400 font-medium">Prioritas 1 (Sangat Mendesak)</p>
+                    <p class="text-2xl font-bold text-rose-400 mt-1">310 Anak</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Skor MPI ≥ 80.0 (Otomatis Lolos Kuota)</p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                    <p class="text-xs text-slate-400 font-medium">Prioritas 2 (Mendesak / Cadangan)</p>
+                    <p class="text-2xl font-bold text-amber-400 mt-1">450 Anak</p>
+                    <p class="text-[10px] text-slate-400 mt-1">Skor MPI 65.0 - 79.9</p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                    <p class="text-xs text-slate-400 font-medium">Rasio Oversubscribed</p>
+                    <p class="text-2xl font-bold text-violet-400 mt-1">250%</p>
+                    <p class="text-[10px] text-emerald-400 mt-1">100% Bebas Intervensi Manual</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-medium text-sm text-slate-200">Profil Deprivasi Pendaftar</h3>
+                            <p class="text-xs text-slate-400" id="mpiCandidateName">Calon: #SR-REG-001 (Asep Kurnia)</p>
+                        </div>
+                        <span class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded">5-Dimensi MPI</span>
+                    </div>
+                    <div class="h-64 flex items-center justify-center">
+                        <canvas id="mpiRadarChart"></canvas>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700 text-xs space-y-1">
+                        <p class="font-semibold text-cyan-400">Indikator Utama Kemiskinan Multidimensi:</p>
+                        <p class="text-slate-400">• <b class="text-slate-200">Sosial (30%)</b>: Status Desil DTSEN dan Bantuan Sosial</p>
+                        <p class="text-slate-400">• <b class="text-slate-200">Pendidikan (25%)</b>: Status ATS dan Lama Putus Sekolah</p>
+                        <p class="text-slate-400">• <b class="text-slate-200">Ekonomi (20%)</b>: Pekerjaan Wali dan Rasio Ketergantungan</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 class="font-medium text-sm text-slate-200">Tabel Urutan Prioritas Pendaftar (MPI Auto-Ranking)</h3>
+                            <p class="text-xs text-slate-400">Sistem otomatis mengurutkan pendaftar yang paling membutuhkan bantuan sekolah</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <select id="mpiSchoolFilter" onchange="filterMPITable()" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:border-cyan-500 focus:outline-none">
+                                <option value="all">Semua Sekolah Tujuan</option>
+                                <option value="SR Bandung">SR Bandung Utama</option>
+                                <option value="SR Jayapura">SR Jayapura 3T</option>
+                                <option value="SR Medan">SR Medan Pesisir</option>
+                            </select>
+                            <button onclick="exportMPIList()" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-semibold rounded-lg text-xs transition flex items-center">
+                                <i data-lucide="file-spread-sheet" class="w-3.5 h-3.5 mr-1"></i>
+                                Ekspor SK
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-900/80 text-slate-400 uppercase tracking-wider border-b border-slate-700">
+                                <tr>
+                                    <th class="py-2.5 px-3">Rank</th>
+                                    <th class="py-2.5 px-3">Pendaftar</th>
+                                    <th class="py-2.5 px-3">Sekolah Tujuan</th>
+                                    <th class="py-2.5 px-3">Desil DTSEN</th>
+                                    <th class="py-2.5 px-3">Skor MPI</th>
+                                    <th class="py-2.5 px-3">Status Penerimaan</th>
+                                    <th class="py-2.5 px-3 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mpiTableBody" class="divide-y divide-slate-700/50">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-purple-400"></i>
+                    <h2 class="font-semibold text-base text-slate-200">Generative AI (LLM Integration)</h2>
+                    <span class="text-[10px] bg-purple-500 text-white font-bold px-1.5 py-0.5 rounded">NEW</span>
+                </div>
+                <span class="text-xs text-slate-400">Powered by Local LLM (Llama-3-8B) + RAG Pipeline</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="database" class="w-4 h-4 text-purple-400"></i>
+                        <h3 class="font-medium text-sm text-slate-200">Context Window (RAG)</h3>
+                    </div>
+                    <p class="text-xs text-slate-400">Data siswa yang akan dianalisis oleh Generative AI untuk menghasilkan narasi rekomendasi.</p>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-[10px] text-slate-500 uppercase tracking-wider">Pilih Profil Siswa (25 Siswa Flagged)</label>
+                            <select id="studentSelect" onchange="updateContext()" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-purple-500 focus:outline-none">
+                                </select>
+                        </div>
+
+                        <div class="bg-slate-900/60 border border-slate-700 rounded-lg p-3 space-y-2 text-xs" id="contextData">
+                            <div class="flex justify-between border-b border-slate-700 pb-1">
+                                <span class="text-slate-400">Risiko Dropout (XGBoost)</span>
+                                <span class="text-rose-400 font-semibold">0.92 (Tinggi)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700 pb-1">
+                                <span class="text-slate-400">Anomali Data (Isolation Forest)</span>
+                                <span class="text-amber-400 font-semibold">NIK Ganda</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700 pb-1">
+                                <span class="text-slate-400">Interaksi LMS (14 hari)</span>
+                                <span class="text-rose-400 font-semibold">12% (Kritis)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-700 pb-1">
+                                <span class="text-slate-400">Klaster K-Means</span>
+                                <span class="text-indigo-400 font-semibold">Butuh Pendampingan</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Lokasi</span>
+                                <span class="text-slate-200">Kec. Cicalengka, Kab. Bandung</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <label class="text-[10px] text-slate-500 uppercase tracking-wider">Sistem Prompt</label>
+                            <div class="mt-1 bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-[10px] text-slate-400 font-mono leading-relaxed max-h-24 overflow-y-auto">
+                                "Anda adalah asisten AI untuk pekerja sosial Kemensos. Hasilakan laporan intervensi yang actionable, empatik, dan sesuai SOP Dinsos. Fokus pada akar masalah dan langkah konkret."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-slate-800 border border-purple-500/30 rounded-xl p-5 space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-purple-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+                    
+                    <div class="flex items-center justify-between relative z-10">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="file-text" class="w-4 h-4 text-purple-400"></i>
+                            <h3 class="font-medium text-sm text-slate-200">Laporan Intervensi Naratif (Auto-Generated)</h3>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span id="llmStatus" class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>
+                                Ready
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/80 border border-slate-700 rounded-lg p-4 text-xs text-slate-300 leading-relaxed min-h-[280px] space-y-2 relative z-10 overflow-y-auto max-h-[500px]" id="llmOutput">
+                        <div class="text-slate-500 italic">
+                            Klik tombol "Generate Laporan" untuk menghasilkan rekomendasi intervensi naratif otomatis menggunakan Generative AI. Laporan ini siap dikirim ke Pekerja Sosial melalui WhatsApp Gateway.
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 relative z-10">
+                        <button onclick="generateLLMReport()" id="generateBtn" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg text-xs font-semibold transition shadow-lg shadow-purple-500/20">
+                            <i data-lucide="sparkles" class="w-4 h-4 mr-2"></i>
+                            Generate Laporan
+                        </button>
+                        
+                        <div class="flex items-center space-x-2">
+                            <button onclick="copyReport()" class="inline-flex items-center px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs transition">
+                                <i data-lucide="copy" class="w-3.5 h-3.5 mr-1.5"></i>
+                                Copy
+                            </button>
+                            <button onclick="exportPDF()" class="inline-flex items-center px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs transition">
+                                <i data-lucide="file-down" class="w-3.5 h-3.5 mr-1.5"></i>
+                                PDF
+                            </button>
+                            <button onclick="sendWhatsApp()" class="inline-flex items-center px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
+                                <i data-lucide="send" class="w-3.5 h-3.5 mr-1.5"></i>
+                                Kirim ke Pekerja Sosial
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="message-square" class="w-4 h-4 text-purple-400"></i>
+                        <h3 class="font-medium text-sm text-slate-200">Chat with SR-QA Data (Tanya Insight Makro)</h3>
+                    </div>
+                    <span class="text-[10px] text-slate-500">RAG-enabled conversational analytics</span>
+                </div>
+                
+                <div class="bg-slate-900/60 border border-slate-700 rounded-lg p-4 space-y-3 max-h-48 overflow-y-auto" id="chatHistory">
+                    <div class="flex items-start space-x-2 fade-in">
+                        <div class="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="user" class="w-3 h-3"></i>
+                        </div>
+                        <div class="bg-slate-800 rounded-lg p-2 text-xs text-slate-300 max-w-md">
+                            Berapa jumlah siswa risiko tinggi di Zone 3 (Timur) dan intervensi apa yang paling efektif?
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-2 fade-in">
+                        <div class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="sparkles" class="w-3 h-3"></i>
+                        </div>
+                        <div class="bg-purple-900/30 border border-purple-500/20 rounded-lg p-2 text-xs text-slate-300 max-w-md">
+                            <span class="text-purple-300 font-semibold">SR-QA AI:</span> Berdasarkan data XGBoost per 14 Agustus 2026, terdapat <b>128 siswa risiko tinggi</b> di Zone 3 (Timur). Intervensi paling efektif: <b>pendampingan sosial lapangan</b> (success rate 78%) dikombinasikan dengan <b>subsidi kuota internet</b> untuk klaster K-Means 2.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="chatInput" placeholder="Tanyakan insight dari data dashboard (contoh: 'Mengapa dropout naik di Juli?')" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:border-purple-500 focus:outline-none">
+                    <button onclick="sendChat()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold transition">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="plug" class="w-5 h-5 text-sky-400"></i>
+                    <h2 class="font-semibold text-base text-slate-200">Monitoring Integrasi Data (Cross-System Health)</h2>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-[10px] text-slate-500">Last sync: 14 Agu 2026, 10:42 WIB</span>
+                    <button class="inline-flex items-center px-2.5 py-1 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded text-[10px] transition">
+                        <i data-lucide="refresh-cw" class="w-3 h-3 mr-1"></i>
+                        Refresh All
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="integration-card bg-slate-800 border border-amber-500/30 rounded-xl p-5 space-y-4" style="--status-color: #f59e0b;">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg">
+                                <i data-lucide="link-2" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-sm text-slate-200">SETARA ↔ LMS EL-Setara</h3>
+                                <p class="text-[10px] text-slate-500">Autentikasi dan Mapel</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1 pulse-dot"></span>
+                            DEGRADED
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-900/60 rounded-lg p-3 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-400">Integrasi Health Score</span>
+                            <span class="text-amber-400 font-bold">87%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-1.5">
+                            <div class="bg-amber-400 h-1.5 rounded-full" style="width: 87%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-[10px] text-slate-500">
+                            <span>24h error rate: <span class="text-amber-400">12.4%</span></span>
+                            <span>Uptime: 99.2%</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Error Log (24 Jam Terakhir)</p>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-rose-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-rose-400 flex items-center">
+                                    <i data-lucide="user-x" class="w-3 h-3 mr-1"></i>
+                                    Gagal Provisioning Akun
+                                </span>
+                                <span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">CRITICAL</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">47 akun guru/siswa gagal dibuat di LMS</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>Endpoint: /api/provision</span>
+                                <span>2 menit lalu</span>
+                            </div>
+                        </div>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-amber-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-amber-400 flex items-center">
+                                    <i data-lucide="unplug" class="w-3 h-3 mr-1"></i>
+                                    Mismatch Course Assignment
+                                </span>
+                                <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">WARNING</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">182 mapping course tidak sinkron</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>Endpoint: /api/courses/sync</span>
+                                <span>15 menit lalu</span>
+                            </div>
+                        </div>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-amber-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-amber-400 flex items-center">
+                                    <i data-lucide="key" class="w-3 h-3 mr-1"></i>
+                                    Invalid/Expired Session Token
+                                </span>
+                                <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">WARNING</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">312 request ditolak (JWT expired)</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>Auth Service v2.4.1</span>
+                                <span>28 menit lalu</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <button class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center">
+                            <i data-lucide="file-text" class="w-3 h-3 mr-1"></i>
+                            View Logs
+                        </button>
+                        <button class="px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded text-[10px] font-semibold border border-amber-500/20 transition">
+                            <i data-lucide="zap" class="w-3 h-3 inline mr-1"></i>
+                            Retry All
+                        </button>
+                    </div>
+                </div>
+
+                <div class="integration-card bg-slate-800 border border-rose-500/30 rounded-xl p-5 space-y-4" style="--status-color: #f43f5e;">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg">
+                                <i data-lucide="git-merge" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-sm text-slate-200">LMS EL-Setara ↔ SIAKAD SR</h3>
+                                <p class="text-[10px] text-slate-500">Akademik dan Presensi</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400 mr-1 pulse-dot"></span>
+                            CRITICAL
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-900/60 rounded-lg p-3 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-400">Integrasi Health Score</span>
+                            <span class="text-rose-400 font-bold">62%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-1.5">
+                            <div class="bg-rose-400 h-1.5 rounded-full" style="width: 62%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-[10px] text-slate-500">
+                            <span>24h error rate: <span class="text-rose-400">38.7%</span></span>
+                            <span>Uptime: 94.1%</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Error Log (24 Jam Terakhir)</p>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-rose-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-rose-400 flex items-center">
+                                    <i data-lucide="calculator" class="w-3 h-3 mr-1"></i>
+                                    Gradebook: Type & Scale Mismatch
+                                </span>
+                                <span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">CRITICAL</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">Skala 0-100 vs 0-4 (GPA) tidak kompatibel</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>2.847 record terdampak</span>
+                                <span>8 menit lalu</span>
+                            </div>
+                        </div>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-rose-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-rose-400 flex items-center">
+                                    <i data-lucide="calendar-x" class="w-3 h-3 mr-1"></i>
+                                    Presensi Sync Failure
+                                </span>
+                                <span class="text-[9px] bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded">CRITICAL</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">Data kehadiran tidak sinkron dengan SIAKAD</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>14.203 transaksi gagal</span>
+                                <span>23 menit lalu</span>
+                            </div>
+                        </div>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-amber-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-amber-400 flex items-center">
+                                    <i data-lucide="clock" class="w-3 h-3 mr-1"></i>
+                                    API Timeout / HTTP 504
+                                </span>
+                                <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">WARNING</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">Latency &gt;30s dari SIAKAD SR endpoint</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>432 timeout dalam 24h</span>
+                                <span>47 menit lalu</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <button class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center">
+                            <i data-lucide="file-text" class="w-3 h-3 mr-1"></i>
+                            View Logs
+                        </button>
+                        <button class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-[10px] font-semibold border border-rose-500/20 transition">
+                            <i data-lucide="alert-triangle" class="w-3 h-3 inline mr-1"></i>
+                            Escalate
+                        </button>
+                    </div>
+                </div>
+
+                <div class="integration-card bg-slate-800 border border-emerald-500/30 rounded-xl p-5 space-y-4" style="--status-color: #10b981;">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-2">
+                            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                                <i data-lucide="database" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-sm text-slate-200">SETARA ↔ SIAKAD SR</h3>
+                                <p class="text-[10px] text-slate-500">Master Data dan Kurikulum</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 pulse-dot"></span>
+                            HEALTHY
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-900/60 rounded-lg p-3 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-400">Integrasi Health Score</span>
+                            <span class="text-emerald-400 font-bold">96%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-1.5">
+                            <div class="bg-emerald-400 h-1.5 rounded-full" style="width: 96%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-[10px] text-slate-500">
+                            <span>24h error rate: <span class="text-emerald-400">3.2%</span></span>
+                            <span>Uptime: 99.8%</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Error Log (24 Jam Terakhir)</p>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-amber-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-amber-400 flex items-center">
+                                    <i data-lucide="fingerprint" class="w-3 h-3 mr-1"></i>
+                                    PK / NIK / NISN Mismatch
+                                </span>
+                                <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">WARNING</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">84 data siswa dengan PK tidak konsisten</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>Master Data Sync</span>
+                                <span>1 jam lalu</span>
+                            </div>
+                        </div>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-emerald-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-emerald-400 flex items-center">
+                                    <i data-lucide="activity" class="w-3 h-3 mr-1"></i>
+                                    Status Akademik Lag
+                                </span>
+                                <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">INFO</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">Delay 4 jam untuk update status (Aktif/Mutasi/Cuti)</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>Queue: 23 pending</span>
+                                <span>2 jam lalu</span>
+                            </div>
+                        </div>
+
+                        <div class="log-item p-2.5 bg-slate-900/60 border border-emerald-500/30 rounded-lg text-xs space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-semibold text-emerald-400 flex items-center">
+                                    <i data-lucide="book-open" class="w-3 h-3 mr-1"></i>
+                                    Ketersediaan Kode Mapel
+                                </span>
+                                <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">INFO</span>
+                            </div>
+                            <p class="text-slate-300 text-[11px]">98.7% kode mapel terintegrasi dengan benar</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                                <span>34 kurikulum aktif</span>
+                                <span>3 jam lalu</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <button class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center">
+                            <i data-lucide="file-text" class="w-3 h-3 mr-1"></i>
+                            View Logs
+                        </button>
+                        <button class="px-2.5 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded text-[10px] font-semibold border border-emerald-500/20 transition">
+                            <i data-lucide="check-circle" class="w-3 h-3 inline mr-1"></i>
+                            Verify
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="network" class="w-4 h-4 text-indigo-400"></i>
+                        <h3 class="font-medium text-sm text-slate-200">Ringkasan Kesehatan Integrasi Keseluruhan</h3>
+                    </div>
+                    <span class="text-[10px] text-slate-500">Auto-refresh setiap 60 detik</span>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-slate-900/60 rounded-lg p-3">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider">Total API Calls (24h)</p>
+                        <p class="text-xl font-bold text-sky-400 mt-1">847.392</p>
+                        <p class="text-[10px] text-emerald-400 mt-1">↑ 12.4% dari kemarin</p>
+                    </div>
+                    <div class="bg-slate-900/60 rounded-lg p-3">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider">Error Rate Global</p>
+                        <p class="text-xl font-bold text-amber-400 mt-1">8.4%</p>
+                        <p class="text-[10px] text-rose-400 mt-1">↑ 2.1% dari kemarin</p>
+                    </div>
+                    <div class="bg-slate-900/60 rounded-lg p-3">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider">Avg Response Time</p>
+                        <p class="text-xl font-bold text-emerald-400 mt-1">487ms</p>
+                        <p class="text-[10px] text-emerald-400 mt-1">Target: &lt;1000ms ✓</p>
+                    </div>
+                    <div class="bg-slate-900/60 rounded-lg p-3">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider">Open Incidents</p>
+                        <p class="text-xl font-bold text-rose-400 mt-1">3</p>
+                        <p class="text-[10px] text-slate-400 mt-1">2 Critical, 1 Warning</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-3 pt-2 border-t border-slate-700">
+                    <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                    <p class="text-xs text-slate-300">
+                        <b class="text-amber-400">AI Insight:</b> Anomali terdeteksi pada integrasi <b>LMS EL-Setara ↔ SIAKAD SR</b>. Error rate 38.7% jauh di atas baseline 5%. Akar masalah: perbedaan skala penilaian (0-100 vs 0-4) pada Gradebook. <span class="text-sky-400 cursor-pointer hover:underline">Jalankan auto-fix transformation →</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-xs text-slate-400 flex items-start space-x-3">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
+            <div>
+                <p class="font-semibold text-slate-300 mb-1">Kepatuhan Etika & Legal (UU PDP No. 27 Tahun 2022)</p>
+                <p>Seluruh data siswa dalam sistem ini telah melalui proses <span class="text-emerald-400">pseudonimitas & anonymisasi</span>. Model AI dilatih secara lokal (on-premise) dan tidak mengirimkan data sensitif ke server pihak ketiga. Output Generative AI bersifat <i>advisory</i> — keputusan akhir tetap berada pada pekerja sosial yang berwenang.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ============================================================
+        // 25 PROFIL SISWA DENGAN DATA DUMMY LENGKAP
+        // ============================================================
+        const studentProfiles = {
+            siti: {
+                id: '#SR-9921', name: 'Siti Aminah', age: 14,
+                location: 'Kec. Cicalengka, Kab. Bandung',
+                riskScore: 0.92, anomaly: 'NIK Ganda (DTSEN Kab. Garut)',
+                anomalyType: 'NIK Ganda', severity: 'rose',
+                lmsActivity: '12% (Kritis)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI DINI — SR-QA INSIGHT</b><br>
+🆔 ID Siswa: #SR-9921 | Siti Aminah (14 th)<br>
+📍 Kec. Cicalengka, Kab. Bandung<br><br>
+<b>🔍 DIAGNOSIS AI:</b><br>
+Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
+1. <b>Anomali Data:</b> NIK tercatat ganda di DTSEN Kab. Bandung & Kab. Garut.<br>
+2. <b>Engagement:</b> LMS turun 80% dalam 14 hari (62% → 12%).<br>
+3. <b>Absensi:</b> Tidak hadir 9 dari 12 hari sekolah.<br><br>
+<b>🎯 REKOMENDASI (SOP Dinsos):</b><br>
+✅ Hari ke-1: Kunjungan rumah verifikasi NIK.<br>
+✅ Hari ke-3: Koordinasi Dukcapil Bandung & Garut.<br>
+✅ Hari ke-7: Pendampingan psikososial.<br>
+✅ Hari ke-14: Re-evaluasi status.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            budi: {
+                id: '#SR-8812', name: 'Budi Santoso', age: 15,
+                location: 'Kec. Wamena, Kab. Jayawijaya (3T)',
+                riskScore: 0.78, anomaly: 'Domisili Invalid (DTSEN Jayapura)',
+                anomalyType: 'Domisili Invalid', severity: 'amber',
+                lmsActivity: '28% (Rendah)', cluster: 'Perlu Aksesibilitas Digital',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-8812 | Budi Santoso (15 th)<br>
+📍 Kec. Wamena, Kab. Jayawijaya (3T)<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.78)</b>.<br>
+1. Domisili Wamena, DTSEN terdaftar Jayapura.<br>
+2. Wilayah 3T dengan konektivitas &lt;2 Mbps.<br>
+3. Login LMS hanya 22:00-00:00 (keterbatasan kuota).<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Subsidi kuota 15GB/bulan.<br>
+✅ Aktifkan LMS Offline Mode.<br>
+✅ Verifikasi domisili ke Dinsos Jayapura.<br>
+✅ Program buddy dengan mentor sebaya.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            ahmad: {
+                id: '#SR-1043', name: 'Ahmad Fauzi', age: 13,
+                location: 'Kec. Tanjung Priok, Jakarta Utara',
+                riskScore: 0.85, anomaly: 'Format NIK Non-Standard (14 digit)',
+                anomalyType: 'NIK Non-Standard', severity: 'rose',
+                lmsActivity: '18% (Kritis)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-1043 | Ahmad Fauzi (13 th)<br>
+📍 Kec. Tanjung Priok, Jakarta Utara<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.85)</b>.<br>
+1. NIK 14 digit (standar: 16), belum punya KIA.<br>
+2. Klaster "Butuh Pendampingan" (pra-sejahtera).<br>
+3. LMS 18%, tidak pernah submit tugas 3 minggu.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Pengurusan KIA di Dukcapil Jakut.<br>
+✅ Re-sync data ke Moodle LMS.<br>
+✅ Usulkan KIP & PKH.<br>
+✅ Kunjungan rumah Pekerja Sosial.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            dewi: {
+                id: '#SR-2187', name: 'Dewi Lestari', age: 12,
+                location: 'Kec. Kuta Baro, Kab. Aceh Besar',
+                riskScore: 0.91, anomaly: 'NISN Tidak Valid',
+                anomalyType: 'NISN Invalid', severity: 'rose',
+                lmsActivity: '8% (Kritis)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-2187 | Dewi Lestari (12 th)<br>
+📍 Kec. Kuta Baro, Kab. Aceh Besar<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SANGAT TINGGI (0.91)</b>.<br>
+1. NISN tidak terdaftar di database Kemendikdasmen.<br>
+2. Tidak ada riwayat presensi 3 bulan.<br>
+3. Orang tua tercatat sebagai pekerja migran.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi status anak ke Dapodik Aceh.<br>
+✅ Koordinasi BP2MI terkait orang tua.<br>
+✅ Penempatan sementara di pesantren mitra.<br>
+✅ Bimbingan belajar intensif.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            rizky: {
+                id: '#SR-3456', name: 'Rizky Pratama', age: 16,
+                location: 'Kec. Maratua, Kab. Berau, Kalimantan Timur',
+                riskScore: 0.88, anomaly: 'Data Ganda DTSEN',
+                anomalyType: 'DTSEN Ganda', severity: 'amber',
+                lmsActivity: '15% (Kritis)', cluster: 'Wilayah 3T',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-3456 | Rizky Pratama (16 th)<br>
+📍 Kec. Maratua, Kab. Berau (Pulau Kecil)<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.88)</b>.<br>
+1. Data ganda di DTSEN ( tercatat 2 keluarga asuh).<br>
+2. Lokasi pulau kecil, akses terbatas.<br>
+3. Hanya 15% interaksi LMS (keterbatasan sinyal).<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi silang DTSEN Berau.<br>
+✅ Berikan perangkat tablet + solar charger.<br>
+✅ Subsidi kuota satelit.<br>
+✅ Pendampingan guru keliling.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            nurul: {
+                id: '#SR-4723', name: 'Nurul Hidayah', age: 14,
+                location: 'Kec. Rumbai, Kota Pekanbaru',
+                riskScore: 0.76, anomaly: 'Status Bantuan Inactive',
+                anomalyType: 'Bantuan Inactive', severity: 'amber',
+                lmsActivity: '32% (Rendah)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-4723 | Nurul Hidayah (14 th)<br>
+📍 Kec. Rumbai, Kota Pekanbaru<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.76)</b>.<br>
+1. Status KIP/PKH inactive 6 bulan.<br>
+2. Keluarga tidak lolos verifikasi ulang.<br>
+3. Engagement LMS menurun 40%.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Re-aktivasi KIP melalui Dinas Pendidikan.<br>
+✅ Validasi data ekonomi keluarga.<br>
+✅ Usulkan beasiswa CSR perusahaan lokal.<br>
+✅ Monitoring mingguan oleh guru BK.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            agus: {
+                id: '#SR-5891', name: 'Agus Setiawan', age: 15,
+                location: 'Kec. Muting, Kab. Merauke, Papua Selatan',
+                riskScore: 0.94, anomaly: 'Domisili Invalid (Lintas Provinsi)',
+                anomalyType: 'Domisili Invalid', severity: 'rose',
+                lmsActivity: '5% (Kritis)', cluster: 'Wilayah 3T',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-5891 | Agus Setiawan (15 th)<br>
+📍 Kec. Muting, Kab. Merauke (Perbatasan PNG)<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SANGAT TINGGI (0.94)</b>.<br>
+1. Domisili sekolah Merauke, DTSEN Boven Digoel.<br>
+2. Lokasi perbatasan dengan sinyal minim.<br>
+3. Hanya 5% interaksi LMS (sangat kritis).<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi lintas Dinas Pendidikan Papua.<br>
+✅ Fasilitasi asrama siswa perbatasan.<br>
+✅ Berikan modul cetak offline.<br>
+✅ Program mentor tentara perbatasan.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            ratna: {
+                id: '#SR-6128', name: 'Ratna Sari', age: 13,
+                location: 'Kec. Denpasar Timur, Kota Denpasar',
+                riskScore: 0.68, anomaly: 'Usia Tidak Sesuai Jenjang',
+                anomalyType: 'Usia-Jenjang', severity: 'amber',
+                lmsActivity: '45% (Sedang)', cluster: 'Siswa Aktif Mandiri',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-6128 | Ratna Sari (13 th)<br>
+📍 Kec. Denpasar Timur, Kota Denpasar<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG (0.68)</b>.<br>
+1. Usia 13 th di kelas 6 SD (terlambat 2 tahun).<br>
+2. Riwayat putus sekolah sebelumnya.<br>
+3. LMS 45% (cukup aktif).<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Program akselerasi/kejar paket.<br>
+✅ Bimbingan intensif matematika & bahasa.<br>
+✅ Konseling psikologis terkait self-esteem.<br>
+✅ Beasiswa prestasi jika improvement.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            firman: {
+                id: '#SR-7294', name: 'Firman Hidayat', age: 14,
+                location: 'Kec. Palu Barat, Kota Palu',
+                riskScore: 0.82, anomaly: 'NIK Ganda (DTSEN Jakarta)',
+                anomalyType: 'NIK Ganda', severity: 'rose',
+                lmsActivity: '22% (Kritis)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-7294 | Firman Hidayat (14 th)<br>
+📍 Kec. Palu Barat, Kota Palu<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.82)</b>.<br>
+1. NIK tercatat di DTSEN Palu & Jakarta Utara.<br>
+2. Keluarga pasca-bencana Sulteng 2018.<br>
+3. Tidak pernah submit tugas LMS.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi NIK ke Dinsos Palu & Jakarta.<br>
+✅ Trauma healing pasca-bencana.<br>
+✅ Subsidi kuota & perangkat.<br>
+✅ Pendampingan psikososial intensif.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            yuni: {
+                id: '#SR-8467', name: 'Yuni Astuti', age: 15,
+                location: 'Kec. Banjarmangu, Kab. Banjarnegara',
+                riskScore: 0.73, anomaly: 'Format NIK Non-Standard',
+                anomalyType: 'NIK Non-Standard', severity: 'amber',
+                lmsActivity: '38% (Rendah)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-8467 | Yuni Astuti (15 th)<br>
+📍 Kec. Banjarmangu, Kab. Banjarnegara<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.73)</b>.<br>
+1. NIK 13 digit (tidak standar).<br>
+2. Keluarga petani korban longsor 2024.<br>
+3. LMS 38%, sering login tapi tidak aktif.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Perbaikan NIK di Dukcapil Banjarnegara.<br>
+✅ Usulkan PKH & bantuan sosial.<br>
+✅ Program belajar kelompok sebaya.<br>
+✅ Mentoring dari alumni SR.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            doni: {
+                id: '#SR-9632', name: 'Doni Irawan', age: 16,
+                location: 'Kec. Medan Labuhan, Kota Medan',
+                riskScore: 0.89, anomaly: 'Data Ganda DTSEN',
+                anomalyType: 'DTSEN Ganda', severity: 'rose',
+                lmsActivity: '11% (Kritis)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-9632 | Doni Irawan (16 th)<br>
+📍 Kec. Medan Labuhan, Kota Medan<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.89)</b>.<br>
+1. Ganda di DTSEN Medan & Deli Serdang.<br>
+2. Bekerja paruh waktu di pelabuhan.<br>
+3. Engagement LMS sangat rendah (11%).<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi data ganda lintas Dinsos.<br>
+✅ Program kejar paket C fleksibel.<br>
+✅ Vokasi maritim sebagai alternatif.<br>
+✅ Beasiswa kerja-studi.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            maya: {
+                id: '#SR-1357', name: 'Maya Puspita', age: 13,
+                location: 'Kec. Kupang Tengah, Kab. Kupang, NTT',
+                riskScore: 0.77, anomaly: 'Domisili Invalid',
+                anomalyType: 'Domisili Invalid', severity: 'amber',
+                lmsActivity: '25% (Rendah)', cluster: 'Wilayah 3T',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-1357 | Maya Puspita (13 th)<br>
+📍 Kec. Kupang Tengah, Kab. Kupang, NTT<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.77)</b>.<br>
+1. Domisili Kupang, DTSEN Alor.<br>
+2. Keluarga migran musiman.<br>
+3. LMS 25%, akses internet tidak stabil.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi domisili lintas kabupaten.<br>
+✅ Subsidi kuota & perangkat.<br>
+✅ Modul pembelajaran offline.<br>
+✅ Program mentor daerah asal.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            heru: {
+                id: '#SR-2580', name: 'Heru Prabowo', age: 14,
+                location: 'Kec. Cilincing, Jakarta Utara',
+                riskScore: 0.84, anomaly: 'NIK Ganda (DTSEN Bekasi)',
+                anomalyType: 'NIK Ganda', severity: 'rose',
+                lmsActivity: '19% (Kritis)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-2580 | Heru Prabowo (14 th)<br>
+📍 Kec. Cilincing, Jakarta Utara<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.84)</b>.<br>
+1. NIK ganda di DTSEN Jakut & Bekasi.<br>
+2. Keluarga pemulung di TPST Bantargebang.<br>
+3. LMS 19%, absensi tinggi.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Resolusi NIK lintas Dukcapil.<br>
+✅ Penyaluran ke Rumah Singgah.<br>
+✅ Program pendidikan non-formal.<br>
+✅ Bantuan pangan & kesehatan.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            sari: {
+                id: '#SR-3691', name: 'Sari Indrawati', age: 15,
+                location: 'Kec. Telukjambe Timur, Kab. Karawang',
+                riskScore: 0.71, anomaly: 'Status Bantuan Inactive',
+                anomalyType: 'Bantuan Inactive', severity: 'amber',
+                lmsActivity: '41% (Sedang)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-3691 | Sari Indrawati (15 th)<br>
+📍 Kec. Telukjambe Timur, Kab. Karawang<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG-TINGGI (0.71)</b>.<br>
+1. KIP inactive karena perubahan alamat.<br>
+2. Ayah buruh pabrik yang di-PHK.<br>
+3. LMS 41%, masih berusaha aktif.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Re-aktivasi KIP via Dapodik.<br>
+✅ Usulkan KPS untuk keluarga PHK.<br>
+✅ Bimbingan karir vokasi.<br>
+✅ Magang di industri Karawang.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            bayu: {
+                id: '#SR-4802', name: 'Bayu Aji', age: 14,
+                location: 'Kec. Sentani, Kab. Jayapura',
+                riskScore: 0.86, anomaly: 'NISN Tidak Valid',
+                anomalyType: 'NISN Invalid', severity: 'rose',
+                lmsActivity: '14% (Kritis)', cluster: 'Wilayah 3T',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-4802 | Bayu Aji (14 th)<br>
+📍 Kec. Sentani, Kab. Jayapura<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.86)</b>.<br>
+1. NISN tidak terdaftar di sistem pusat.<br>
+2. Pindahan dari sekolah adat.<br>
+3. LMS 14%, kendala bahasa & teknologi.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Pendaftaran NISN melalui Dinas Papua.<br>
+✅ Guru pendamping bilingual.<br>
+✅ Modul adaptif budaya lokal.<br>
+✅ Program peer-teaching.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            tina: {
+                id: '#SR-5913', name: 'Tina Mariana', age: 13,
+                location: 'Kec. Sukajadi, Kota Bandung',
+                riskScore: 0.67, anomaly: 'Format NIK Non-Standard',
+                anomalyType: 'NIK Non-Standard', severity: 'amber',
+                lmsActivity: '52% (Cukup)', cluster: 'Siswa Aktif Mandiri',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-5913 | Tina Mariana (13 th)<br>
+📍 Kec. Sukajadi, Kota Bandung<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG (0.67)</b>.<br>
+1. NIK 15 digit (kurang 1 digit).<br>
+2. Anak pekerja informal (PKL).<br>
+3. LMS 52%, aktif tapi terkendala admin.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Perbaikan NIK di Dukcapil Bandung.<br>
+✅ Program after-school gratis.<br>
+✅ Beasiswa CSR perusahaan Bandung.<br>
+✅ Mentoring relawan mahasiswa.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            reza: {
+                id: '#SR-6024', name: 'Reza Mahendra', age: 16,
+                location: 'Kec. Tembagapura, Kab. Mimika, Papua Tengah',
+                riskScore: 0.93, anomaly: 'Domisili Invalid (Zona Tambang)',
+                anomalyType: 'Domisili Invalid', severity: 'rose',
+                lmsActivity: '7% (Kritis)', cluster: 'Wilayah 3T',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-6024 | Reza Mahendra (16 th)<br>
+📍 Kec. Tembagapura, Kab. Mimika (Zona Tambang)<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SANGAT TINGGI (0.93)</b>.<br>
+1. Domisili zona tambang, DTSEN Agimuga.<br>
+2. Akses internet sangat terbatas.<br>
+3. LMS 7%, hampir dropout total.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Fasilitasi CSR Freeport untuk pendidikan.<br>
+✅ Asrama siswa di Timika.<br>
+✅ Program vokasi pertambangan.<br>
+✅ Pendampingan khusus OAP.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            linda: {
+                id: '#SR-7135', name: 'Linda Kusuma', age: 14,
+                location: 'Kec. Pontianak Tenggara, Kota Pontianak',
+                riskScore: 0.74, anomaly: 'Data Ganda DTSEN',
+                anomalyType: 'DTSEN Ganda', severity: 'amber',
+                lmsActivity: '36% (Rendah)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-7135 | Linda Kusuma (14 th)<br>
+📍 Kec. Pontianak Tenggara, Kota Pontianak<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.74)</b>.<br>
+1. Ganda di DTSEN Pontianak & Kubu Raya.<br>
+2. Keluarga nelayan tradisional.<br>
+3. LMS 36%, aktif saat cuaca buruk.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi lintas Dinsos Kalbar.<br>
+✅ Subsidi kuota fleksibel.<br>
+✅ Program sekolah nelayan modern.<br>
+✅ Vokasi kelautan.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            yanto: {
+                id: '#SR-8246', name: 'Yanto Wijaya', age: 15,
+                location: 'Kec. Banjarmasin Utara, Kota Banjarmasin',
+                riskScore: 0.79, anomaly: 'Status Bantuan Inactive',
+                anomalyType: 'Bantuan Inactive', severity: 'amber',
+                lmsActivity: '29% (Rendah)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-8246 | Yanto Wijaya (15 th)<br>
+📍 Kec. Banjarmasin Utara, Kota Banjarmasin<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.79)</b>.<br>
+1. PKH inactive 4 bulan.<br>
+2. Keluarga pedagang pasar terapung.<br>
+3. LMS 29%, terkendala sinyal sungai.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Re-aktivasi PKH via Dinsos Kalsel.<br>
+✅ Modul pembelajaran offline.<br>
+✅ Program sekolah sungai.<br>
+✅ Beasiswa dari CSR pasar.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            fitri: {
+                id: '#SR-9357', name: 'Fitri Handayani', age: 13,
+                location: 'Kec. Palembayan, Kab. Agam, Sumatera Barat',
+                riskScore: 0.72, anomaly: 'Usia Tidak Sesuai Jenjang',
+                anomalyType: 'Usia-Jenjang', severity: 'amber',
+                lmsActivity: '48% (Sedang)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-9357 | Fitri Handayani (13 th)<br>
+📍 Kec. Palembayan, Kab. Agam, Sumbar<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG-TINGGI (0.72)</b>.<br>
+1. Usia 13 th di kelas 5 SD (terlambat 1 tahun).<br>
+2. Anak petani pedesaan.<br>
+3. LMS 48%, aktif di musim non-panen.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Program akselerasi 2 tahun → 1 tahun.<br>
+✅ Fleksibilitas jadwal saat panen.<br>
+✅ Beasiswa dari nagari.<br>
+✅ Mentoring pemuda nagari.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            andi: {
+                id: '#SR-1468', name: 'Andi Saputra', age: 14,
+                location: 'Kec. Mandai, Kab. Maros, Sulawesi Selatan',
+                riskScore: 0.81, anomaly: 'NIK Ganda (DTSEN Gowa)',
+                anomalyType: 'NIK Ganda', severity: 'rose',
+                lmsActivity: '21% (Kritis)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-1468 | Andi Saputra (14 th)<br>
+📍 Kec. Mandai, Kab. Maros, Sulsel<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.81)</b>.<br>
+1. NIK ganda di DTSEN Maros & Gowa.<br>
+2. Anak pekerja bandara.<br>
+3. LMS 21%, sering offline.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi NIK lintas Dinsos Sulsel.<br>
+✅ Subsidi kuota & perangkat.<br>
+✅ Program vokasi pariwisata.<br>
+✅ Magang di bandara.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            putu: {
+                id: '#SR-2579', name: 'Putu Ayu', age: 15,
+                location: 'Kec. Ubud, Kab. Gianyar, Bali',
+                riskScore: 0.66, anomaly: 'Format NIK Non-Standard',
+                anomalyType: 'NIK Non-Standard', severity: 'amber',
+                lmsActivity: '55% (Cukup)', cluster: 'Siswa Aktif Mandiri',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-2579 | Putu Ayu (15 th)<br>
+📍 Kec. Ubud, Kab. Gianyar, Bali<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG (0.66)</b>.<br>
+1. NIK 15 digit (kesalahan input banjar).<br>
+2. Anak pengrajin seni.<br>
+3. LMS 55%, aktif di sela aktivitas seni.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Perbaikan NIK via Dukcapil Gianyar.<br>
+✅ Program sekolah seni terintegrasi.<br>
+✅ Beasiswa pariwisata budaya.<br>
+✅ Vokasi seni kriya.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            joko: {
+                id: '#SR-3680', name: 'Joko Susilo', age: 16,
+                location: 'Kec. Semarang Barat, Kota Semarang',
+                riskScore: 0.75, anomaly: 'Data Ganda DTSEN',
+                anomalyType: 'DTSEN Ganda', severity: 'amber',
+                lmsActivity: '34% (Rendah)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-3680 | Joko Susilo (16 th)<br>
+📍 Kec. Semarang Barat, Kota Semarang<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.75)</b>.<br>
+1. Ganda di DTSEN Semarang & Demak.<br>
+2. Anak buruh pelabuhan Tanjung Emas.<br>
+3. LMS 34%, bekerja paruh waktu.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi lintas Dinsos Jateng.<br>
+✅ Kejar paket C fleksibel.<br>
+✅ Vokasi logistik pelabuhan.<br>
+✅ Beasiswa kerja-studi.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            nia: {
+                id: '#SR-4791', name: 'Nia Kurniawati', age: 14,
+                location: 'Kec. Mataram, Kota Mataram, NTB',
+                riskScore: 0.80, anomaly: 'Domisili Invalid (Gempa 2018)',
+                anomalyType: 'Domisili Invalid', severity: 'rose',
+                lmsActivity: '24% (Rendah)', cluster: 'Butuh Pendampingan',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-4791 | Nia Kurniawati (14 th)<br>
+📍 Kec. Mataram, Kota Mataram, NTB<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.80)</b>.<br>
+1. Domisili Mataram, DTSEN Lombok Utara (pasca gempa).<br>
+2. Keluarga masih di hunian sementara.<br>
+3. LMS 24%, trauma masih terasa.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Verifikasi domisili lintas kabupaten.<br>
+✅ Trauma healing pasca-bencana.<br>
+✅ Subsidi kuota & perangkat.<br>
+✅ Program rehabilitasi psikososial.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            },
+            rian: {
+                id: '#SR-5802', name: 'Rian Saputra', age: 15,
+                location: 'Kec. Palembayan, Kab. Agam, Sumatera Barat',
+                riskScore: 0.70, anomaly: 'Status Bantuan Inactive',
+                anomalyType: 'Bantuan Inactive', severity: 'amber',
+                lmsActivity: '44% (Sedang)', cluster: 'Bantuan Ekonomi',
+                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
+🆔 #SR-5802 | Rian Saputra (15 th)<br>
+📍 Kec. Palembayan, Kab. Agam, Sumbar<br><br>
+<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG-TINGGI (0.70)</b>.<br>
+1. KIP inactive karena migrasi keluarga.<br>
+2. Anak petani kopi.<br>
+3. LMS 44%, aktif di luar musim panen.<br><br>
+<b>🎯 REKOMENDASI:</b><br>
+✅ Re-aktivasi KIP via Dapodik Sumbar.<br>
+✅ Program vokasi pertanian kopi.<br>
+✅ Fleksibilitas jadwal sekolah.<br>
+✅ Magang di UMKM kopi lokal.<br>
+<i>— SR-QA LLM, 14 Agustus 2026</i>`
+            }
+        };
+
+        // ============================================================
+        // DATA DUMMY MODEL PERANGKINGAN MPI (MULTIDIMENSIONAL POVERTY)
+        // ============================================================
+        const mpiCandidates = [
+            { id: '#SR-REG-001', name: 'Asep Kurnia', school: 'SR Bandung', desil: 'Desil 1 (Sangat Rentan)', score: 94.5, status: 'LOLOS KUOTA', social: 98, edu: 95, econ: 90, living: 92, geo: 85 },
+            { id: '#SR-REG-002', name: 'Maria Kogoya', school: 'SR Jayapura', desil: 'Desil 1 (Sangat Rentan)', score: 92.8, status: 'LOLOS KUOTA', social: 90, edu: 96, econ: 88, living: 90, geo: 100 },
+            { id: '#SR-REG-003', name: 'Rahmat Hidayat', school: 'SR Medan', desil: 'Desil 1 (Sangat Rentan)', score: 89.2, status: 'LOLOS KUOTA', social: 92, edu: 88, econ: 94, living: 85, geo: 75 },
+            { id: '#SR-REG-004', name: 'Siti Badriah', school: 'SR Bandung', desil: 'Desil 1 (Sangat Rentan)', score: 86.7, status: 'LOLOS KUOTA', social: 85, edu: 90, econ: 85, living: 88, geo: 80 },
+            { id: '#SR-REG-005', name: 'Yohanes Wama', school: 'SR Jayapura', desil: 'Desil 2 (Rentan)', score: 83.1, status: 'LOLOS KUOTA', social: 80, edu: 82, econ: 80, living: 85, geo: 95 },
+            // Cutoff threshold (Kuota 5 Siswa untuk Demo)
+            { id: '#SR-REG-006', name: 'Bambang Supriadi', school: 'SR Medan', desil: 'Desil 2 (Rentan)', score: 78.4, status: 'CADANGAN 1', social: 75, edu: 80, econ: 78, living: 80, geo: 70 },
+            { id: '#SR-REG-007', name: 'Novi Larasati', school: 'SR Bandung', desil: 'Desil 2 (Rentan)', score: 74.2, status: 'CADANGAN 2', social: 72, edu: 75, econ: 70, living: 78, geo: 65 },
+            { id: '#SR-REG-008', name: 'Dedi Mulyadi', school: 'SR Medan', desil: 'Desil 3 (Hampir Rentan)', score: 68.9, status: 'CADANGAN 3', social: 65, edu: 70, econ: 68, living: 72, geo: 60 }
+        ];
+
+        let prophetChart, xgboostChart, kmeansChart, mpiRadarChart;
+
+        // ============================================================
+        // INISIALISASI LUCIDE ICONS
+        // ============================================================
+        lucide.createIcons();
+
+        // ============================================================
+        // LOGO FALLBACK HANDLER
+        // ============================================================
+        function handleLogoError(mode) {
+            const img = mode === 'dark' 
+                ? document.getElementById('logoDark') 
+                : document.getElementById('logoLight');
+            if (img) img.style.display = 'none';
+            
+            const fallback = document.getElementById('logoFallback');
+            if (fallback) fallback.classList.remove('hidden');
+        }
+
+        // ============================================================
+        // RENDER TABEL & RADAR CHART PERANGKINGAN MPI
+        // ============================================================
+        function renderMPITable(filterSchool = 'all') {
+            const tbody = document.getElementById('mpiTableBody');
+            tbody.innerHTML = '';
+
+            const filtered = filterSchool === 'all' 
+                ? mpiCandidates 
+                : mpiCandidates.filter(c => c.school === filterSchool);
+
+            filtered.forEach((c, index) => {
+                const isLolos = c.status.includes('LOLOS');
+                const badgeColor = isLolos 
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                    : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-700/30 transition cursor-pointer';
+                row.onclick = () => selectMPICandidate(c);
+                row.innerHTML = `
+                    <td class="py-3 px-3 font-bold ${index < 5 ? 'text-cyan-400' : 'text-slate-500'}">#${index + 1}</td>
+                    <td class="py-3 px-3">
+                        <div class="font-semibold text-slate-200">${c.name}</div>
+                        <div class="text-[10px] text-slate-500">${c.id}</div>
+                    </td>
+                    <td class="py-3 px-3 text-slate-300">${c.school}</td>
+                    <td class="py-3 px-3 text-slate-400">${c.desil}</td>
+                    <td class="py-3 px-3 font-bold text-cyan-400">${c.score.toFixed(1)}</td>
+                    <td class="py-3 px-3">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${badgeColor}">
+                            ${c.status}
+                        </span>
+                    </td>
+                    <td class="py-3 px-3 text-right">
+                        <button onclick="event.stopPropagation(); alert('Detail skor MPI ${c.name}:\\n• Social: ${c.social}\\n• Edu: ${c.edu}\\n• Econ: ${c.econ}\\n• Living: ${c.living}\\n• Geo: ${c.geo}')" class="px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-[10px] text-slate-200">
+                            Detail
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+
+                // Sisipkan garis batas kuota setelah peringkat 5
+                if (index === 4 && filterSchool === 'all') {
+                    const cutoffRow = document.createElement('tr');
+                    cutoffRow.innerHTML = `
+                        <td colspan="7" class="py-2 px-3 text-center border-y border-rose-500/40 bg-rose-500/10">
+                            <span class="text-[10px] font-bold text-rose-400 uppercase tracking-widest flex items-center justify-center">
+                                <i data-lucide="scissors" class="w-3 h-3 mr-1.5"></i>
+                                Garis Batas Kuota Utama Penerimaan (Quota Cut-Off)
+                            </span>
+                        </td>
+                    `;
+                    tbody.appendChild(cutoffRow);
+                }
+            });
+            lucide.createIcons();
+        }
+
+        function filterMPITable() {
+            const val = document.getElementById('mpiSchoolFilter').value;
+            renderMPITable(val);
+        }
+
+        function selectMPICandidate(candidate) {
+            document.getElementById('mpiCandidateName').textContent = `Calon: ${candidate.id} (${candidate.name})`;
+            if (mpiRadarChart) {
+                mpiRadarChart.data.datasets[0].data = [candidate.social, candidate.edu, candidate.econ, candidate.living, candidate.geo];
+                mpiRadarChart.update();
+            }
+        }
+
+        function exportMPIList() {
+            alert('📄 Mengekspor Berita Acara & SK Penetapan Siswa Lolos Seleksi MPI dalam format Docx/PDF...');
+        }
+
+        // ============================================================
+        // GENERATE ANOMALY LIST & SELECT OPTIONS
+        // ============================================================
+        function renderAnomalyList() {
+            const anomalyList = document.getElementById('anomalyList');
+            const studentSelect = document.getElementById('studentSelect');
+            
+            anomalyList.innerHTML = '';
+            studentSelect.innerHTML = '';
+            
+            const sortedStudents = Object.entries(studentProfiles).sort(
+                (a, b) => b[1].riskScore - a[1].riskScore
+            );
+            
+            sortedStudents.forEach(([key, profile]) => {
+                const borderColor = profile.severity === 'rose' ? 'rose-500/30' : 'amber-500/30';
+                const textColor = profile.severity === 'rose' ? 'rose-400' : 'amber-400';
+                
+                const card = document.createElement('div');
+                card.className = `p-2.5 bg-slate-900/60 border border-${borderColor} rounded-lg text-xs space-y-1 cursor-pointer hover:bg-slate-900 transition`;
+                card.onclick = () => selectStudent(key);
+                card.innerHTML = `
+                    <div class="flex items-center justify-between font-semibold text-${textColor}">
+                        <span>${profile.anomalyType}</span>
+                        <span>Score: ${profile.riskScore.toFixed(2)}</span>
+                    </div>
+                    <p class="text-slate-300">${profile.id} (${profile.name})</p>
+                    <p class="text-[10px] text-slate-500">${profile.location}</p>
+                `;
+                anomalyList.appendChild(card);
+                
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = `${profile.id} - ${profile.name} (${profile.anomalyType})`;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        renderAnomalyList();
+        renderMPITable();
+
+        // ============================================================
+        // THEME MANAGEMENT
+        // ============================================================
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('srqa-theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+
+        function applyTheme(theme) {
+            const body = document.body;
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+
+            if (theme === 'light') {
+                body.classList.add('light-mode');
+                sunIcon.classList.remove('visible-icon');
+                sunIcon.classList.add('hidden-icon');
+                moonIcon.classList.remove('hidden-icon');
+                moonIcon.classList.add('visible-icon');
+            } else {
+                body.classList.remove('light-mode');
+                moonIcon.classList.remove('visible-icon');
+                moonIcon.classList.add('hidden-icon');
+                sunIcon.classList.remove('hidden-icon');
+                sunIcon.classList.add('visible-icon');
+            }
+
+            localStorage.setItem('srqa-theme', theme);
+            setTimeout(updateChartsTheme, 100);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        }
+
+        function updateChartsTheme() {
+            const isLight = document.body.classList.contains('light-mode');
+            const textColor = isLight ? '#334155' : '#94a3b8';
+            const gridColor = isLight ? '#e2e8f0' : '#334155';
+
+            if (prophetChart) {
+                prophetChart.options.plugins.legend.labels.color = textColor;
+                prophetChart.options.scales.x.ticks.color = textColor;
+                prophetChart.options.scales.y.ticks.color = textColor;
+                prophetChart.options.scales.x.grid.color = gridColor;
+                prophetChart.options.scales.y.grid.color = gridColor;
+                prophetChart.data.datasets[0].borderColor = isLight ? '#0284c7' : '#38bdf8';
+                prophetChart.data.datasets[0].backgroundColor = isLight ? 'rgba(2, 132, 199, 0.15)' : 'rgba(56, 189, 248, 0.1)';
+                prophetChart.data.datasets[1].borderColor = isLight ? '#7c3aed' : '#a855f7';
+                prophetChart.update('none');
+            }
+
+            if (xgboostChart) {
+                xgboostChart.options.plugins.legend.labels.color = textColor;
+                xgboostChart.data.datasets[0].backgroundColor = isLight 
+                    ? ['#e11d48', '#d97706', '#059669'] 
+                    : ['#f43f5e', '#fbbf24', '#10b981'];
+                xgboostChart.update('none');
+            }
+
+            if (kmeansChart) {
+                kmeansChart.options.plugins.legend.labels.color = textColor;
+                kmeansChart.options.scales.r.grid.color = gridColor;
+                kmeansChart.data.datasets[0].backgroundColor = isLight 
+                    ? ['rgba(79, 70, 229, 0.7)', 'rgba(14, 165, 233, 0.7)', 'rgba(217, 119, 6, 0.7)']
+                    : ['rgba(99, 102, 241, 0.6)', 'rgba(56, 189, 248, 0.6)', 'rgba(251, 191, 36, 0.6)'];
+                kmeansChart.update('none');
+            }
+
+            if (mpiRadarChart) {
+                mpiRadarChart.options.plugins.legend.labels.color = textColor;
+                mpiRadarChart.options.scales.r.grid.color = gridColor;
+                mpiRadarChart.options.scales.r.pointLabels.color = textColor;
+                mpiRadarChart.update('none');
+            }
+        }
+
+        applyTheme(getPreferredTheme());
+
+        window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('srqa-theme')) {
+                applyTheme(e.matches ? 'light' : 'dark');
+            }
+        });
+
+        // ============================================================
+        // CHART.JS INITIALIZATION
+        // ============================================================
+        const ctxProphet = document.getElementById('prophetChart').getContext('2d');
+        prophetChart = new Chart(ctxProphet, {
+            type: 'line',
+            data: {
+                labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00 (P)', '22:00 (P)'],
+                datasets: [
+                    {
+                        label: 'Beban Server Nyata (Req/sec)',
+                        data: [1200, 2900, 3100, 4200, 3800, 2500, null, null],
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Prediksi Prophet AI (Req/sec)',
+                        data: [null, null, null, null, null, 2500, 4800, 1900],
+                        borderColor: '#a855f7',
+                        borderDash: [5, 5],
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+                scales: {
+                    x: { ticks: { color: '#64748b' }, grid: { color: '#334155' } },
+                    y: { ticks: { color: '#64748b' }, grid: { color: '#334155' } }
+                }
+            }
+        });
+
+        const ctxXGBoost = document.getElementById('xgboostChart').getContext('2d');
+        xgboostChart = new Chart(ctxXGBoost, {
+            type: 'doughnut',
+            data: {
+                labels: ['Risiko Tinggi', 'Risiko Sedang', 'Risiko Rendah'],
+                datasets: [{
+                    data: [320, 740, 1050],
+                    backgroundColor: ['#f43f5e', '#fbbf24', '#10b981'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } } }
+            }
+        });
+
+        const ctxKMeans = document.getElementById('kmeansChart').getContext('2d');
+        kmeansChart = new Chart(ctxKMeans, {
+            type: 'polarArea',
+            data: {
+                labels: ['Siswa Aktif Mandiri', 'Perlu Aksesibilitas Digital', 'Butuh Pendampingan'],
+                datasets: [{
+                    data: [1200, 650, 400],
+                    backgroundColor: [
+                        'rgba(99, 102, 241, 0.6)',
+                        'rgba(56, 189, 248, 0.6)',
+                        'rgba(251, 191, 36, 0.6)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } } },
+                scales: { r: { ticks: { display: false }, grid: { color: '#334155' } } }
+            }
+        });
+
+        const ctxMPIRadar = document.getElementById('mpiRadarChart').getContext('2d');
+        mpiRadarChart = new Chart(ctxMPIRadar, {
+            type: 'radar',
+            data: {
+                labels: ['Sosial & Bansos', 'Pendidikan (ATS)', 'Ekonomi Wali', 'Sanitasi/Rumah', 'Geografis 3T'],
+                datasets: [{
+                    label: 'Tingkat Deprivasi (%)',
+                    data: [98, 95, 90, 92, 85],
+                    backgroundColor: 'rgba(6, 182, 212, 0.25)',
+                    borderColor: '#06b6d4',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#06b6d4'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 100,
+                        ticks: { display: false },
+                        grid: { color: '#334155' },
+                        angleLines: { color: '#334155' },
+                        pointLabels: { color: '#94a3b8', font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        updateChartsTheme();
+
+        // ============================================================
+        // UPDATE CONTEXT & LLM FUNCTIONS
+        // ============================================================
+        function updateContext() {
+            const selected = document.getElementById('studentSelect').value;
+            const profile = studentProfiles[selected];
+            const contextEl = document.getElementById('contextData');
+            
+            const textColor = profile.severity === 'rose' ? 'rose-400' : 'amber-400';
+            
+            contextEl.innerHTML = `
+                <div class="flex justify-between border-b border-slate-700 pb-1">
+                    <span class="text-slate-400">Risiko Dropout (XGBoost)</span>
+                    <span class="text-${textColor} font-semibold">${profile.riskScore.toFixed(2)} ${profile.riskScore > 0.85 ? '(Sangat Tinggi)' : profile.riskScore > 0.75 ? '(Tinggi)' : '(Sedang-Tinggi)'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-700 pb-1">
+                    <span class="text-slate-400">Anomali Data</span>
+                    <span class="text-amber-400 font-semibold text-right text-[10px]">${profile.anomalyType}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-700 pb-1">
+                    <span class="text-slate-400">Interaksi LMS</span>
+                    <span class="text-rose-400 font-semibold">${profile.lmsActivity}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-700 pb-1">
+                    <span class="text-slate-400">Klaster K-Means</span>
+                    <span class="text-indigo-400 font-semibold text-right text-[10px]">${profile.cluster}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Lokasi</span>
+                    <span class="text-slate-200 text-right text-[10px]">${profile.location}</span>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        async function generateLLMReport() {
+            const btn = document.getElementById('generateBtn');
+            const output = document.getElementById('llmOutput');
+            const status = document.getElementById('llmStatus');
+            const selected = document.getElementById('studentSelect').value;
+            const profile = studentProfiles[selected];
+
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 mr-2 animate-spin"></i>Generating...';
+            status.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block mr-1 animate-pulse"></span>Thinking...';
+            status.className = 'text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded';
+            lucide.createIcons();
+
+            output.innerHTML = '<div id="streamingText" class="cursor-blink"></div>';
+            const streamingEl = document.getElementById('streamingText');
+
+            const fullText = profile.report;
+            let current = '';
+            
+            for (let i = 0; i < fullText.length; i++) {
+                current += fullText[i];
+                streamingEl.innerHTML = current;
+                output.scrollTop = output.scrollHeight;
+                await new Promise(r => setTimeout(r, 15 + Math.random() * 30));
+            }
+
+            streamingEl.classList.remove('cursor-blink');
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="sparkles" class="w-4 h-4 mr-2"></i>Regenerate Laporan';
+            status.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>Completed';
+            status.className = 'text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded';
+            lucide.createIcons();
+        }
+
+        function copyReport() {
+            const output = document.getElementById('llmOutput');
+            const text = output.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Laporan berhasil disalin ke clipboard!');
+            });
+        }
+
+        function exportPDF() {
+            alert('📄 Fitur Export PDF akan memanggil endpoint /api/export-pdf (mocked untuk demo).');
+        }
+
+        function sendWhatsApp() {
+            alert('📱 Mengirim laporan ke Pekerja Sosial Kecamatan melalui WhatsApp Gateway API...');
+        }
+
+        function selectStudent(id) {
+            document.getElementById('studentSelect').value = id;
+            updateContext();
+            document.querySelector('#generateBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chatInput');
+            const history = document.getElementById('chatHistory');
+            const query = input.value.trim();
+            if (!query) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex items-start space-x-2 fade-in';
+            userMsg.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="user" class="w-3 h-3"></i>
+                </div>
+                <div class="bg-slate-800 rounded-lg p-2 text-xs text-slate-300 max-w-md">${query}</div>
+            `;
+            history.appendChild(userMsg);
+            input.value = '';
+            lucide.createIcons();
+
+            const thinking = document.createElement('div');
+            thinking.className = 'flex items-start space-x-2 fade-in';
+            thinking.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="sparkles" class="w-3 h-3"></i>
+                </div>
+                <div class="bg-purple-900/30 border border-purple-500/20 rounded-lg p-2 text-xs text-slate-400 italic">Sedang menganalisis data RAG...</div>
+            `;
+            history.appendChild(thinking);
+            history.scrollTop = history.scrollHeight;
+
+            setTimeout(() => {
+                let response = '';
+                const q = query.toLowerCase();
+                if (q.includes('mpi') || q.includes('rangking') || q.includes('kuota') || q.includes('seleksi')) {
+                    response = 'Algoritma perangkingan MPI mengukur 5 dimensi deprivasi (Sosial 30%, Pendidikan 25%, Ekonomi 20%, Rumah 15%, Geografis 10%). Dari 1.250 pendaftar, <b>310 pendaftar masuk Prioritas 1 (MPI ≥ 80.0)</b> dan otomatis mengisi kuota utama.';
+                } else if (q.includes('integrasi') || q.includes('siakad') || q.includes('setara')) {
+                    response = 'Integrasi sistem Sekolah Rakyat melibatkan 3 titik kritis:<br>1. <b>LMS ↔ SIAKAD</b> (status CRITICAL - 38.7% error rate)<br>2. <b>SETARA ↔ LMS</b> (status DEGRADED - 12.4% error rate)<br>3. <b>SETARA ↔ SIAKAD</b> (status HEALTHY - 3.2% error rate)<br>Total 847.392 API calls dalam 24 jam terakhir.';
+                } else if (q.includes('dropout') || q.includes('naik')) {
+                    response = 'Berdasarkan data XGBoost, kenaikan dropout 12% pada Juli 2026 berkorelasi dengan <b>periode libur semester</b> dan <b>penurunan interaksi LMS</b> sebesar 45%. Klaster wilayah yang paling terdampak: <b>Zone 3 (Timur)</b>.';
+                } else if (q.includes('anomali') || q.includes('nik')) {
+                    const breakdown = {};
+                    Object.values(studentProfiles).forEach(p => {
+                        breakdown[p.anomalyType] = (breakdown[p.anomalyType] || 0) + 1;
+                    });
+                    const breakdownText = Object.entries(breakdown)
+                        .map(([type, count]) => `${count} ${type}`)
+                        .join(', ');
+                    response = `Sistem Isolation Forest mendeteksi <b>25 anomali data</b> dari 25.607 record (0.098%). Breakdown: ${breakdownText}. Semua telah di-flagging untuk verifikasi lapangan.`;
+                } else if (q.includes('intervensi') || q.includes('efektif')) {
+                    response = 'Intervensi paling efektif berdasarkan historical success rate:<br>1. <b>Pendampingan sosial</b>: 78% success rate<br>2. <b>Subsidi kuota + offline LMS</b>: 65% success rate<br>3. <b>Bantuan modal belajar</b>: 52% success rate';
+                } else {
+                    response = 'Pertanyaan Anda sedang diproses oleh SR-QA RAG pipeline. Coba tanyakan tentang: <i>"metode perangkingan MPI"</i>, <i>"status integrasi sistem"</i>, <i>"mengapa dropout naik"</i>, atau <i>"jumlah anomali NIK"</i>.';
+                }
+
+                thinking.remove();
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'flex items-start space-x-2 fade-in';
+                aiMsg.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="sparkles" class="w-3 h-3"></i>
+                    </div>
+                    <div class="bg-purple-900/30 border border-purple-500/20 rounded-lg p-2 text-xs text-slate-300 max-w-md">
+                        <span class="text-purple-300 font-semibold">SR-QA AI:</span> ${response}
+                    </div>
+                `;
+                history.appendChild(aiMsg);
+                history.scrollTop = history.scrollHeight;
+                lucide.createIcons();
+            }, 1200);
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChat();
+        });
+    </script>
+</body>
+</html>
