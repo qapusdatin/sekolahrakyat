@@ -38,9 +38,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
         body, body * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -58,12 +58,13 @@
         body.light-mode header {
             background-color: #ffffff !important;
             border-color: #e2e8f0 !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05);
         }
 
         body.light-mode .bg-slate-800 {
             background-color: #ffffff !important;
             border-color: #e2e8f0 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
         body.light-mode .bg-slate-900 {
             background-color: #f8fafc !important;
@@ -151,7 +152,7 @@
             color: #334155 !important;
         }
 
-        body.light-mode #chatHistory .text-slate-400.italic {
+        body.light-mode .text-slate-400.italic {
             color: #64748b !important;
         }
 
@@ -163,11 +164,17 @@
             color: #d97706 !important;
         }
 
+        body.light-mode .sr-title {
+            background: linear-gradient(to right, #059669, #0891b2) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
         .theme-toggle {
             position: relative;
             width: 40px;
             height: 40px;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -181,11 +188,11 @@
             transform: scale(1.05);
         }
         body.light-mode .theme-toggle {
-            background: rgba(226, 232, 240, 0.6);
-            border-color: rgba(203, 213, 225, 0.5);
+            background: rgba(226, 232, 240, 0.8);
+            border-color: rgba(203, 213, 225, 0.8);
         }
         body.light-mode .theme-toggle:hover {
-            background: rgba(203, 213, 225, 0.9);
+            background: rgba(203, 213, 225, 1);
         }
 
         .theme-icon {
@@ -262,11 +269,20 @@
         .cutoff-line {
             background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.8), rgba(239, 68, 68, 0.2));
         }
+
+        .bg-slate-800 {
+            background-color: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .rounded-xl {
+            border-radius: 1rem;
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans min-h-screen">
+<body class="bg-[#090d16] text-slate-100 font-sans min-h-screen">
 
-    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="logo-container" id="logoBox">
@@ -284,7 +300,7 @@
                 </div>
                 
                 <div class="flex flex-col">
-                    <h1 class="font-bold text-lg leading-tight">SR-QA INSIGHT</h1>
+                    <h1 class="font-bold text-lg leading-tight tracking-wide text-white sr-title">SR-QA INSIGHT</h1>
                     <p class="text-xs text-slate-400 leading-tight">Penjaminan Mutu Sistem & Analitik Prediktif Sekolah Rakyat</p>
                     
                     <div class="hidden md:flex items-center flex-wrap gap-2 mt-1.5 text-[10px]">
@@ -305,7 +321,7 @@
             </div>
             
             <div class="flex items-center space-x-3 text-xs">
-                <span class="text-slate-400 hidden lg:inline">Kementerian Sosial RI</span>
+                <span class="text-slate-400 hidden lg:inline font-medium">Kementerian Sosial RI</span>
                 
                 <button onclick="toggleTheme()" class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Ganti tema Dark/Light">
                     <i data-lucide="sun" id="sunIcon" class="w-5 h-5 theme-icon visible-icon text-amber-300"></i>
@@ -331,17 +347,17 @@
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Sekolah</p>
-                            <p class="text-3xl font-bold text-sky-400 mt-2">283</p>
+                            <p class="text-3xl font-bold text-sky-400 mt-2">412</p>
                             <p class="text-[11px] text-slate-500 mt-1">Tersebar di 34 provinsi</p>
                         </div>
-                        <div class="p-2.5 bg-sky-500/10 text-sky-400 rounded-lg">
-                            <i data-lucide="school" class="w-5 h-5"></i>
+                        <div onclick="openProvinceModal()" class="p-2.5 bg-sky-500/10 text-sky-400 rounded-lg cursor-pointer hover:bg-sky-500/20 transition group" title="Klik untuk lihat detail per provinsi & jenjang">
+                            <i data-lucide="school" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-sky-500/10">
                         <div class="flex items-center text-[10px] text-emerald-400">
                             <i data-lucide="trending-up" class="w-3 h-3 mr-1"></i>
-                            <span>+12 sekolah baru tahun ini</span>
+                            <span>SD: 120 | SMP: 142 | SMA: 150</span>
                         </div>
                     </div>
                 </div>
@@ -350,11 +366,11 @@
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Peserta Didik</p>
-                            <p class="text-3xl font-bold text-emerald-400 mt-2">25.607</p>
-                            <p class="text-[11px] text-slate-500 mt-1">34 siswa/sekolah rata-rata</p>
+                            <p class="text-3xl font-bold text-emerald-400 mt-2">32.291</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Berdasarkan rekapitulasi resmi</p>
                         </div>
-                        <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-lg">
-                            <i data-lucide="users" class="w-5 h-5"></i>
+                        <div onclick="openStudentsModal()" class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-lg cursor-pointer hover:bg-emerald-500/20 transition group" title="Klik untuk lihat detail peserta didik per provinsi & jenjang">
+                            <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-emerald-500/10">
@@ -369,17 +385,17 @@
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Guru</p>
-                            <p class="text-3xl font-bold text-amber-400 mt-2">2.208</p>
-                            <p class="text-[11px] text-slate-500 mt-1">Usia rata-rata 27 tahun</p>
+                            <p class="text-3xl font-bold text-amber-400 mt-2">2.902</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Berdasarkan data gurumapel.pdf</p>
                         </div>
-                        <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-lg">
-                            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                        <div onclick="openTeachersModal()" class="p-2.5 bg-amber-500/10 text-amber-400 rounded-lg cursor-pointer hover:bg-amber-500/20 transition group" title="Klik untuk lihat detail guru per provinsi & jenjang">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-amber-500/10">
                         <div class="flex items-center text-[10px] text-slate-400">
                             <i data-lucide="ratio" class="w-3 h-3 mr-1"></i>
-                            <span>Rasio 1:12 (Guru:Siswa)</span>
+                            <span>SD: 536 | SMP: 974 | SMA: 1.392</span>
                         </div>
                     </div>
                 </div>
@@ -388,17 +404,17 @@
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Tendik</p>
-                            <p class="text-3xl font-bold text-violet-400 mt-2">6.647</p>
-                            <p class="text-[11px] text-slate-500 mt-1">Jumlah tendik terdaftar</p>
+                            <p class="text-3xl font-bold text-violet-400 mt-2">10.906</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Berdasarkan data tendik.pdf</p>
                         </div>
-                        <div class="p-2.5 bg-violet-500/10 text-violet-400 rounded-lg">
-                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                        <div onclick="openTendikModal()" class="p-2.5 bg-violet-500/10 text-violet-400 rounded-lg cursor-pointer hover:bg-violet-500/20 transition group" title="Klik untuk lihat detail tendik per provinsi (Wali Asuh, Admin, Ketatausahaan)">
+                            <i data-lucide="clipboard-list" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
                     <div class="mt-3 pt-3 border-t border-violet-500/10">
                         <div class="flex items-center text-[10px] text-slate-400">
                             <i data-lucide="shield" class="w-3 h-3 mr-1"></i>
-                            <span>Meliputi operator & admin</span>
+                            <span>Wali Asuh | Admin | Tata Usaha</span>
                         </div>
                     </div>
                 </div>
@@ -406,29 +422,30 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+            <div class="bg-slate-800 rounded-xl p-4 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-400 font-medium">System Health (Prophet AI)</p>
                     <p class="text-2xl font-bold text-emerald-400 mt-1">99.88%</p>
                     <p class="text-[10px] text-slate-400 mt-1">SLA Target: &gt;99.5% (PASS)</p>
                 </div>
-                <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
-                    <i data-lucide="activity" class="w-5 h-5"></i>
+                <div onclick="openSystemHealthModal()" class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg cursor-pointer hover:bg-emerald-500/20 transition group" title="Klik untuk lihat grafik System Health 10 hari terakhir">
+                    <i data-lucide="activity" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+            <!-- KOLOM ANOMALI DATA DENGAN ICON LINK POPUP MODAL -->
+            <div class="bg-slate-800 rounded-xl p-4 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-400 font-medium">Anomali Data (Isolation Forest)</p>
                     <p class="text-2xl font-bold text-amber-400 mt-1">25 Record</p>
                     <p class="text-[10px] text-slate-400 mt-1">0.098% dari total data terverifikasi</p>
                 </div>
-                <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg">
-                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                <div onclick="openAnomalyModal()" class="p-3 bg-amber-500/10 text-amber-400 rounded-lg cursor-pointer hover:bg-amber-500/20 transition group" title="Klik untuk lihat tren Anomali Data 10 hari terakhir">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+            <!-- <div class="bg-slate-800 rounded-xl p-4 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-400 font-medium">Prediksi Risiko Dropout (XGBoost)</p>
                     <p class="text-2xl font-bold text-rose-400 mt-1">320 Siswa</p>
@@ -437,9 +454,21 @@
                 <div class="p-3 bg-rose-500/10 text-rose-400 rounded-lg">
                     <i data-lucide="user-minus" class="w-5 h-5"></i>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+            <div class="bg-slate-800 rounded-xl p-4 flex items-center justify-between">
+    <div>
+        <p class="text-xs text-slate-400 font-medium">Prediksi Risiko Dropout (XGBoost)</p>
+        <p class="text-2xl font-bold text-rose-400 mt-1">4.075 Siswa</p>
+        <p class="text-[10px] text-slate-400 mt-1">Total Analisis Potensi DO</p>
+    </div>
+    <!-- Tambahan atribut onclick dan class animasi -->
+    <div onclick="openDropoutModal()" class="p-3 bg-rose-500/10 text-rose-400 rounded-lg cursor-pointer hover:bg-rose-500/20 transition group" title="Klik untuk lihat Detail Potensi DO">
+        <i data-lucide="user-minus" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+    </div>
+</div>
+
+            <!-- <div class="bg-slate-800 rounded-xl p-4 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-400 font-medium">Prioritas Seleksi (MPI Score)</p>
                     <p class="text-2xl font-bold text-cyan-400 mt-1">84.2 Rata-rata</p>
@@ -448,7 +477,19 @@
                 <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-lg">
                     <i data-lucide="award" class="w-5 h-5"></i>
                 </div>
-            </div>
+            </div> -->
+<div class="bg-slate-800 rounded-xl p-4 flex items-center justify-between">
+    <div>
+        <p class="text-xs text-slate-400 font-medium">Prioritas Seleksi (MPI Score)</p>
+        <p class="text-2xl font-bold text-cyan-400 mt-1">89.6 Rata-rata</p>
+        <p class="text-[10px] text-slate-400 mt-1">1.250 Pendaftar Oversubscribed</p>
+    </div>
+    <!-- Tambahan atribut onclick dan class animasi -->
+    <div onclick="openMpiDataModal()" class="p-3 bg-cyan-500/10 text-cyan-400 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition group" title="Klik untuk lihat Rerata per Domain MPI">
+        <i data-lucide="award" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+    </div>
+</div>
+
         </div>
 
         <div class="space-y-4">
@@ -458,7 +499,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="lg:col-span-2 bg-slate-800 rounded-xl p-5 space-y-3">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="font-medium text-sm text-slate-200">Prediksi Beban dan Latensi Server (Prophet Model)</h3>
@@ -471,7 +512,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3 flex flex-col justify-between">
+                <div class="bg-slate-800 rounded-xl p-5 space-y-3 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <h3 class="font-medium text-sm text-slate-200">Deteksi Anomali Data (Isolation Forest)</h3>
@@ -495,7 +536,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="bg-slate-800 rounded-xl p-5 space-y-3">
                     <div class="flex items-center justify-between">
                         <h3 class="font-medium text-sm text-slate-200">Klasifikasi Risiko Dropout (XGBoost)</h3>
                         <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded">Supervised ML</span>
@@ -506,7 +547,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="bg-slate-800 rounded-xl p-5 space-y-3">
                     <div class="flex items-center justify-between">
                         <h3 class="font-medium text-sm text-slate-200">Klasterisasi Inklusi (K-Means)</h3>
                         <span class="text-xs bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded">Clustering AI</span>
@@ -517,7 +558,7 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="bg-slate-800 rounded-xl p-5 space-y-3">
                     <h3 class="font-medium text-sm text-slate-200">Rekomendasi Intervensi Dini</h3>
                     <p class="text-xs text-slate-400">Tindakan otomatis berdasarkan output XGBoost</p>
 
@@ -552,22 +593,22 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                <div class="bg-slate-800 rounded-xl p-4">
                     <p class="text-xs text-slate-400 font-medium">Total Pendaftar Terverifikasi</p>
                     <p class="text-2xl font-bold text-slate-100 mt-1">1.250 Anak</p>
                     <p class="text-[10px] text-cyan-400 mt-1">Target Kuota Keseluruhan: 500 Siswa</p>
                 </div>
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                <div class="bg-slate-800 rounded-xl p-4">
                     <p class="text-xs text-slate-400 font-medium">Prioritas 1 (Sangat Mendesak)</p>
                     <p class="text-2xl font-bold text-rose-400 mt-1">310 Anak</p>
                     <p class="text-[10px] text-slate-400 mt-1">Skor MPI ≥ 80.0 (Otomatis Lolos Kuota)</p>
                 </div>
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                <div class="bg-slate-800 rounded-xl p-4">
                     <p class="text-xs text-slate-400 font-medium">Prioritas 2 (Mendesak / Cadangan)</p>
                     <p class="text-2xl font-bold text-amber-400 mt-1">450 Anak</p>
                     <p class="text-[10px] text-slate-400 mt-1">Skor MPI 65.0 - 79.9</p>
                 </div>
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                <div class="bg-slate-800 rounded-xl p-4">
                     <p class="text-xs text-slate-400 font-medium">Rasio Oversubscribed</p>
                     <p class="text-2xl font-bold text-violet-400 mt-1">250%</p>
                     <p class="text-[10px] text-emerald-400 mt-1">100% Bebas Intervensi Manual</p>
@@ -575,7 +616,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+                <div class="bg-slate-800 rounded-xl p-5 space-y-3">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="font-medium text-sm text-slate-200">Profil Deprivasi Pendaftar</h3>
@@ -594,7 +635,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-2 bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-4">
+                <div class="lg:col-span-2 bg-slate-800 rounded-xl p-5 space-y-4">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 class="font-medium text-sm text-slate-200">Tabel Urutan Prioritas Pendaftar (MPI Auto-Ranking)</h3>
@@ -608,7 +649,7 @@
                                 <option value="SR Medan">SR Medan Pesisir</option>
                             </select>
                             <button onclick="exportMPIList()" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-semibold rounded-lg text-xs transition flex items-center">
-                                <i data-lucide="file-spread-sheet" class="w-3.5 h-3.5 mr-1"></i>
+                                <i data-lucide="file-spread-sheet" class="w-3.5 h-3.5 mr-1.5"></i>
                                 Ekspor SK
                             </button>
                         </div>
@@ -628,7 +669,7 @@
                                 </tr>
                             </thead>
                             <tbody id="mpiTableBody" class="divide-y divide-slate-700/50">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -646,7 +687,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-1 bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-4">
+                <div class="lg:col-span-1 bg-slate-800 rounded-xl p-5 space-y-4">
                     <div class="flex items-center space-x-2">
                         <i data-lucide="database" class="w-4 h-4 text-purple-400"></i>
                         <h3 class="font-medium text-sm text-slate-200">Context Window (RAG)</h3>
@@ -657,7 +698,7 @@
                         <div>
                             <label class="text-[10px] text-slate-500 uppercase tracking-wider">Pilih Profil Siswa (25 Siswa Flagged)</label>
                             <select id="studentSelect" onchange="updateContext()" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:border-purple-500 focus:outline-none">
-                                </select>
+                            </select>
                         </div>
 
                         <div class="bg-slate-900/60 border border-slate-700 rounded-lg p-3 space-y-2 text-xs" id="contextData">
@@ -686,7 +727,7 @@
                         <div class="pt-2">
                             <label class="text-[10px] text-slate-500 uppercase tracking-wider">Sistem Prompt</label>
                             <div class="mt-1 bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-[10px] text-slate-400 font-mono leading-relaxed max-h-24 overflow-y-auto">
-                                "Anda adalah asisten AI untuk pekerja sosial Kemensos. Hasilakan laporan intervensi yang actionable, empatik, dan sesuai SOP Dinsos. Fokus pada akar masalah dan langkah konkret."
+                                "Anda adalah asisten AI untuk Sekolah Rakyat Kementerian Sosial RI. Hasilakan laporan intervensi yang actionable, empatik, dan sesuai SOP Penyelenggaraan Sekolah Rakyat dan Peraturan terkait lainnya. Fokus pada akar masalah dan langkah konkret."
                             </div>
                         </div>
                     </div>
@@ -710,7 +751,7 @@
 
                     <div class="bg-slate-900/80 border border-slate-700 rounded-lg p-4 text-xs text-slate-300 leading-relaxed min-h-[280px] space-y-2 relative z-10 overflow-y-auto max-h-[500px]" id="llmOutput">
                         <div class="text-slate-500 italic">
-                            Klik tombol "Generate Laporan" untuk menghasilkan rekomendasi intervensi naratif otomatis menggunakan Generative AI. Laporan ini siap dikirim ke Pekerja Sosial melalui WhatsApp Gateway.
+                            Klik tombol "Generate Laporan" untuk menghasilkan rekomendasi intervensi naratif otomatis menggunakan Generative AI beserta penyesuaian instansi penerima tujuan.
                         </div>
                     </div>
 
@@ -729,16 +770,16 @@
                                 <i data-lucide="file-down" class="w-3.5 h-3.5 mr-1.5"></i>
                                 PDF
                             </button>
-                            <button onclick="sendWhatsApp()" class="inline-flex items-center px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
+                            <button onclick="sendToAgency()" id="sendAgencyBtn" class="inline-flex items-center px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
                                 <i data-lucide="send" class="w-3.5 h-3.5 mr-1.5"></i>
-                                Kirim ke Pekerja Sosial
+                                <span id="sendAgencyText">Kirim ke Instansi Terkait</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+            <div class="bg-slate-800 rounded-xl p-5 space-y-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-2">
                         <i data-lucide="message-square" class="w-4 h-4 text-purple-400"></i>
@@ -791,6 +832,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Kartu 1: SETARA ↔ LMS EL-Setara -->
                 <div class="integration-card bg-slate-800 border border-amber-500/30 rounded-xl p-5 space-y-4" style="--status-color: #f59e0b;">
                     <div class="flex items-start justify-between">
                         <div class="flex items-center space-x-2">
@@ -872,7 +914,7 @@
                     </div>
 
                     <div class="flex items-center justify-between pt-1">
-                        <button class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center">
+                        <button onclick="openLogsModal()" class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center cursor-pointer">
                             <i data-lucide="file-text" class="w-3 h-3 mr-1"></i>
                             View Logs
                         </button>
@@ -883,6 +925,7 @@
                     </div>
                 </div>
 
+                <!-- Kartu 2: LMS EL-Setara ↔ SIAKAD SR -->
                 <div class="integration-card bg-slate-800 border border-rose-500/30 rounded-xl p-5 space-y-4" style="--status-color: #f43f5e;">
                     <div class="flex items-start justify-between">
                         <div class="flex items-center space-x-2">
@@ -964,7 +1007,7 @@
                     </div>
 
                     <div class="flex items-center justify-between pt-1">
-                        <button class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center">
+                        <button onclick="openLogsModalLmsSiakad()" class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center cursor-pointer">
                             <i data-lucide="file-text" class="w-3 h-3 mr-1"></i>
                             View Logs
                         </button>
@@ -975,6 +1018,7 @@
                     </div>
                 </div>
 
+                <!-- Kartu 3: SETARA ↔ SIAKAD SR -->
                 <div class="integration-card bg-slate-800 border border-emerald-500/30 rounded-xl p-5 space-y-4" style="--status-color: #10b981;">
                     <div class="flex items-start justify-between">
                         <div class="flex items-center space-x-2">
@@ -1056,7 +1100,7 @@
                     </div>
 
                     <div class="flex items-center justify-between pt-1">
-                        <button class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center">
+                        <button onclick="openLogsModalSetaraSiakad()" class="text-[10px] text-sky-400 hover:text-sky-300 flex items-center cursor-pointer">
                             <i data-lucide="file-text" class="w-3 h-3 mr-1"></i>
                             View Logs
                         </button>
@@ -1068,7 +1112,7 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 space-y-3">
+            <div class="bg-slate-800 rounded-xl p-5 space-y-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-2">
                         <i data-lucide="network" class="w-4 h-4 text-indigo-400"></i>
@@ -1109,19 +1153,1757 @@
             </div>
         </div>
 
-        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 text-xs text-slate-400 flex items-start space-x-3">
+        <div class="bg-slate-800/50 rounded-xl p-4 text-xs text-slate-400 flex items-start space-x-3">
             <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
             <div>
                 <p class="font-semibold text-slate-300 mb-1">Kepatuhan Etika & Legal (UU PDP No. 27 Tahun 2022)</p>
-                <p>Seluruh data siswa dalam sistem ini telah melalui proses <span class="text-emerald-400">pseudonimitas & anonymisasi</span>. Model AI dilatih secara lokal (on-premise) dan tidak mengirimkan data sensitif ke server pihak ketiga. Output Generative AI bersifat <i>advisory</i> — keputusan akhir tetap berada pada pekerja sosial yang berwenang.</p>
+                <p>Seluruh data siswa dalam sistem ini telah melalui proses <span class="text-emerald-400">pseudonimitas & anonymisasi</span>. Model AI dilatih secara lokal (on-premise) dan tidak mengirimkan data sensitif ke server pihak ketiga. Output Generative AI bersifat <i>advisory</i> — keputusan akhir tetap berada pada instansi yang berwenang.</p>
             </div>
         </div>
 
     </main>
 
+
+    <!-- MODAL PREDIKSI DROPOUT (POTENSI DO) -->
+<div id="dropoutModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+    <div class="bg-slate-800 border border-rose-500/30 rounded-2xl w-full max-w-5xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="absolute top-0 right-0 bg-gradient-to-l from-rose-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+        
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
+                    <i data-lucide="user-minus" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-slate-100">Analisis Faktor Prediksi Risiko Dropout (DO)</h3>
+                    <p class="text-xs text-slate-400">Berdasarkan Data Sebaran Model XGBoost</p>
+                </div>
+            </div>
+            <button onclick="closeDropoutModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Potensi DO</p>
+                <p class="text-xl font-bold text-rose-400 mt-1">4.075</p>
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Faktor Dominan 1</p>
+                <p class="text-xl font-bold text-amber-400 mt-1">Pendidikan Ortu</p>
+                <p class="text-[9px] text-slate-400 mt-1">848 Kasus</p>
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Faktor Dominan 2</p>
+                <p class="text-xl font-bold text-orange-400 mt-1">Faktor Ekonomi</p>
+                <p class="text-[9px] text-slate-400 mt-1">844 Kasus</p>
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Provinsi Tertinggi</p>
+                <p class="text-xl font-bold text-sky-400 mt-1">Kalimantan Selatan</p>
+                <p class="text-[9px] text-slate-400 mt-1">166 Kasus (Kritis)</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-5 flex-shrink-0 min-h-0 h-full">
+            <div class="w-full lg:w-1/3 bg-slate-900/60 rounded-xl border border-slate-700 p-4 flex flex-col items-center justify-center">
+                <p class="text-xs font-semibold text-slate-300 w-full text-center mb-3">Distribusi Kumulatif Faktor DO</p>
+                <div class="w-full h-48 relative">
+                    <canvas id="dropoutModalChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-2/3 flex flex-col space-y-3 min-h-0 h-full">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="dropoutSearch" onkeyup="filterDropoutTable()" placeholder="Cari nama provinsi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 focus:border-rose-500 focus:outline-none placeholder-slate-500">
+                </div>
+                
+                <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl max-h-60">
+                    <table class="w-full text-left text-[11px]" id="dropoutTable">
+                        <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                            <tr>
+                                <th class="py-2.5 px-3">Provinsi</th>
+                                <th class="py-2.5 px-2 text-center" title="Faktor Ekonomi">Ekonomi</th>
+                                <th class="py-2.5 px-2 text-center" title="Beban Tanggungan">Tanggungan</th>
+                                <th class="py-2.5 px-2 text-center" title="Kondisi Perumahan">Perumahan</th>
+                                <th class="py-2.5 px-2 text-center" title="Faktor Pendidikan Orang Tua">Pend. Ortu</th>
+                                <th class="py-2.5 px-2 text-center" title="Demografi Orang Tua">Demografi</th>
+                                <th class="py-2.5 px-3 text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/50" id="dropoutTableBody"></tbody>
+                        <tfoot class="bg-slate-900 font-bold text-slate-100 sticky bottom-0 border-t border-slate-700">
+                            <tr>
+                                <td class="py-2.5 px-3">Grand Total</td>
+                                <td class="py-2.5 px-2 text-center text-orange-400">844</td>
+                                <td class="py-2.5 px-2 text-center text-amber-400">786</td>
+                                <td class="py-2.5 px-2 text-center text-sky-400">755</td>
+                                <td class="py-2.5 px-2 text-center text-purple-400">848</td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400">842</td>
+                                <td class="py-2.5 px-3 text-right text-rose-400">4.075</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+            <button onclick="closeDropoutModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!-- MODAL ANOMALI DATA 10 HARI TERAKHIR (ISOLATION FOREST) -->
+    <div id="anomalyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-amber-500/30 rounded-2xl w-full max-w-3xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-amber-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
+                        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">Tren Deteksi Anomali Data (10 Hari Terakhir)</h3>
+                        <p class="text-xs text-slate-400">Monitoring Isolation Forest Anomaly Detection</p>
+                    </div>
+                </div>
+                <button onclick="closeAnomalyModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Hari Ini (14 Agu)</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">25 Record</p>
+                    <p class="text-[9px] text-emerald-400 mt-1">↓ Terendah (Stabil)</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Rata-rata 10 Hari</p>
+                    <p class="text-xl font-bold text-sky-400 mt-1">36.3 Record</p>
+                    <p class="text-[9px] text-slate-400 mt-1">0.11% dari total record</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Anomali Tertinggi</p>
+                    <p class="text-xl font-bold text-rose-400 mt-1">49 Record</p>
+                    <p class="text-[9px] text-slate-500 mt-1">Terjadi pd 07 Agu</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Tingkat Resolusi</p>
+                    <p class="text-xl font-bold text-emerald-400 mt-1">94.2%</p>
+                    <p class="text-[9px] text-emerald-400 mt-1">Auto-clean & Verval</p>
+                </div>
+            </div>
+
+            <div class="h-60 flex-shrink-0 relative">
+                <canvas id="anomalyModalChart"></canvas>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
+                <table class="w-full text-left text-xs" id="anomalyHistoryTable">
+                    <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                        <tr>
+                            <th class="py-2.5 px-4">Tanggal</th>
+                            <th class="py-2.5 px-4 text-center">Jumlah Anomali</th>
+                            <th class="py-2.5 px-4 text-center">Tingkat Risiko</th>
+                            <th class="py-2.5 px-4 text-left">Dominasi Kategori</th>
+                            <th class="py-2.5 px-4 text-right">Status QA</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50" id="anomalyHistoryTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+                <div class="text-[11px] text-slate-400 flex items-center space-x-1">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-amber-400 mr-1"></i>
+                    <span>Algoritma Isolation Forest melakukan scan otomatis tiap 6 jam.</span>
+                </div>
+                <button onclick="closeAnomalyModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SYSTEM HEALTH 10 HARI TERAKHIR -->
+    <div id="systemHealthModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-emerald-500/30 rounded-2xl w-full max-w-3xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-emerald-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                        <i data-lucide="activity" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">Statistik System Health (10 Hari Terakhir)</h3>
+                        <p class="text-xs text-slate-400">Monitoring Prophet AI Uptime & SLA Performance</p>
+                    </div>
+                </div>
+                <button onclick="closeSystemHealthModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 flex-shrink-0">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Rata-rata 10 Hari</p>
+                    <p class="text-xl font-bold text-emerald-400 mt-1">99.45%</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Nilai Tertinggi</p>
+                    <p class="text-xl font-bold text-sky-400 mt-1">99.98%</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Nilai Terendah</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">98.34%</p>
+                </div>
+            </div>
+
+            <div class="h-64 flex-shrink-0 relative">
+                <canvas id="systemHealthModalChart"></canvas>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
+                <table class="w-full text-left text-xs" id="systemHealthTable">
+                    <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                        <tr>
+                            <th class="py-2.5 px-4">Tanggal</th>
+                            <th class="py-2.5 px-4 text-center">System Health Score</th>
+                            <th class="py-2.5 px-4 text-center">Status SLA</th>
+                            <th class="py-2.5 px-4 text-right">Anomali Terdeteksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50" id="systemHealthTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+                <button onclick="closeSystemHealthModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+<!-- MODAL RERATA DOMAIN MPI -->
+<div id="mpiDataModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+    <div class="bg-slate-800 border border-cyan-500/30 rounded-2xl w-full max-w-5xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="absolute top-0 right-0 bg-gradient-to-l from-cyan-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+        
+        <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-base text-slate-100">Rerata Nilai Multidimensional Poverty Index (MPI)</h3>
+                    <p class="text-xs text-slate-400">Analisis Pendaftar per Domain MPI</p>
+                </div>
+            </div>
+            <button onclick="closeMpiDataModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Rerata MPI Nasional</p>
+                <p class="text-xl font-bold text-cyan-400 mt-1">89.6</p>
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Domain Tertinggi</p>
+                <p class="text-xl font-bold text-rose-400 mt-1">Ekonomi Keluarga</p>
+                <p class="text-[9px] text-slate-400 mt-1">90.3 (Rerata Nasional)</p>
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Domain Terendah</p>
+                <p class="text-xl font-bold text-amber-400 mt-1">Sanitasi/Rumah</p>
+                <p class="text-[9px] text-slate-400 mt-1">88.6 (Rerata Nasional)</p>
+            </div>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider">Provinsi Tertinggi</p>
+                <p class="text-xl font-bold text-emerald-400 mt-1">Papua Tengah</p>
+                <p class="text-[9px] text-slate-400 mt-1">Rerata 93.1</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-5 flex-shrink-0 min-h-0 h-full">
+            <div class="w-full lg:w-1/3 bg-slate-900/60 rounded-xl border border-slate-700 p-4 flex flex-col items-center justify-center">
+                <p class="text-xs font-semibold text-slate-300 w-full text-center mb-3">Distribusi Domain MPI Nasional</p>
+                <div class="w-full h-48 relative">
+                    <canvas id="mpiModalChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-2/3 flex flex-col space-y-3 min-h-0 h-full">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="mpiDataSearch" onkeyup="filterMpiDataTable()" placeholder="Cari nama provinsi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 focus:border-cyan-500 focus:outline-none placeholder-slate-500">
+                </div>
+                
+                <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl max-h-60">
+                    <table class="w-full text-left text-[11px]" id="mpiDataTable">
+                        <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                            <tr>
+                                <th class="py-2.5 px-3">Provinsi</th>
+                                <th class="py-2.5 px-2 text-center" title="Sosial dan Bansos">Sosial/ Bansos</th>
+                                <th class="py-2.5 px-2 text-center" title="Pendidikan">Pendidikan</th>
+                                <th class="py-2.5 px-2 text-center" title="Ekonomi Keluarga">Ekonomi Kel.</th>
+                                <th class="py-2.5 px-2 text-center" title="Sanitasi/Rumah">Sanitasi</th>
+                                <th class="py-2.5 px-2 text-center" title="Geografis ST">Geografis 3T</th>
+                                <th class="py-2.5 px-3 text-right">Rerata</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/50" id="mpiDataTableBody"></tbody>
+                        <tfoot class="bg-slate-900 font-bold text-slate-100 sticky bottom-0 border-t border-slate-700">
+                            <tr>
+                                <td class="py-2.5 px-3">Grand Total</td>
+                                <td class="py-2.5 px-2 text-center text-rose-400">89,7</td>
+                                <td class="py-2.5 px-2 text-center text-amber-400">89,5</td>
+                                <td class="py-2.5 px-2 text-center text-sky-400">90,3</td>
+                                <td class="py-2.5 px-2 text-center text-purple-400">88,6</td>
+                                <td class="py-2.5 px-2 text-center text-emerald-400">90,0</td>
+                                <td class="py-2.5 px-3 text-right text-cyan-400">89,6</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+            <button onclick="closeMpiDataModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!-- MODAL SEBARAN PROVINSI & JENJANG SEKOLAH RAKYAT -->
+    <div id="provinceModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-sky-500/30 rounded-2xl w-full max-w-4xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-sky-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-sky-500/10 text-sky-400 rounded-lg">
+                        <i data-lucide="school" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">Sebaran Sekolah Rakyat Per Provinsi & Jenjang</h3>
+                        <p class="text-xs text-slate-400">Rekapitulasi Resmi Berdasarkan Data Kementerian Sosial</p>
+                    </div>
+                </div>
+                <button onclick="closeProvinceModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Provinsi</p>
+                    <p class="text-xl font-bold text-sky-400 mt-1">34 Provinsi</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Jenjang SD</p>
+                    <p class="text-xl font-bold text-emerald-400 mt-1">120 Sekolah</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Jenjang SMP</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">142 Sekolah</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Jenjang SMA</p>
+                    <p class="text-xl font-bold text-violet-400 mt-1">150 Sekolah</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="provinceSearch" onkeyup="filterProvinceTable()" placeholder="Cari nama provinsi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 focus:border-sky-500 focus:outline-none placeholder-slate-500">
+                </div>
+                <button onclick="exportProvinceData()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-slate-950 font-semibold rounded-xl text-xs transition flex items-center flex-shrink-0">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Rekap PDF
+                </button>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
+                <table class="w-full text-left text-xs" id="provinceTable">
+                    <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                        <tr>
+                            <th class="py-3 px-4">Provinsi</th>
+                            <th class="py-3 px-4 text-center">SD</th>
+                            <th class="py-3 px-4 text-center">SMP</th>
+                            <th class="py-3 px-4 text-center">SMA</th>
+                            <th class="py-3 px-4 text-right">Total Sekolah</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50" id="provinceTableBody"></tbody>
+                    <tfoot class="bg-slate-900 font-bold text-slate-100 sticky bottom-0 border-t border-slate-700">
+                        <tr>
+                            <td class="py-3 px-4">Grand Total</td>
+                            <td class="py-3 px-4 text-center text-emerald-400">120</td>
+                            <td class="py-3 px-4 text-center text-amber-400">142</td>
+                            <td class="py-3 px-4 text-center text-violet-400">150</td>
+                            <td class="py-3 px-4 text-right text-sky-400">412</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+                <button onclick="closeProvinceModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SEBARAN PESERTA DIDIK PER PROVINSI & JENJANG (DARI murid.pdf) -->
+    <div id="studentsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-emerald-500/30 rounded-2xl w-full max-w-4xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-emerald-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">Sebaran Peserta Didik Per Provinsi & Jenjang</h3>
+                        <p class="text-xs text-slate-400">Rekapitulasi Resmi Berdasarkan Dokumen <b>murid.pdf</b></p>
+                    </div>
+                </div>
+                <button onclick="closeStudentsModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Provinsi</p>
+                    <p class="text-xl font-bold text-emerald-400 mt-1">34 Provinsi</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total SD</p>
+                    <p class="text-xl font-bold text-sky-400 mt-1">6.386</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total SMP</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">12.907</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total SMA</p>
+                    <p class="text-xl font-bold text-violet-400 mt-1">12.998</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="studentsSearch" onkeyup="filterStudentsTable()" placeholder="Cari nama provinsi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none placeholder-slate-500">
+                </div>
+                <button onclick="exportStudentsData()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-semibold rounded-xl text-xs transition flex items-center flex-shrink-0">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Rekap PDF
+                </button>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
+                <table class="w-full text-left text-xs" id="studentsTable">
+                    <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                        <tr>
+                            <th class="py-3 px-4">Provinsi</th>
+                            <th class="py-3 px-4 text-center">SD</th>
+                            <th class="py-3 px-4 text-center">SMP</th>
+                            <th class="py-3 px-4 text-center">SMA</th>
+                            <th class="py-3 px-4 text-right">Grand Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50" id="studentsTableBody"></tbody>
+                    <tfoot class="bg-slate-900 font-bold text-slate-100 sticky bottom-0 border-t border-slate-700">
+                        <tr>
+                            <td class="py-3 px-4">Grand Total</td>
+                            <td class="py-3 px-4 text-center text-sky-400">6.386</td>
+                            <td class="py-3 px-4 text-center text-amber-400">12.907</td>
+                            <td class="py-3 px-4 text-center text-violet-400">12.998</td>
+                            <td class="py-3 px-4 text-right text-emerald-400">32.291</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+                <button onclick="closeStudentsModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SEBARAN GURU PER PROVINSI & JENJANG (DARI gurumapel.pdf) -->
+    <div id="teachersModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-amber-500/30 rounded-2xl w-full max-w-4xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-amber-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
+                        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">Sebaran Guru Per Provinsi & Jenjang</h3>
+                        <p class="text-xs text-slate-400">Rekapitulasi Resmi Berdasarkan Dokumen <b>gurumapel.pdf</b></p>
+                    </div>
+                </div>
+                <button onclick="closeTeachersModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Provinsi</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">34 Provinsi</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Guru SD</p>
+                    <p class="text-xl font-bold text-sky-400 mt-1">536</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Guru SMP</p>
+                    <p class="text-xl font-bold text-emerald-400 mt-1">974</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Guru SMA</p>
+                    <p class="text-xl font-bold text-violet-400 mt-1">1.392</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="teachersSearch" onkeyup="filterTeachersTable()" placeholder="Cari nama provinsi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 focus:border-amber-500 focus:outline-none placeholder-slate-500">
+                </div>
+                <button onclick="exportTeachersData()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-semibold rounded-xl text-xs transition flex items-center flex-shrink-0">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Rekap PDF
+                </button>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
+                <table class="w-full text-left text-xs" id="teachersTable">
+                    <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                        <tr>
+                            <th class="py-3 px-4">Provinsi</th>
+                            <th class="py-3 px-4 text-center">SD</th>
+                            <th class="py-3 px-4 text-center">SMP</th>
+                            <th class="py-3 px-4 text-center">SMA</th>
+                            <th class="py-3 px-4 text-right">Grand Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50" id="teachersTableBody"></tbody>
+                    <tfoot class="bg-slate-900 font-bold text-slate-100 sticky bottom-0 border-t border-slate-700">
+                        <tr>
+                            <td class="py-3 px-4">Grand Total</td>
+                            <td class="py-3 px-4 text-center text-sky-400">536</td>
+                            <td class="py-3 px-4 text-center text-emerald-400">974</td>
+                            <td class="py-3 px-4 text-center text-violet-400">1.392</td>
+                            <td class="py-3 px-4 text-right text-amber-400">2.902</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+                <button onclick="closeTeachersModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SEBARAN TENDIK PER PROVINSI (DARI tendik.pdf) -->
+    <div id="tendikModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-violet-500/30 rounded-2xl w-full max-w-4xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-violet-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10 flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-violet-500/10 text-violet-400 rounded-lg">
+                        <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">Sebaran Tenaga Kependidikan (Tendik) Per Provinsi</h3>
+                        <p class="text-xs text-slate-400">Rekapitulasi Resmi Berdasarkan Dokumen <b>tendik.pdf</b></p>
+                    </div>
+                </div>
+                <button onclick="closeTendikModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 flex-shrink-0">
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Total Provinsi</p>
+                    <p class="text-xl font-bold text-violet-400 mt-1">34 Provinsi</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Wali Asuh/Wali Asrama</p>
+                    <p class="text-xl font-bold text-sky-400 mt-1">8.248</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Admin</p>
+                    <p class="text-xl font-bold text-emerald-400 mt-1">182</p>
+                </div>
+                <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider">Ketatausahaan</p>
+                    <p class="text-xl font-bold text-amber-400 mt-1">2.476</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 flex-shrink-0">
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+                    <input type="text" id="tendikSearch" onkeyup="filterTendikTable()" placeholder="Cari nama provinsi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 focus:border-violet-500 focus:outline-none placeholder-slate-500">
+                </div>
+                <button onclick="exportTendikData()" class="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-slate-950 font-semibold rounded-xl text-xs transition flex items-center flex-shrink-0">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Rekap PDF
+                </button>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
+                <table class="w-full text-left text-xs" id="tendikTable">
+                    <thead class="bg-slate-900 text-slate-400 uppercase tracking-wider sticky top-0 border-b border-slate-700 z-10">
+                        <tr>
+                            <th class="py-3 px-4">Provinsi</th>
+                            <th class="py-3 px-4 text-center">Wali Asuh/Wali Asrama</th>
+                            <th class="py-3 px-4 text-center">Admin</th>
+                            <th class="py-3 px-4 text-center">Ketatausahaan</th>
+                            <th class="py-3 px-4 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50" id="tendikTableBody"></tbody>
+                    <tfoot class="bg-slate-900 font-bold text-slate-100 sticky bottom-0 border-t border-slate-700">
+                        <tr>
+                            <td class="py-3 px-4">Grand Total</td>
+                            <td class="py-3 px-4 text-center text-sky-400">8.248</td>
+                            <td class="py-3 px-4 text-center text-emerald-400">182</td>
+                            <td class="py-3 px-4 text-center text-amber-400">2.476</td>
+                            <td class="py-3 px-4 text-right text-violet-400">10.906</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-700 relative z-10 flex-shrink-0">
+                <button onclick="closeTendikModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL SISWA MPI -->
+    <div id="mpiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-cyan-500/30 rounded-2xl w-full max-w-lg mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-cyan-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="user-check" class="w-5 h-5 text-cyan-400"></i>
+                    <h3 class="font-bold text-base text-slate-100">Detail Calon Siswa (MPI Auto-Ranking)</h3>
+                </div>
+                <button onclick="closeMPIModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 relative z-10">
+                <div class="flex items-center space-x-4 bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+                    <div class="w-20 h-20 rounded-xl overflow-hidden bg-slate-800 border-2 border-cyan-500/40 flex-shrink-0 flex items-center justify-center">
+                        <img id="modalPhoto" src="" alt="Foto Siswa" class="w-full h-full object-cover" onerror="this.src='FotoCasis/28e6e49a-8854-4b83-9f9f-0f36807613eb.jpg'">
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <span id="modalRank" class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">Rank #1</span>
+                            <span id="modalStatusBadge" class="text-xs font-semibold px-2 py-0.5 rounded border">LOLOS KUOTA</span>
+                        </div>
+                        <h4 id="modalName" class="text-base font-bold text-white">Nama Siswa</h4>
+                        <p id="modalId" class="text-xs text-slate-400 font-mono">#SR-REG-001</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700 space-y-1">
+                        <p class="text-slate-400">Sekolah Tujuan</p>
+                        <p id="modalSchool" class="font-semibold text-slate-200">SR Bandung Utama</p>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700 space-y-1">
+                        <p class="text-slate-400">Status Desil DTSEN</p>
+                        <p id="modalDesil" class="font-semibold text-cyan-400">Desil 1 (Sangat Rentan)</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-semibold text-slate-300">Skor Multidimensional Poverty Index (MPI)</span>
+                        <span id="modalScore" class="text-sm font-bold text-cyan-400">94.5</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-1">
+                                <span class="text-slate-400">Indikator Sosial/Bansos (30%)</span>
+                                <span id="valSocial" class="text-slate-200 font-medium">98/100</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5">
+                                <div id="barSocial" class="bg-cyan-400 h-1.5 rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-1">
+                                <span class="text-slate-400">Indikator Pendidikan (25%)</span>
+                                <span id="valEdu" class="text-slate-200 font-medium">95/100</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5">
+                                <div id="barEdu" class="bg-cyan-400 h-1.5 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-1">
+                                <span class="text-slate-400">Indikator Ekonomi Keluarga (20%)</span>
+                                <span id="valEcon" class="text-slate-200 font-medium">90/100</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5">
+                                <div id="barEcon" class="bg-cyan-400 h-1.5 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-1">
+                                <span class="text-slate-400">Indikator Sanitasi & Rumah (15%)</span>
+                                <span id="valLiving" class="text-slate-200 font-medium">92/100</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5">
+                                <div id="barLiving" class="bg-cyan-400 h-1.5 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-[11px] mb-1">
+                                <span class="text-slate-400">Indikator Geografis 3T (10%)</span>
+                                <span id="valGeo" class="text-slate-200 font-medium">85/100</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5">
+                                <div id="barGeo" class="bg-cyan-400 h-1.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2 border-t border-slate-700 relative z-10">
+                <button onclick="closeMPIModal()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VIEW INTEGRATION LOGS: KARTU 2 (LMS EL-Setara ↔ SIAKAD SR) -->
+    <div id="logsModalLmsSiakad" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-rose-500/30 rounded-2xl w-full max-w-2xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-rose-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="terminal" class="w-5 h-5 text-rose-400"></i>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">System Integration Logs (Critical)</h3>
+                        <p class="text-[10px] text-slate-400">Endpoint: /api/v1/sync/lms-siakad (LMS EL-Setara ↔ SIAKAD SR)</p>
+                    </div>
+                </div>
+                <button onclick="closeLogsModalLmsSiakad()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 relative z-10">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Menampilkan 3 error log kritis terbaru dalam 24 jam terakhir</span>
+                    <span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-semibold">Status: Critical</span>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 font-mono text-[11px] text-slate-300 space-y-3 max-h-64 overflow-y-auto">
+                    <div class="border-b border-slate-800 pb-2 space-y-1">
+                        <div class="flex items-center justify-between text-rose-400 font-bold">
+                            <span>[CRITICAL] POST /api/gradebook/sync (HTTP 500)</span>
+                            <span class="text-[10px] text-slate-500">8 menit lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Error: Gradebook type & scale mismatch. Skala 0-100 vs 0-4 (GPA) tidak kompatibel untuk 2.847 record.</p>
+                    </div>
+
+                    <div class="border-b border-slate-800 pb-2 space-y-1">
+                        <div class="flex items-center justify-between text-rose-400 font-bold">
+                            <span>[CRITICAL] POST /api/attendance/push (HTTP 502)</span>
+                            <span class="text-[10px] text-slate-500">23 menit lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Error: Presensi sync failure. 14.203 transaksi kehadiran gagal diteruskan ke SIAKAD SR.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between text-amber-400 font-bold">
+                            <span>[WARNING] GET /api/siakad/query (HTTP 504 Gateway Timeout)</span>
+                            <span class="text-[10px] text-slate-500">47 menit lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Warning: Latency &gt;30s dari SIAKAD SR endpoint. 432 request mengalami timeout.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700 relative z-10">
+                <button onclick="exportLogsLmsSiakad()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-medium transition flex items-center">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Raw Logs (.log)
+                </button>
+                <div class="flex space-x-2">
+                    <button onclick="closeLogsModalLmsSiakad()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                        Tutup
+                    </button>
+                    <button onclick="triggerEscalateLmsSiakad()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-semibold transition flex items-center">
+                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5 mr-1.5"></i>
+                        Eskalasi ke DevOps
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VIEW INTEGRATION LOGS: KARTU 3 (SETARA ↔ SIAKAD SR) -->
+    <div id="logsModalSetaraSiakad" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-emerald-500/30 rounded-2xl w-full max-w-2xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-emerald-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="terminal" class="w-5 h-5 text-emerald-400"></i>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">System Integration Logs (Healthy)</h3>
+                        <p class="text-[10px] text-slate-400">Endpoint: /api/v1/sync/master-curriculum (SETARA ↔ SIAKAD SR)</p>
+                    </div>
+                </div>
+                <button onclick="closeLogsModalSetaraSiakad()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 relative z-10">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Menampilkan 3 log operasional terbaru dalam 24 jam terakhir</span>
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-semibold">Status: Healthy</span>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 font-mono text-[11px] text-slate-300 space-y-3 max-h-64 overflow-y-auto">
+                    <div class="border-b border-slate-800 pb-2 space-y-1">
+                        <div class="flex items-center justify-between text-amber-400 font-bold">
+                            <span>[WARNING] GET /api/master/pk-check (HTTP 200)</span>
+                            <span class="text-[10px] text-slate-500">1 jam lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Warning: PK / NIK / NISN Mismatch terdeteksi pada 84 data siswa dengan Primary Key tidak konsisten.</p>
+                    </div>
+
+                    <div class="border-b border-slate-800 pb-2 space-y-1">
+                        <div class="flex items-center justify-between text-emerald-400 font-bold">
+                            <span>[INFO] QUEUE /api/status/update (HTTP 200)</span>
+                            <span class="text-[10px] text-slate-500">2 jam lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Info: Status akademik lag (Delay 4 jam untuk update status Aktif/Mutasi/Cuti). Queue: 23 pending.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between text-emerald-400 font-bold">
+                            <span>[INFO] LOAD /api/curriculum/map (HTTP 200)</span>
+                            <span class="text-[10px] text-slate-500">3 jam lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Success: Ketersediaan kode mapel 98.7% terintegrasi dengan benar dari 34 kurikulum aktif.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700 relative z-10">
+                <button onclick="exportLogsSetaraSiakad()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-medium transition flex items-center">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Raw Logs (.log)
+                </button>
+                <div class="flex space-x-2">
+                    <button onclick="closeLogsModalSetaraSiakad()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                        Tutup
+                    </button>
+                    <button onclick="triggerVerifySetaraSiakad()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition flex items-center">
+                        <i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1.5"></i>
+                        Verifikasi Keseluruhan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VIEW INTEGRATION LOGS (KARTU 1) -->
+    <div id="logsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden fade-in">
+        <div class="bg-slate-800 border border-sky-500/30 rounded-2xl w-full max-w-2xl mx-4 p-6 space-y-5 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-gradient-to-l from-sky-500/20 to-transparent w-32 h-full pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3 relative z-10">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="terminal" class="w-5 h-5 text-sky-400"></i>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100">System Integration Logs</h3>
+                        <p class="text-[10px] text-slate-400">Endpoint: /api/v1/sync/setara-lms (SETARA ↔ LMS EL-Setara)</p>
+                    </div>
+                </div>
+                <button onclick="closeLogsModal()" class="p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-700 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 relative z-10">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400">Menampilkan 3 log error/warning terbaru dalam 24 jam terakhir</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-semibold">Status: Degraded</span>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 font-mono text-[11px] text-slate-300 space-y-3 max-h-64 overflow-y-auto">
+                    <div class="border-b border-slate-800 pb-2 space-y-1">
+                        <div class="flex items-center justify-between text-rose-400 font-bold">
+                            <span>[CRITICAL] POST /api/provision (HTTP 500)</span>
+                            <span class="text-[10px] text-slate-500">2 menit lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Error: Payload validation failed for 47 user accounts. Missing external reference key in LMS DB.</p>
+                    </div>
+
+                    <div class="border-b border-slate-800 pb-2 space-y-1">
+                        <div class="flex items-center justify-between text-amber-400 font-bold">
+                            <span>[WARNING] GET /api/courses/sync (HTTP 422)</span>
+                            <span class="text-[10px] text-slate-500">15 menit lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Warning: Mismatch course assignment detected for 182 mapping records. Fallback mapping applied.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between text-amber-400 font-bold">
+                            <span>[AUTH] POST /oauth/token (JWT Expired)</span>
+                            <span class="text-[10px] text-slate-500">28 menit lalu</span>
+                        </div>
+                        <p class="text-slate-400 text-[10px]">Info: 312 token requests rejected due to stale session signature in Auth Service v2.4.1.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-700 relative z-10">
+                <button onclick="exportLogs()" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-medium transition flex items-center">
+                    <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5"></i>
+                    Unduh Raw Logs (.log)
+                </button>
+                <div class="flex space-x-2">
+                    <button onclick="closeLogsModal()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition">
+                        Tutup
+                    </button>
+                    <button onclick="triggerRetryLogs()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-semibold transition flex items-center">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5 mr-1.5"></i>
+                        Sinkronisasi Ulang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <script>
+// Data MPI berdasarkan dokumen mpi.pdf
+const mpiRawData = [
+    { province: "ACEH", sosial: 85.1, pendidikan: 87.0, ekonomi: 87.2, sanitasi: 95.5, geografis: 84.5, rerata: 87.9 },
+    { province: "BALI", sosial: 90.1, pendidikan: 90.1, ekonomi: 89.4, sanitasi: 91.1, geografis: 91.6, rerata: 90.5 },
+    { province: "BANTEN", sosial: 81.0, pendidikan: 90.7, ekonomi: 93.9, sanitasi: 88.5, geografis: 95.8, rerata: 90.0 },
+    { province: "BENGKULU", sosial: 92.8, pendidikan: 84.7, ekonomi: 96.8, sanitasi: 92.6, geografis: 84.3, rerata: 90.2 },
+    { province: "DAERAH ISTIMEWA YOGYAKARTA", sosial: 85.3, pendidikan: 83.4, ekonomi: 90.7, sanitasi: 92.7, geografis: 85.9, rerata: 87.6 },
+    { province: "DKI JAKARTA", sosial: 94.7, pendidikan: 87.2, ekonomi: 81.8, sanitasi: 88.0, geografis: 95.0, rerata: 89.3 },
+    { province: "GORONTALO", sosial: 90.0, pendidikan: 92.0, ekonomi: 97.2, sanitasi: 84.1, geografis: 82.9, rerata: 89.2 },
+    { province: "JAMBI", sosial: 91.9, pendidikan: 87.0, ekonomi: 96.9, sanitasi: 84.3, geografis: 90.8, rerata: 90.2 },
+    { province: "JAWA BARAT", sosial: 94.3, pendidikan: 94.5, ekonomi: 85.5, sanitasi: 86.3, geografis: 86.9, rerata: 89.5 },
+    { province: "JAWA TENGAH", sosial: 92.9, pendidikan: 87.5, ekonomi: 89.6, sanitasi: 92.8, geografis: 97.7, rerata: 92.1 },
+    { province: "JAWA TIMUR", sosial: 82.0, pendidikan: 93.7, ekonomi: 95.3, sanitasi: 99.0, geografis: 80.3, rerata: 90.1 },
+    { province: "KALIMANTAN BARAT", sosial: 89.9, pendidikan: 96.5, ekonomi: 81.9, sanitasi: 83.7, geografis: 94.8, rerata: 89.4 },
+    { province: "KALIMANTAN SELATAN", sosial: 98.2, pendidikan: 91.7, ekonomi: 90.6, sanitasi: 90.4, geografis: 93.8, rerata: 92.9 },
+    { province: "KALIMANTAN TENGAH", sosial: 85.5, pendidikan: 93.0, ekonomi: 80.3, sanitasi: 83.5, geografis: 91.0, rerata: 86.7 },
+    { province: "KALIMANTAN TIMUR", sosial: 96.0, pendidikan: 86.9, ekonomi: 82.5, sanitasi: 93.9, geografis: 82.0, rerata: 88.3 },
+    { province: "KALIMANTAN UTARA", sosial: 87.2, pendidikan: 92.6, ekonomi: 95.3, sanitasi: 86.9, geografis: 89.2, rerata: 90.2 },
+    { province: "KEPULAUAN RIAU", sosial: 86.0, pendidikan: 80.2, ekonomi: 83.5, sanitasi: 87.2, geografis: 83.4, rerata: 84.1 },
+    { province: "LAMPUNG", sosial: 93.5, pendidikan: 92.3, ekonomi: 97.3, sanitasi: 81.8, geografis: 90.9, rerata: 91.2 },
+    { province: "MALUKU", sosial: 82.1, pendidikan: 86.1, ekonomi: 97.3, sanitasi: 81.9, geografis: 96.5, rerata: 88.8 },
+    { province: "MALUKU UTARA", sosial: 96.6, pendidikan: 83.9, ekonomi: 81.2, sanitasi: 94.3, geografis: 91.6, rerata: 89.5 },
+    { province: "NUSA TENGGARA BARAT", sosial: 96.9, pendidikan: 81.8, ekonomi: 84.3, sanitasi: 82.0, geografis: 97.5, rerata: 88.5 },
+    { province: "NUSA TENGGARA TIMUR", sosial: 83.0, pendidikan: 92.6, ekonomi: 93.9, sanitasi: 98.0, geografis: 92.5, rerata: 92.0 },
+    { province: "PAPUA", sosial: 85.6, pendidikan: 93.7, ekonomi: 93.0, sanitasi: 85.4, geografis: 90.9, rerata: 89.7 },
+    { province: "PAPUA SELATAN", sosial: 88.5, pendidikan: 88.6, ekonomi: 94.4, sanitasi: 92.7, geografis: 98.1, rerata: 92.5 },
+    { province: "PAPUA TENGAH", sosial: 94.2, pendidikan: 97.8, ekonomi: 93.1, sanitasi: 82.5, geografis: 97.7, rerata: 93.1 },
+    { province: "RIAU", sosial: 86.1, pendidikan: 96.1, ekonomi: 98.1, sanitasi: 80.6, geografis: 87.5, rerata: 89.7 },
+    { province: "SULAWESI BARAT", sosial: 84.5, pendidikan: 92.4, ekonomi: 86.5, sanitasi: 86.5, geografis: 88.2, rerata: 87.6 },
+    { province: "SULAWESI SELATAN", sosial: 90.8, pendidikan: 98.8, ekonomi: 82.1, sanitasi: 81.8, geografis: 87.3, rerata: 88.2 },
+    { province: "SULAWESI TENGAH", sosial: 97.7, pendidikan: 96.0, ekonomi: 94.7, sanitasi: 88.1, geografis: 82.8, rerata: 91.9 },
+    { province: "SULAWESI TENGGARA", sosial: 96.0, pendidikan: 86.5, ekonomi: 94.8, sanitasi: 90.6, geografis: 96.3, rerata: 92.8 },
+    { province: "SULAWESI UTARA", sosial: 90.1, pendidikan: 85.3, ekonomi: 86.8, sanitasi: 98.3, geografis: 90.4, rerata: 90.2 },
+    { province: "SUMATERA BARAT", sosial: 88.7, pendidikan: 83.2, ekonomi: 96.4, sanitasi: 86.5, geografis: 86.9, rerata: 88.3 },
+    { province: "SUMATERA SELATAN", sosial: 86.4, pendidikan: 86.1, ekonomi: 83.9, sanitasi: 95.0, geografis: 86.5, rerata: 87.6 },
+    { province: "SUMATERA UTARA", sosial: 87.1, pendidikan: 83.1, ekonomi: 95.3, sanitasi: 85.3, geografis: 88.2, rerata: 87.8 }
+];
+
+let mpiModalChartObj = null;
+
+function formatComma(num) {
+    return num.toFixed(1).replace('.', ',');
+}
+
+function renderMpiDataTable(data = mpiRawData) {
+    const tbody = document.getElementById('mpiDataTableBody');
+    tbody.innerHTML = '';
+    data.forEach((item) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-700/30 transition';
+        tr.innerHTML = `
+            <td class="py-2.5 px-3 font-medium text-slate-200">${item.province}</td>
+            <td class="py-2.5 px-2 text-center text-rose-400 font-semibold">${formatComma(item.sosial)}</td>
+            <td class="py-2.5 px-2 text-center text-amber-400 font-semibold">${formatComma(item.pendidikan)}</td>
+            <td class="py-2.5 px-2 text-center text-sky-400 font-semibold">${formatComma(item.ekonomi)}</td>
+            <td class="py-2.5 px-2 text-center text-purple-400 font-semibold">${formatComma(item.sanitasi)}</td>
+            <td class="py-2.5 px-2 text-center text-emerald-400 font-semibold">${formatComma(item.geografis)}</td>
+            <td class="py-2.5 px-3 text-right text-cyan-400 font-bold">${formatComma(item.rerata)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function filterMpiDataTable() {
+    const keyword = document.getElementById('mpiDataSearch').value.toLowerCase();
+    const filtered = mpiRawData.filter(item => item.province.toLowerCase().includes(keyword));
+    renderMpiDataTable(filtered);
+}
+
+function openMpiDataModal() {
+    renderMpiDataTable();
+    document.getElementById('mpiDataModal').classList.remove('hidden');
+    lucide.createIcons();
+
+    setTimeout(() => {
+        const ctx = document.getElementById('mpiModalChart').getContext('2d');
+        if (mpiModalChartObj) {
+            mpiModalChartObj.destroy();
+        }
+
+        const isLight = document.body.classList.contains('light-mode');
+        const textColor = isLight ? '#334155' : '#94a3b8';
+        const gridColor = isLight ? '#e2e8f0' : '#334155';
+
+        mpiModalChartObj = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Sosial/ Bansos', 'Pendidikan', 'Ekonomi Kel.', 'Sanitasi/Rumah', 'Geografis 3T'],
+                datasets: [{
+                    label: 'Rerata Nasional',
+                    data: [89.7, 89.5, 90.3, 88.6, 90.0],
+                    backgroundColor: 'rgba(6, 182, 212, 0.25)',
+                    borderColor: '#06b6d4',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#06b6d4'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: function(context) { return `${context.raw}`; } } }
+                },
+                scales: {
+                    r: {
+                        min: 80,
+                        max: 100,
+                        ticks: { display: false },
+                        grid: { color: gridColor },
+                        angleLines: { color: gridColor },
+                        pointLabels: { color: textColor, font: { size: 10 } }
+                    }
+                }
+            }
+        });
+    }, 100);
+}
+
+function closeMpiDataModal() {
+    document.getElementById('mpiDataModal').classList.add('hidden');
+}        
+
+// Data Dropout berdasarkan dokumen PotensiDO.pdf
+const dropoutData = [
+    { province: "ACEH", ekonomi: 23, tanggungan: 14, perumahan: 11, pendidikan: 20, demografi: 31, total: 99 },
+    { province: "BALI", ekonomi: 33, tanggungan: 16, perumahan: 28, pendidikan: 26, demografi: 25, total: 128 },
+    { province: "BANTEN", ekonomi: 14, tanggungan: 32, perumahan: 24, pendidikan: 16, demografi: 35, total: 121 },
+    { province: "BENGKULU", ekonomi: 29, tanggungan: 17, perumahan: 38, pendidikan: 32, demografi: 10, total: 126 },
+    { province: "DAERAH ISTIMEWA YOGYAKARTA", ekonomi: 15, tanggungan: 32, perumahan: 15, pendidikan: 10, demografi: 31, total: 103 },
+    { province: "DKI JAKARTA", ekonomi: 11, tanggungan: 11, perumahan: 32, pendidikan: 24, demografi: 11, total: 89 },
+    { province: "GORONTALO", ekonomi: 30, tanggungan: 16, perumahan: 25, pendidikan: 39, demografi: 29, total: 139 },
+    { province: "JAMBI", ekonomi: 11, tanggungan: 31, perumahan: 33, pendidikan: 37, demografi: 32, total: 144 },
+    { province: "JAWA BARAT", ekonomi: 38, tanggungan: 19, perumahan: 23, pendidikan: 33, demografi: 12, total: 125 },
+    { province: "JAWA TENGAH", ekonomi: 38, tanggungan: 25, perumahan: 10, pendidikan: 10, demografi: 21, total: 104 },
+    { province: "JAWA TIMUR", ekonomi: 11, tanggungan: 22, perumahan: 17, pendidikan: 29, demografi: 30, total: 109 },
+    { province: "KALIMANTAN BARAT", ekonomi: 24, tanggungan: 33, perumahan: 29, pendidikan: 38, demografi: 38, total: 162 },
+    { province: "KALIMANTAN SELATAN", ekonomi: 29, tanggungan: 37, perumahan: 28, pendidikan: 38, demografi: 34, total: 166 },
+    { province: "KALIMANTAN TENGAH", ekonomi: 19, tanggungan: 15, perumahan: 10, pendidikan: 17, demografi: 27, total: 88 },
+    { province: "KALIMANTAN TIMUR", ekonomi: 23, tanggungan: 39, perumahan: 10, pendidikan: 27, demografi: 40, total: 139 },
+    { province: "KALIMANTAN UTARA", ekonomi: 35, tanggungan: 26, perumahan: 20, pendidikan: 37, demografi: 16, total: 134 },
+    { province: "KEPULAUAN RIAU", ekonomi: 26, tanggungan: 15, perumahan: 17, pendidikan: 38, demografi: 23, total: 119 },
+    { province: "LAMPUNG", ekonomi: 23, tanggungan: 15, perumahan: 16, pendidikan: 23, demografi: 15, total: 92 },
+    { province: "MALUKU", ekonomi: 17, tanggungan: 36, perumahan: 12, pendidikan: 29, demografi: 23, total: 117 },
+    { province: "MALUKU UTARA", ekonomi: 28, tanggungan: 10, perumahan: 32, pendidikan: 17, demografi: 33, total: 120 },
+    { province: "NUSA TENGGARA BARAT", ekonomi: 39, tanggungan: 15, perumahan: 13, pendidikan: 26, demografi: 17, total: 110 },
+    { province: "NUSA TENGGARA TIMUR", ekonomi: 17, tanggungan: 11, perumahan: 24, pendidikan: 36, demografi: 13, total: 101 },
+    { province: "PAPUA", ekonomi: 30, tanggungan: 20, perumahan: 10, pendidikan: 36, demografi: 30, total: 126 },
+    { province: "PAPUA SELATAN", ekonomi: 28, tanggungan: 19, perumahan: 22, pendidikan: 21, demografi: 23, total: 113 },
+    { province: "PAPUA TENGAH", ekonomi: 33, tanggungan: 19, perumahan: 29, pendidikan: 38, demografi: 21, total: 140 },
+    { province: "RIAU", ekonomi: 14, tanggungan: 39, perumahan: 16, pendidikan: 30, demografi: 23, total: 122 },
+    { province: "SULAWESI BARAT", ekonomi: 34, tanggungan: 25, perumahan: 30, pendidikan: 18, demografi: 34, total: 141 },
+    { province: "SULAWESI SELATAN", ekonomi: 19, tanggungan: 21, perumahan: 25, pendidikan: 15, demografi: 11, total: 91 },
+    { province: "SULAWESI TENGAH", ekonomi: 17, tanggungan: 17, perumahan: 22, pendidikan: 12, demografi: 29, total: 97 },
+    { province: "SULAWESI TENGGARA", ekonomi: 18, tanggungan: 21, perumahan: 13, pendidikan: 12, demografi: 37, total: 101 },
+    { province: "SULAWESI UTARA", ekonomi: 39, tanggungan: 27, perumahan: 40, pendidikan: 22, demografi: 27, total: 155 },
+    { province: "SUMATERA BARAT", ekonomi: 34, tanggungan: 39, perumahan: 32, pendidikan: 15, demografi: 17, total: 137 },
+    { province: "SUMATERA SELATAN", ekonomi: 30, tanggungan: 16, perumahan: 18, pendidikan: 15, demografi: 25, total: 104 },
+    { province: "SUMATERA UTARA", ekonomi: 15, tanggungan: 36, perumahan: 31, pendidikan: 12, demografi: 19, total: 113 }
+];
+
+let dropoutModalChart = null;
+
+function renderDropoutTable(data = dropoutData) {
+    const tbody = document.getElementById('dropoutTableBody');
+    tbody.innerHTML = '';
+    data.forEach((item) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-700/30 transition';
+        tr.innerHTML = `
+            <td class="py-2.5 px-3 font-medium text-slate-200">${item.province}</td>
+            <td class="py-2.5 px-2 text-center text-orange-400 font-semibold">${item.ekonomi}</td>
+            <td class="py-2.5 px-2 text-center text-amber-400 font-semibold">${item.tanggungan}</td>
+            <td class="py-2.5 px-2 text-center text-sky-400 font-semibold">${item.perumahan}</td>
+            <td class="py-2.5 px-2 text-center text-purple-400 font-semibold">${item.pendidikan}</td>
+            <td class="py-2.5 px-2 text-center text-emerald-400 font-semibold">${item.demografi}</td>
+            <td class="py-2.5 px-3 text-right text-rose-400 font-bold">${item.total}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function filterDropoutTable() {
+    const keyword = document.getElementById('dropoutSearch').value.toLowerCase();
+    const filtered = dropoutData.filter(item => item.province.toLowerCase().includes(keyword));
+    renderDropoutTable(filtered);
+}
+
+function openDropoutModal() {
+    renderDropoutTable();
+    document.getElementById('dropoutModal').classList.remove('hidden');
+    lucide.createIcons();
+
+    setTimeout(() => {
+        const ctx = document.getElementById('dropoutModalChart').getContext('2d');
+        if (dropoutModalChart) {
+            dropoutModalChart.destroy();
+        }
+
+        const factors = ['Ekonomi', 'Tanggungan', 'Perumahan', 'Pend. Ortu', 'Demografi'];
+        const values = [844, 786, 755, 848, 842];
+        const bgColors = [
+            'rgba(249, 115, 22, 0.7)',
+            'rgba(245, 158, 11, 0.7)',
+            'rgba(14, 165, 233, 0.7)',
+            'rgba(168, 85, 247, 0.7)',
+            'rgba(16, 185, 129, 0.7)' 
+        ];
+
+        const isLight = document.body.classList.contains('light-mode');
+        const textColor = isLight ? '#334155' : '#94a3b8';
+        const gridColor = isLight ? '#e2e8f0' : '#334155';
+
+        dropoutModalChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: factors,
+                datasets: [{
+                    label: 'Jumlah Kasus',
+                    data: values,
+                    backgroundColor: bgColors,
+                    borderRadius: 4,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.raw} Kasus Potensial`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: textColor, font: { size: 10 } },
+                        grid: { color: gridColor }
+                    },
+                    y: {
+                        ticks: { color: textColor, font: { size: 10 } },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }, 100);
+}
+
+function closeDropoutModal() {
+    document.getElementById('dropoutModal').classList.add('hidden');
+}
+
         // ============================================================
-        // 25 PROFIL SISWA DENGAN DATA DUMMY LENGKAP
+        // DATA ANOMALI DATA 10 HARI TERAKHIR (RANGE: 25 - 50 RECORD)
+        // ============================================================
+        const anomalyHistory = [
+            { date: "05 Agu 2026", count: 42, severity: "HIGH", dominant: "NIK Ganda (19 record)", status: "RESOLVED" },
+            { date: "06 Agu 2026", count: 38, severity: "MEDIUM", dominant: "Format NIK Non-Standard (14 record)", status: "RESOLVED" },
+            { date: "07 Agu 2026", count: 49, severity: "HIGH", dominant: "Duplikasi Data DTSEN (22 record)", status: "RESOLVED" },
+            { date: "08 Agu 2026", count: 45, severity: "HIGH", dominant: "Domisili Invalid 3T (16 record)", status: "RESOLVED" },
+            { date: "09 Agu 2026", count: 36, severity: "MEDIUM", dominant: "NISN Invalid (11 record)", status: "RESOLVED" },
+            { date: "10 Agu 2026", count: 33, severity: "MEDIUM", dominant: "Status Bantuan Inactive (14 record)", status: "RESOLVED" },
+            { date: "11 Agu 2026", count: 40, severity: "HIGH", dominant: "NIK Ganda Lintas Kab (18 record)", status: "RESOLVED" },
+            { date: "12 Agu 2026", count: 28, severity: "LOW", dominant: "Usia Tidak Sesuai Jenjang (9 record)", status: "RESOLVED" },
+            { date: "13 Agu 2026", count: 27, severity: "LOW", dominant: "Format NIK Non-Standard (10 record)", status: "RESOLVED" },
+            { date: "14 Agu 2026", count: 25, severity: "LOW", dominant: "NIK Ganda & Domisili (Hari Ini)", status: "ACTIVE SCAN" }
+        ];
+
+        let anomalyModalChart = null;
+
+        function renderAnomalyHistoryTable() {
+            const tbody = document.getElementById('anomalyHistoryTableBody');
+            tbody.innerHTML = '';
+            anomalyHistory.forEach((item) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 transition';
+                
+                let sevBadge = '';
+                if (item.severity === 'HIGH') {
+                    sevBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold border bg-rose-500/10 text-rose-400 border-rose-500/20">HIGH RISK</span>';
+                } else if (item.severity === 'MEDIUM') {
+                    sevBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold border bg-amber-500/10 text-amber-400 border-amber-500/20">MED RISK</span>';
+                } else {
+                    sevBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold border bg-emerald-500/10 text-emerald-400 border-emerald-500/20">LOW RISK</span>';
+                }
+
+                const statusBadge = item.status === 'ACTIVE SCAN'
+                    ? '<span class="text-amber-400 font-semibold flex items-center justify-end"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse mr-1"></span>Aktif</span>'
+                    : '<span class="text-emerald-400 font-medium">Terselesaikan ✓</span>';
+
+                tr.innerHTML = `
+                    <td class="py-2.5 px-4 font-medium text-slate-200">${item.date}</td>
+                    <td class="py-2.5 px-4 text-center text-amber-400 font-bold text-sm">${item.count} Record</td>
+                    <td class="py-2.5 px-4 text-center">${sevBadge}</td>
+                    <td class="py-2.5 px-4 text-left text-slate-300">${item.dominant}</td>
+                    <td class="py-2.5 px-4 text-right text-[11px]">${statusBadge}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openAnomalyModal() {
+            renderAnomalyHistoryTable();
+            document.getElementById('anomalyModal').classList.remove('hidden');
+            lucide.createIcons();
+
+            setTimeout(() => {
+                const ctx = document.getElementById('anomalyModalChart').getContext('2d');
+                if (anomalyModalChart) {
+                    anomalyModalChart.destroy();
+                }
+                anomalyModalChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: anomalyHistory.map(h => h.date),
+                        datasets: [{
+                            label: 'Jumlah Anomali Data (Record)',
+                            data: anomalyHistory.map(h => h.count),
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                            borderWidth: 2.5,
+                            tension: 0.35,
+                            fill: true,
+                            pointBackgroundColor: '#f59e0b',
+                            pointBorderColor: '#ffffff',
+                            pointHoverRadius: 6,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.raw} Record Anomali`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                min: 20,
+                                max: 55,
+                                ticks: { 
+                                    color: '#94a3b8', 
+                                    font: { size: 10 },
+                                    stepSize: 5
+                                },
+                                grid: { color: '#334155' }
+                            },
+                            x: {
+                                ticks: { color: '#94a3b8', font: { size: 9 } },
+                                grid: { color: '#334155' }
+                            }
+                        }
+                    }
+                });
+            }, 100);
+        }
+
+        function closeAnomalyModal() {
+            document.getElementById('anomalyModal').classList.add('hidden');
+        }
+
+        // ============================================================
+        // DATA SYSTEM HEALTH 10 HARI TERAKHIR (98.00 - 99.99)
+        // ============================================================
+        const systemHealthHistory = [
+            { date: "05 Sep 2026", score: 98.34, status: "WARNING", anomaly: "High Latency Spike" },
+            { date: "06 Sep 2026", score: 99.12, status: "PASS", anomaly: "Normal" },
+            { date: "07 Sep 2026", score: 98.95, status: "PASS", anomaly: "Minor Sync Delay" },
+            { date: "08 Sep 2026", score: 99.45, status: "PASS", anomaly: "Normal" },
+            { date: "09 Sep 2026", score: 99.78, status: "PASS", anomaly: "Normal" },
+            { date: "10 Sep 2026", score: 99.02, status: "PASS", anomaly: "Minor DB Timeout" },
+            { date: "11 Sep 2026", score: 99.88, status: "PASS", anomaly: "Normal" },
+            { date: "12 Sep 2026", score: 99.91, status: "PASS", anomaly: "Normal" },
+            { date: "13 Sep 2026", score: 99.64, status: "PASS", anomaly: "Normal" },
+            { date: "14 Sep 2026", score: 99.98, status: "PASS", anomaly: "Normal (Hari Ini)" }
+        ];
+
+        let systemHealthModalChart = null;
+
+        function renderSystemHealthTable() {
+            const tbody = document.getElementById('systemHealthTableBody');
+            tbody.innerHTML = '';
+            systemHealthHistory.forEach((item) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 transition';
+                const statusColor = item.status === 'PASS' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-amber-400 bg-amber-500/10 border-amber-500/20';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-4 font-medium text-slate-200">${item.date}</td>
+                    <td class="py-2.5 px-4 text-center text-cyan-400 font-bold">${item.score.toFixed(2)}%</td>
+                    <td class="py-2.5 px-4 text-center">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold border ${statusColor}">${item.status}</span>
+                    </td>
+                    <td class="py-2.5 px-4 text-right text-slate-400">${item.anomaly}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openSystemHealthModal() {
+            renderSystemHealthTable();
+            document.getElementById('systemHealthModal').classList.remove('hidden');
+            lucide.createIcons();
+
+            setTimeout(() => {
+                const ctx = document.getElementById('systemHealthModalChart').getContext('2d');
+                if (systemHealthModalChart) {
+                    systemHealthModalChart.destroy();
+                }
+                systemHealthModalChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: systemHealthHistory.map(h => h.date),
+                        datasets: [{
+                            label: 'System Health (%)',
+                            data: systemHealthHistory.map(h => h.score),
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: '#10b981'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: {
+                                min: 98.00,
+                                max: 100.00,
+                                ticks: { color: '#94a3b8', font: { size: 10 } },
+                                grid: { color: '#334155' }
+                            },
+                            x: {
+                                ticks: { color: '#94a3b8', font: { size: 9 } },
+                                grid: { color: '#334155' }
+                            }
+                        }
+                    }
+                });
+            }, 100);
+        }
+
+        function closeSystemHealthModal() {
+            document.getElementById('systemHealthModal').classList.add('hidden');
+        }
+
+        // ============================================================
+        // DATA SEBARAN PROVINSI & JENJANG SEKOLAH RAKYAT
+        // ============================================================
+        const provinceData = [
+            { province: "ACEH", sd: 7, smp: 8, sma: 8, total: 23 },
+            { province: "BALI", sd: 1, smp: 1, sma: 1, total: 3 },
+            { province: "BANTEN", sd: 3, smp: 5, sma: 5, total: 13 },
+            { province: "BENGKULU", sd: 2, smp: 2, sma: 2, total: 6 },
+            { province: "DAERAH ISTIMEWA YOGYAKARTA", sd: 1, smp: 3, sma: 1, total: 5 },
+            { province: "DKI JAKARTA", sd: 1, smp: 3, sma: 3, total: 7 },
+            { province: "GORONTALO", sd: 1, smp: 1, sma: 1, total: 3 },
+            { province: "JAMBI", sd: 2, smp: 2, sma: 2, total: 6 },
+            { province: "JAWA BARAT", sd: 11, smp: 14, sma: 22, total: 47 },
+            { province: "JAWA TENGAH", sd: 11, smp: 14, sma: 12, total: 37 },
+            { province: "JAWA TIMUR", sd: 21, smp: 23, sma: 26, total: 70 },
+            { province: "KALIMANTAN BARAT", sd: 4, smp: 4, sma: 3, total: 11 },
+            { province: "KALIMANTAN SELATAN", sd: 3, smp: 4, sma: 5, total: 12 },
+            { province: "KALIMANTAN TENGAH", sd: 4, smp: 4, sma: 4, total: 12 },
+            { province: "KALIMANTAN TIMUR", sd: 1, smp: 1, sma: 1, total: 3 },
+            { province: "KALIMANTAN UTARA", sd: 1, smp: 1, sma: 1, total: 3 },
+            { province: "KEPULAUAN RIAU", sd: 2, smp: 3, sma: 3, total: 8 },
+            { province: "LAMPUNG", sd: 3, smp: 2, sma: 3, total: 8 },
+            { province: "MALUKU", sd: 2, smp: 3, sma: 2, total: 7 },
+            { province: "MALUKU UTARA", sd: 4, smp: 3, sma: 3, total: 10 },
+            { province: "NUSA TENGGARA BARAT", sd: 4, smp: 2, sma: 2, total: 8 },
+            { province: "NUSA TENGGARA TIMUR", sd: 1, smp: 1, sma: 1, total: 3 },
+            { province: "PAPUA", sd: 1, smp: 3, sma: 1, total: 5 },
+            { province: "PAPUA SELATAN", sd: 1, smp: 0, sma: 1, total: 2 },
+            { province: "PAPUA TENGAH", sd: 0, smp: 1, sma: 1, total: 2 },
+            { province: "RIAU", sd: 1, smp: 3, sma: 3, total: 7 },
+            { province: "SULAWESI BARAT", sd: 2, smp: 2, sma: 2, total: 6 },
+            { province: "SULAWESI SELATAN", sd: 11, smp: 10, sma: 13, total: 34 },
+            { province: "SULAWESI TENGAH", sd: 1, smp: 2, sma: 3, total: 6 },
+            { province: "SULAWESI TENGGARA", sd: 2, smp: 2, sma: 2, total: 6 },
+            { province: "SULAWESI UTARA", sd: 1, smp: 1, sma: 2, total: 4 },
+            { province: "SUMATERA BARAT", sd: 1, smp: 2, sma: 3, total: 6 },
+            { province: "SUMATERA SELATAN", sd: 4, smp: 6, sma: 3, total: 13 },
+            { province: "SUMATERA UTARA", sd: 5, smp: 6, sma: 5, total: 16 }
+        ];
+
+        // ============================================================
+        // DATA SEBARAN PESERTA DIDIK PER PROVINSI & JENJANG (DARI murid.pdf)
+        // ============================================================
+        const studentsData = [
+            { province: "ACEH", sd: 428, smp: 503, sma: 600, total: 1531 },
+            { province: "BALI", sd: 5, smp: 147, sma: 70, total: 222 },
+            { province: "BANTEN", sd: 134, smp: 488, sma: 572, total: 1194 },
+            { province: "BENGKULU", sd: 18, smp: 203, sma: 220, total: 441 },
+            { province: "DAERAH ISTIMEWA YOGYAKARTA", sd: 1, smp: 15, sma: 286, total: 302 },
+            { province: "DKI JAKARTA", sd: 52, smp: 257, sma: 330, total: 639 },
+            { province: "GORONTALO", sd: 126, smp: 107, sma: 90, total: 323 },
+            { province: "JAMBI", sd: 30, smp: 144, sma: 242, total: 416 },
+            { province: "JAWA BARAT", sd: 663, smp: 1807, sma: 1129, total: 3599 },
+            { province: "JAWA TENGAH", sd: 523, smp: 859, sma: 1267, total: 2649 },
+            { province: "JAWA TIMUR", sd: 1049, smp: 2246, sma: 2618, total: 5913 },
+            { province: "KALIMANTAN BARAT", sd: 198, smp: 270, sma: 291, total: 759 },
+            { province: "KALIMANTAN SELATAN", sd: 179, smp: 344, sma: 350, total: 873 },
+            { province: "KALIMANTAN TENGAH", sd: 301, smp: 280, sma: 239, total: 820 },
+            { province: "KALIMANTAN TIMUR", sd: 150, smp: 131, sma: 149, total: 430 },
+            { province: "KALIMANTAN UTARA", sd: 121, smp: 100, sma: 33, total: 254 },
+            { province: "KEPULAUAN RIAU", sd: 102, smp: 127, sma: 101, total: 330 },
+            { province: "LAMPUNG", sd: 136, smp: 321, sma: 291, total: 748 },
+            { province: "MALUKU", sd: 94, smp: 133, sma: 215, total: 442 },
+            { province: "MALUKU UTARA", sd: 220, smp: 176, sma: 130, total: 526 },
+            { province: "NUSA TENGGARA BARAT", sd: 333, smp: 269, sma: 250, total: 852 },
+            { province: "NUSA TENGGARA TIMUR", sd: 0, smp: 149, sma: 0, total: 149 },
+            { province: "PAPUA", sd: 42, smp: 46, sma: 276, total: 364 },
+            { province: "PAPUA SELATAN", sd: 43, smp: 42, sma: 0, total: 85 },
+            { province: "PAPUA TENGAH", sd: 0, smp: 33, sma: 34, total: 67 },
+            { province: "RIAU", sd: 18, smp: 318, sma: 227, total: 563 },
+            { province: "SULAWESI BARAT", sd: 121, smp: 226, sma: 178, total: 525 },
+            { province: "SULAWESI SELATAN", sd: 654, smp: 1345, sma: 875, total: 2874 },
+            { province: "SULAWESI TENGAH", sd: 25, smp: 168, sma: 141, total: 334 },
+            { province: "SULAWESI TENGGARA", sd: 207, smp: 230, sma: 272, total: 709 },
+            { province: "SULAWESI UTARA", sd: 10, smp: 101, sma: 149, total: 260 },
+            { province: "SUMATERA BARAT", sd: 30, smp: 334, sma: 51, total: 415 },
+            { province: "SUMATERA SELATAN", sd: 144, smp: 390, sma: 658, total: 1192 },
+            { province: "SUMATERA UTARA", sd: 229, smp: 598, sma: 664, total: 1491 }
+        ];
+
+        // ============================================================
+        // DATA SEBARAN GURU PER PROVINSI & JENJANG (DARI gurumapel.pdf)
+        // ============================================================
+        const teachersData = [
+            { province: "ACEH", sd: 36, smp: 42, sma: 90, total: 168 },
+            { province: "BALI", sd: 0, smp: 11, sma: 0, total: 11 },
+            { province: "BANTEN", sd: 20, smp: 20, sma: 30, total: 70 },
+            { province: "BENGKULU", sd: 0, smp: 9, sma: 24, total: 33 },
+            { province: "DAERAH ISTIMEWA YOGYAKARTA", sd: 0, smp: 0, sma: 42, total: 42 },
+            { province: "DKI JAKARTA", sd: 0, smp: 11, sma: 32, total: 43 },
+            { province: "GORONTALO", sd: 8, smp: 7, sma: 0, total: 15 },
+            { province: "JAMBI", sd: 0, smp: 9, sma: 28, total: 37 },
+            { province: "JAWA BARAT", sd: 82, smp: 170, sma: 119, total: 371 },
+            { province: "JAWA TENGAH", sd: 21, smp: 49, sma: 133, total: 203 },
+            { province: "JAWA TIMUR", sd: 90, smp: 171, sma: 274, total: 535 },
+            { province: "KALIMANTAN BARAT", sd: 14, smp: 9, sma: 29, total: 52 },
+            { province: "KALIMANTAN SELATAN", sd: 7, smp: 22, sma: 27, total: 56 },
+            { province: "KALIMANTAN TENGAH", sd: 19, smp: 15, sma: 24, total: 58 },
+            { province: "KALIMANTAN TIMUR", sd: 19, smp: 18, sma: 37, total: 74 },
+            { province: "KALIMANTAN UTARA", sd: 10, smp: 9, sma: 0, total: 19 },
+            { province: "KEPULAUAN RIAU", sd: 16, smp: 26, sma: 41, total: 83 },
+            { province: "LAMPUNG", sd: 20, smp: 22, sma: 17, total: 59 },
+            { province: "MALUKU", sd: 8, smp: 16, sma: 23, total: 47 },
+            { province: "MALUKU UTARA", sd: 9, smp: 17, sma: 10, total: 36 },
+            { province: "NUSA TENGGARA BARAT", sd: 14, smp: 11, sma: 14, total: 39 },
+            { province: "NUSA TENGGARA TIMUR", sd: 0, smp: 10, sma: 0, total: 10 },
+            { province: "PAPUA", sd: 8, smp: 8, sma: 18, total: 34 },
+            { province: "PAPUA SELATAN", sd: 4, smp: 6, sma: 0, total: 10 },
+            { province: "PAPUA TENGAH", sd: 0, smp: 4, sma: 7, total: 11 },
+            { province: "RIAU", sd: 0, smp: 23, sma: 34, total: 57 },
+            { province: "SULAWESI BARAT", sd: 9, smp: 26, sma: 26, total: 61 },
+            { province: "SULAWESI SELATAN", sd: 69, smp: 109, sma: 104, total: 282 },
+            { province: "SULAWESI TENGAH", sd: 8, smp: 28, sma: 30, total: 66 },
+            { province: "SULAWESI TENGGARA", sd: 17, smp: 18, sma: 25, total: 60 },
+            { province: "SULAWESI UTARA", sd: 0, smp: 13, sma: 14, total: 27 },
+            { province: "SUMATERA BARAT", sd: 0, smp: 25, sma: 17, total: 42 },
+            { province: "SUMATERA SELATAN", sd: 9, smp: 8, sma: 72, total: 89 },
+            { province: "SUMATERA UTARA", sd: 19, smp: 32, sma: 51, total: 102 }
+        ];
+
+        // ============================================================
+        // DATA SEBARAN TENDIK PER PROVINSI (DARI tendik.pdf)
+        // ============================================================
+        const tendikData = [
+            { province: "ACEH", waliAsuh: 414, admin: 9, tu: 123, total: 546 },
+            { province: "BALI", waliAsuh: 26, admin: 1, tu: 7, total: 34 },
+            { province: "BANTEN", waliAsuh: 230, admin: 6, tu: 66, total: 302 },
+            { province: "BENGKULU", waliAsuh: 126, admin: 2, tu: 40, total: 168 },
+            { province: "DAERAH ISTIMEWA YOGYAKARTA", waliAsuh: 116, admin: 3, tu: 34, total: 153 },
+            { province: "DKI JAKARTA", waliAsuh: 139, admin: 3, tu: 42, total: 184 },
+            { province: "GORONTALO", waliAsuh: 48, admin: 1, tu: 15, total: 64 },
+            { province: "JAMBI", waliAsuh: 120, admin: 2, tu: 37, total: 159 },
+            { province: "JAWA BARAT", waliAsuh: 868, admin: 24, tu: 254, total: 1146 },
+            { province: "JAWA TENGAH", waliAsuh: 814, admin: 16, tu: 245, total: 1075 },
+            { province: "JAWA TIMUR", waliAsuh: 1368, admin: 29, tu: 416, total: 1813 },
+            { province: "KALIMANTAN BARAT", waliAsuh: 203, admin: 4, tu: 61, total: 268 },
+            { province: "KALIMANTAN SELATAN", waliAsuh: 207, admin: 5, tu: 63, total: 275 },
+            { province: "KALIMANTAN TENGAH", waliAsuh: 251, admin: 4, tu: 79, total: 334 },
+            { province: "KALIMANTAN TIMUR", waliAsuh: 101, admin: 1, tu: 32, total: 134 },
+            { province: "KALIMANTAN UTARA", waliAsuh: 39, admin: 1, tu: 12, total: 52 },
+            { province: "KEPULAUAN RIAU", waliAsuh: 89, admin: 3, tu: 26, total: 118 },
+            { province: "LAMPUNG", waliAsuh: 157, admin: 3, tu: 48, total: 208 },
+            { province: "MALUKU", waliAsuh: 178, admin: 3, tu: 55, total: 236 },
+            { province: "MALUKU UTARA", waliAsuh: 203, admin: 6, tu: 58, total: 267 },
+            { province: "NUSA TENGGARA BARAT", waliAsuh: 238, admin: 6, tu: 71, total: 315 },
+            { province: "NUSA TENGGARA TIMUR", waliAsuh: 57, admin: 1, tu: 18, total: 76 },
+            { province: "PAPUA", waliAsuh: 90, admin: 4, tu: 23, total: 117 },
+            { province: "PAPUA SELATAN", waliAsuh: 29, admin: 1, tu: 8, total: 38 },
+            { province: "PAPUA TENGAH", waliAsuh: 20, admin: 1, tu: 5, total: 26 },
+            { province: "RIAU", waliAsuh: 136, admin: 4, tu: 39, total: 179 },
+            { province: "SULAWESI BARAT", waliAsuh: 160, admin: 2, tu: 51, total: 213 },
+            { province: "SULAWESI SELATAN", waliAsuh: 749, admin: 14, tu: 228, total: 991 },
+            { province: "SULAWESI TENGAH", waliAsuh: 89, admin: 3, tu: 26, total: 118 },
+            { province: "SULAWESI TENGGARA", waliAsuh: 136, admin: 2, tu: 42, total: 180 },
+            { province: "SULAWESI UTARA", waliAsuh: 97, admin: 2, tu: 29, total: 128 },
+            { province: "SUMATERA BARAT", waliAsuh: 105, admin: 4, tu: 29, total: 138 },
+            { province: "SUMATERA SELATAN", waliAsuh: 261, admin: 6, tu: 77, total: 344 },
+            { province: "SUMATERA UTARA", waliAsuh: 384, admin: 6, tu: 117, total: 507 }
+        ];
+
+        function renderProvinceTable(data = provinceData) {
+            const tbody = document.getElementById('provinceTableBody');
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 transition';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-medium text-slate-200">${index + 1}. ${item.province}</td>
+                    <td class="py-3 px-4 text-center text-emerald-400 font-semibold">${item.sd}</td>
+                    <td class="py-3 px-4 text-center text-amber-400 font-semibold">${item.smp}</td>
+                    <td class="py-3 px-4 text-center text-violet-400 font-semibold">${item.sma}</td>
+                    <td class="py-3 px-4 text-right text-sky-400 font-bold">${item.total}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderStudentsTable(data = studentsData) {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 transition';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-medium text-slate-200">${index + 1}. ${item.province}</td>
+                    <td class="py-3 px-4 text-center text-sky-400 font-semibold">${item.sd ? item.sd.toLocaleString('id-ID') : '-'}</td>
+                    <td class="py-3 px-4 text-center text-amber-400 font-semibold">${item.smp ? item.smp.toLocaleString('id-ID') : '-'}</td>
+                    <td class="py-3 px-4 text-center text-violet-400 font-semibold">${item.sma ? item.sma.toLocaleString('id-ID') : '-'}</td>
+                    <td class="py-3 px-4 text-right text-emerald-400 font-bold">${item.total.toLocaleString('id-ID')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderTeachersTable(data = teachersData) {
+            const tbody = document.getElementById('teachersTableBody');
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 transition';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-medium text-slate-200">${index + 1}. ${item.province}</td>
+                    <td class="py-3 px-4 text-center text-sky-400 font-semibold">${item.sd ? item.sd.toLocaleString('id-ID') : '-'}</td>
+                    <td class="py-3 px-4 text-center text-emerald-400 font-semibold">${item.smp ? item.smp.toLocaleString('id-ID') : '-'}</td>
+                    <td class="py-3 px-4 text-center text-violet-400 font-semibold">${item.sma ? item.sma.toLocaleString('id-ID') : '-'}</td>
+                    <td class="py-3 px-4 text-right text-amber-400 font-bold">${item.total.toLocaleString('id-ID')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderTendikTable(data = tendikData) {
+            const tbody = document.getElementById('tendikTableBody');
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-700/30 transition';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-medium text-slate-200">${index + 1}. ${item.province}</td>
+                    <td class="py-3 px-4 text-center text-sky-400 font-semibold">${item.waliAsuh.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 text-center text-emerald-400 font-semibold">${item.admin.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 text-center text-amber-400 font-semibold">${item.tu.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 text-right text-violet-400 font-bold">${item.total.toLocaleString('id-ID')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openProvinceModal() {
+            renderProvinceTable();
+            document.getElementById('provinceModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeProvinceModal() {
+            document.getElementById('provinceModal').classList.add('hidden');
+        }
+
+        function openStudentsModal() {
+            renderStudentsTable();
+            document.getElementById('studentsModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeStudentsModal() {
+            document.getElementById('studentsModal').classList.add('hidden');
+        }
+
+        function openTeachersModal() {
+            renderTeachersTable();
+            document.getElementById('teachersModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeTeachersModal() {
+            document.getElementById('teachersModal').classList.add('hidden');
+        }
+
+        function openTendikModal() {
+            renderTendikTable();
+            document.getElementById('tendikModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeTendikModal() {
+            document.getElementById('tendikModal').classList.add('hidden');
+        }
+
+        function filterProvinceTable() {
+            const keyword = document.getElementById('provinceSearch').value.toLowerCase();
+            const filtered = provinceData.filter(item => item.province.toLowerCase().includes(keyword));
+            renderProvinceTable(filtered);
+        }
+
+        function filterStudentsTable() {
+            const keyword = document.getElementById('studentsSearch').value.toLowerCase();
+            const filtered = studentsData.filter(item => item.province.toLowerCase().includes(keyword));
+            renderStudentsTable(filtered);
+        }
+
+        function filterTeachersTable() {
+            const keyword = document.getElementById('teachersSearch').value.toLowerCase();
+            const filtered = teachersData.filter(item => item.province.toLowerCase().includes(keyword));
+            renderTeachersTable(filtered);
+        }
+
+        function filterTendikTable() {
+            const keyword = document.getElementById('tendikSearch').value.toLowerCase();
+            const filtered = tendikData.filter(item => item.province.toLowerCase().includes(keyword));
+            renderTendikTable(filtered);
+        }
+
+        function exportProvinceData() {
+            alert('📄 Mengekspor data sebaran Sekolah Rakyat per provinsi dan jenjang dalam format PDF...');
+        }
+
+        function exportStudentsData() {
+            alert('📄 Mengekspor data sebaran peserta didik berdasarkan file murid.pdf dalam format PDF...');
+        }
+
+        function exportTeachersData() {
+            alert('📄 Mengekspor data sebaran guru berdasarkan file gurumapel.pdf dalam format PDF...');
+        }
+
+        function exportTendikData() {
+            alert('📄 Mengekspor data sebaran tenaga kependidikan berdasarkan file tendik.pdf dalam format PDF...');
+        }
+
+        // ============================================================
+        // 25 PROFIL SISWA DENGAN DATA DUMMY LENGKAP & INSTANSI TUJUAN
         // ============================================================
         const studentProfiles = {
             siti: {
@@ -1130,19 +2912,15 @@
                 riskScore: 0.92, anomaly: 'NIK Ganda (DTSEN Kab. Garut)',
                 anomalyType: 'NIK Ganda', severity: 'rose',
                 lmsActivity: '12% (Kritis)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI DINI — SR-QA INSIGHT</b><br>
-🆔 ID Siswa: #SR-9921 | Siti Aminah (14 th)<br>
-📍 Kec. Cicalengka, Kab. Bandung<br><br>
-<b>🔍 DIAGNOSIS AI:</b><br>
-Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
-1. <b>Anomali Data:</b> NIK tercatat ganda di DTSEN Kab. Bandung & Kab. Garut.<br>
-2. <b>Engagement:</b> LMS turun 80% dalam 14 hari (62% → 12%).<br>
-3. <b>Absensi:</b> Tidak hadir 9 dari 12 hari sekolah.<br><br>
-<b>🎯 REKOMENDASI (SOP Dinsos):</b><br>
-✅ Hari ke-1: Kunjungan rumah verifikasi NIK.<br>
-✅ Hari ke-3: Koordinasi Dukcapil Bandung & Garut.<br>
-✅ Hari ke-7: Pendampingan psikososial.<br>
-✅ Hari ke-14: Re-evaluasi status.<br>
+                agency: 'Dinas Dukcapil Kab. Bandung & Garut',
+                report: `📋 <b>LAPORAN VERIFIKASI NIK GANDA — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Kependudukan dan Pencatatan Sipil (Dukcapil) Kab. Bandung & Garut<br>
+🆔 ID Siswa: #SR-9921 | Siti Aminah (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Ditemukan anomali NIK tercatat ganda pada database DTSEN di dua wilayah berbeda (Kab. Bandung dan Kab. Garut). Risiko putus sekolah terhitung <b>SANGAT TINGGI (0.92)</b>.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Sinkronisasi dan pemadanan nomor induk kependudukan lintas wilayah.<br>
+✅ Penetapan domisili tunggal anak untuk keabsahan hak bantuan sosial dan pendidikan.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             budi: {
@@ -1151,18 +2929,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.78, anomaly: 'Domisili Invalid (DTSEN Jayapura)',
                 anomalyType: 'Domisili Invalid', severity: 'amber',
                 lmsActivity: '28% (Rendah)', cluster: 'Perlu Aksesibilitas Digital',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-8812 | Budi Santoso (15 th)<br>
-📍 Kec. Wamena, Kab. Jayawijaya (3T)<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.78)</b>.<br>
-1. Domisili Wamena, DTSEN terdaftar Jayapura.<br>
-2. Wilayah 3T dengan konektivitas &lt;2 Mbps.<br>
-3. Login LMS hanya 22:00-00:00 (keterbatasan kuota).<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Subsidi kuota 15GB/bulan.<br>
-✅ Aktifkan LMS Offline Mode.<br>
-✅ Verifikasi domisili ke Dinsos Jayapura.<br>
-✅ Program buddy dengan mentor sebaya.<br>
+                agency: 'Dinas Sosial Kabupaten Jayawijaya',
+                report: `📋 <b>LAPORAN PEMUTAKHIRAN DOMISILI 3T — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kabupaten Jayawijaya & Dinsos Prov. Papua<br>
+🆔 #SR-8812 | Budi Santoso (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Ketidaksesuaian domisili aktual di Wamena dengan basis data DTSEN yang masih terdaftar di Jayapura. Berada di wilayah 3T dengan kendala aksesibilitas.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Validasi lapangan terkait status domisili oleh petugas sosial setempat.<br>
+✅ Pemindahan titik layanan bantuan dan fasilitas kuota khusus wilayah 3T.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             ahmad: {
@@ -1171,18 +2946,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.85, anomaly: 'Format NIK Non-Standard (14 digit)',
                 anomalyType: 'NIK Non-Standard', severity: 'rose',
                 lmsActivity: '18% (Kritis)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-1043 | Ahmad Fauzi (13 th)<br>
-📍 Kec. Tanjung Priok, Jakarta Utara<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.85)</b>.<br>
-1. NIK 14 digit (standar: 16), belum punya KIA.<br>
-2. Klaster "Butuh Pendampingan" (pra-sejahtera).<br>
-3. LMS 18%, tidak pernah submit tugas 3 minggu.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Pengurusan KIA di Dukcapil Jakut.<br>
-✅ Re-sync data ke Moodle LMS.<br>
-✅ Usulkan KIP & PKH.<br>
-✅ Kunjungan rumah Pekerja Sosial.<br>
+                agency: 'Suku Dinas Dukcapil Jakarta Utara',
+                report: `📋 <b>LAPORAN VALIDASI FORMAT NIK — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Suku Dinas Dukcapil Jakarta Utara<br>
+🆔 #SR-1043 | Ahmad Fauzi (13 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Format NIK tidak standar (terdeteksi 14 digit) dan belum memiliki Kartu Identitas Anak (KIA), menghambat integrasi ke sistem Dapodik.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Layanan jemput bola penerbitan NIK standar nasional dan KIA.<br>
+✅ Penyesuaian basis data administrasi kependudukan anak.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             dewi: {
@@ -1191,18 +2963,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.91, anomaly: 'NISN Tidak Valid',
                 anomalyType: 'NISN Invalid', severity: 'rose',
                 lmsActivity: '8% (Kritis)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-2187 | Dewi Lestari (12 th)<br>
-📍 Kec. Kuta Baro, Kab. Aceh Besar<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SANGAT TINGGI (0.91)</b>.<br>
-1. NISN tidak terdaftar di database Kemendikdasmen.<br>
-2. Tidak ada riwayat presensi 3 bulan.<br>
-3. Orang tua tercatat sebagai pekerja migran.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi status anak ke Dapodik Aceh.<br>
-✅ Koordinasi BP2MI terkait orang tua.<br>
-✅ Penempatan sementara di pesantren mitra.<br>
-✅ Bimbingan belajar intensif.<br>
+                agency: 'Dinas Pendidikan Kab. Aceh Besar',
+                report: `📋 <b>LAPORAN KETIDAKVALIDAN NISN — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Pendidikan dan Kebudayaan Kab. Aceh Besar / Pusdatin Kemendikdasmen<br>
+🆔 #SR-2187 | Dewi Lestari (12 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Nomor Induk Siswa Nasional (NISN) tidak terdaftar atau invalid di dalam database sistem pendidikan nasional.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pengajuan penerbitan/reaktivasi NISN melalui operator satuan pendidikan.<br>
+✅ Verifikasi riwayat sekolah asal oleh tim data pendidikan daerah.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             rizky: {
@@ -1211,18 +2980,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.88, anomaly: 'Data Ganda DTSEN',
                 anomalyType: 'DTSEN Ganda', severity: 'amber',
                 lmsActivity: '15% (Kritis)', cluster: 'Wilayah 3T',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-3456 | Rizky Pratama (16 th)<br>
-📍 Kec. Maratua, Kab. Berau (Pulau Kecil)<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.88)</b>.<br>
-1. Data ganda di DTSEN ( tercatat 2 keluarga asuh).<br>
-2. Lokasi pulau kecil, akses terbatas.<br>
-3. Hanya 15% interaksi LMS (keterbatasan sinyal).<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi silang DTSEN Berau.<br>
-✅ Berikan perangkat tablet + solar charger.<br>
-✅ Subsidi kuota satelit.<br>
-✅ Pendampingan guru keliling.<br>
+                agency: 'Pusdatin Kesos RI',
+                report: `📋 <b>LAPORAN AUDIT DATABASE DTSEN — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Pusat Data dan Informasi Kesejahteraan Sosial (Pusdatin Kesos RI)<br>
+🆔 #SR-3456 | Rizky Pratama (16 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Terdapat duplikasi record data penerima dalam Data Terpadu Kesejahteraan Sosial (DTSEN) di pulau terluar Berau.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pembersihan data ganda (cleaning data) pada server pusat Pusdatin Kesos.<br>
+✅ Penetapan status hak kepesertaan bantuan sosial secara tunggal.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             nurul: {
@@ -1231,18 +2997,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.76, anomaly: 'Status Bantuan Inactive',
                 anomalyType: 'Bantuan Inactive', severity: 'amber',
                 lmsActivity: '32% (Rendah)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-4723 | Nurul Hidayah (14 th)<br>
-📍 Kec. Rumbai, Kota Pekanbaru<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.76)</b>.<br>
-1. Status KIP/PKH inactive 6 bulan.<br>
-2. Keluarga tidak lolos verifikasi ulang.<br>
-3. Engagement LMS menurun 40%.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Re-aktivasi KIP melalui Dinas Pendidikan.<br>
-✅ Validasi data ekonomi keluarga.<br>
-✅ Usulkan beasiswa CSR perusahaan lokal.<br>
-✅ Monitoring mingguan oleh guru BK.<br>
+                agency: 'Dinas Sosial Kota Pekanbaru',
+                report: `📋 <b>LAPORAN STATUS KEPESERTAAAN BANTUAN — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kota Pekanbaru & Dinas Pendidikan<br>
+🆔 #SR-4723 | Nurul Hidayah (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Status kepesertaan program bantuan sosial/KIP anak tercatat non-aktif selama 6 bulan terakhir akibat gagal verifikasi berkala.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Re-aktivasi status kepesertaan melalui usulan musyawarah kelurahan.<br>
+✅ Evaluasi kelayakan ekonomi keluarga penerima manfaat.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             agus: {
@@ -1251,18 +3014,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.94, anomaly: 'Domisili Invalid (Lintas Provinsi)',
                 anomalyType: 'Domisili Invalid', severity: 'rose',
                 lmsActivity: '5% (Kritis)', cluster: 'Wilayah 3T',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-5891 | Agus Setiawan (15 th)<br>
-📍 Kec. Muting, Kab. Merauke (Perbatasan PNG)<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SANGAT TINGGI (0.94)</b>.<br>
-1. Domisili sekolah Merauke, DTSEN Boven Digoel.<br>
-2. Lokasi perbatasan dengan sinyal minim.<br>
-3. Hanya 5% interaksi LMS (sangat kritis).<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi lintas Dinas Pendidikan Papua.<br>
-✅ Fasilitasi asrama siswa perbatasan.<br>
-✅ Berikan modul cetak offline.<br>
-✅ Program mentor tentara perbatasan.<br>
+                agency: 'Dinas Sosial Prov. Papua Selatan',
+                report: `📋 <b>LAPORAN PENANGANAN DOMISILI LINTAS WILAYAH — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Provinsi Papua Selatan & Dinas Dukcapil Merauke<br>
+🆔 #SR-5891 | Agus Setiawan (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Ketidaksesuaian wilayah domisili perbatasan (tercatat di Boven Digoel namun bersekolah di Merauke), menyebabkan kendala administrasi layanan.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Koordinasi lintas kabupaten untuk mutasi dokumen kependudukan.<br>
+✅ Penyesuaian alokasi kuota layanan pendidikan khusus daerah perbatasan.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             ratna: {
@@ -1271,18 +3031,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.68, anomaly: 'Usia Tidak Sesuai Jenjang',
                 anomalyType: 'Usia-Jenjang', severity: 'amber',
                 lmsActivity: '45% (Sedang)', cluster: 'Siswa Aktif Mandiri',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-6128 | Ratna Sari (13 th)<br>
-📍 Kec. Denpasar Timur, Kota Denpasar<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG (0.68)</b>.<br>
-1. Usia 13 th di kelas 6 SD (terlambat 2 tahun).<br>
-2. Riwayat putus sekolah sebelumnya.<br>
-3. LMS 45% (cukup aktif).<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Program akselerasi/kejar paket.<br>
-✅ Bimbingan intensif matematika & bahasa.<br>
-✅ Konseling psikologis terkait self-esteem.<br>
-✅ Beasiswa prestasi jika improvement.<br>
+                agency: 'Tim Seleksi Calon Siswa Sekolah Rakyat',
+                report: `📋 <b>LAPORAN EVALUASI KELAYAKAN USIA JENJANG — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Tim Seleksi Calon Siswa & Direktorat PSNK<br>
+🆔 #SR-6128 | Ratna Sari (13 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Anomali kesenjangan usia dan jenjang pendidikan (usia 13 tahun baru menduduki kelas akhir dasar akibat riwayat putus sekolah).<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Peninjauan khusus oleh Tim Seleksi terkait dispensasi dan jalur afirmasi usia.<br>
+✅ Rekomendasi penempatan pada program percepatan atau kelas khusus adaptif.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             firman: {
@@ -1291,18 +3048,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.82, anomaly: 'NIK Ganda (DTSEN Jakarta)',
                 anomalyType: 'NIK Ganda', severity: 'rose',
                 lmsActivity: '22% (Kritis)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-7294 | Firman Hidayat (14 th)<br>
-📍 Kec. Palu Barat, Kota Palu<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.82)</b>.<br>
-1. NIK tercatat di DTSEN Palu & Jakarta Utara.<br>
-2. Keluarga pasca-bencana Sulteng 2018.<br>
-3. Tidak pernah submit tugas LMS.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi NIK ke Dinsos Palu & Jakarta.<br>
-✅ Trauma healing pasca-bencana.<br>
-✅ Subsidi kuota & perangkat.<br>
-✅ Pendampingan psikososial intensif.<br>
+                agency: 'Dinas Dukcapil Kota Palu & DKI Jakarta',
+                report: `📋 <b>LAPORAN SINKRONISASI NIK ANTAR PROVINSI — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Dukcapil Kota Palu & Dinas Dukcapil DKI Jakarta<br>
+🆔 #SR-7294 | Firman Hidayat (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Duplikasi NIK lintas wilayah antara domisili pasca-bencana Sulteng dan wilayah asal sebelumnya di Jakarta Utara.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Penggabungan riwayat data penduduk ke dalam database domisili aktif di Palu.<br>
+✅ Pembersihan data anomali pada sistem pusat kependudukan.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             yuni: {
@@ -1311,18 +3065,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.73, anomaly: 'Format NIK Non-Standard',
                 anomalyType: 'NIK Non-Standard', severity: 'amber',
                 lmsActivity: '38% (Rendah)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-8467 | Yuni Astuti (15 th)<br>
-📍 Kec. Banjarmangu, Kab. Banjarnegara<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.73)</b>.<br>
-1. NIK 13 digit (tidak standar).<br>
-2. Keluarga petani korban longsor 2024.<br>
-3. LMS 38%, sering login tapi tidak aktif.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Perbaikan NIK di Dukcapil Banjarnegara.<br>
-✅ Usulkan PKH & bantuan sosial.<br>
-✅ Program belajar kelompok sebaya.<br>
-✅ Mentoring dari alumni SR.<br>
+                agency: 'Dinas Dukcapil Kab. Banjarnegara',
+                report: `📋 <b>LAPORAN PERBAIKAN FORMAT NIK KELURAHAN — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Dukcapil Kabupaten Banjarnegara<br>
+🆔 #SR-8467 | Yuni Astuti (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Panjang karakter NIK tidak sesuai standar nasional (13 digit) akibat kesalahan input manual pada database terdahulu.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Validasi dokumen KK/Akte kelahiran asli di Kantor Dukcapil setempat.<br>
+✅ Pembaruan nomor identitas pada sistem database terpadu daerah.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             doni: {
@@ -1331,18 +3082,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.89, anomaly: 'Data Ganda DTSEN',
                 anomalyType: 'DTSEN Ganda', severity: 'rose',
                 lmsActivity: '11% (Kritis)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-9632 | Doni Irawan (16 th)<br>
-📍 Kec. Medan Labuhan, Kota Medan<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.89)</b>.<br>
-1. Ganda di DTSEN Medan & Deli Serdang.<br>
-2. Bekerja paruh waktu di pelabuhan.<br>
-3. Engagement LMS sangat rendah (11%).<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi data ganda lintas Dinsos.<br>
-✅ Program kejar paket C fleksibel.<br>
-✅ Vokasi maritim sebagai alternatif.<br>
-✅ Beasiswa kerja-studi.<br>
+                agency: 'Pusdatin Kesos RI & Dinsos Medan',
+                report: `📋 <b>LAPORAN VALIDASI GANDA DATA TERPADU — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Pusdatin Kesos RI & Dinas Sosial Kota Medan<br>
+🆔 #SR-9632 | Doni Irawan (16 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Keluarga tercatat ganda pada data penerima bantuan di wilayah Medan dan Kabupaten Deli Serdang.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Verifikasi lapangan untuk menetapkan basis penempatan data administratif yang valid.<br>
+✅ Penutupan salah satu record ganda guna menghindari tumpang tindih anggaran.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             maya: {
@@ -1351,18 +3099,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.77, anomaly: 'Domisili Invalid',
                 anomalyType: 'Domisili Invalid', severity: 'amber',
                 lmsActivity: '25% (Rendah)', cluster: 'Wilayah 3T',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-1357 | Maya Puspita (13 th)<br>
-📍 Kec. Kupang Tengah, Kab. Kupang, NTT<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.77)</b>.<br>
-1. Domisili Kupang, DTSEN Alor.<br>
-2. Keluarga migran musiman.<br>
-3. LMS 25%, akses internet tidak stabil.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi domisili lintas kabupaten.<br>
-✅ Subsidi kuota & perangkat.<br>
-✅ Modul pembelajaran offline.<br>
-✅ Program mentor daerah asal.<br>
+                agency: 'Dinas Sosial Kab. Kupang',
+                report: `📋 <b>LAPORAN KETIDAKSESUAIAN WILAYAH DOMISILI — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kabupaten Kupang & Kabupaten Alor<br>
+🆔 #SR-1357 | Maya Puspita (13 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Anak berpindah domisili namun administrasi kependudukan masih terdaftar di wilayah kabupaten asal (Alor).<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pengurusan surat keterangan pindah sekolah dan domisili antar kabupaten.<br>
+✅ Pemadanan data DTKS pada dinas sosial penerima domisili baru.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             heru: {
@@ -1371,18 +3116,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.84, anomaly: 'NIK Ganda (DTSEN Bekasi)',
                 anomalyType: 'NIK Ganda', severity: 'rose',
                 lmsActivity: '19% (Kritis)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-2580 | Heru Prabowo (14 th)<br>
-📍 Kec. Cilincing, Jakarta Utara<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.84)</b>.<br>
-1. NIK ganda di DTSEN Jakut & Bekasi.<br>
-2. Keluarga pemulung di TPST Bantargebang.<br>
-3. LMS 19%, absensi tinggi.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Resolusi NIK lintas Dukcapil.<br>
-✅ Penyaluran ke Rumah Singgah.<br>
-✅ Program pendidikan non-formal.<br>
-✅ Bantuan pangan & kesehatan.<br>
+                agency: 'Dinas Dukcapil DKI Jakarta',
+                report: `📋 <b>LAPORAN PENYELESAIAN NIK GANDA — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Dukcapil DKI Jakarta & Dinas Dukcapil Kota Bekasi<br>
+🆔 #SR-2580 | Heru Prabowo (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Nomor Induk Kependudukan terdeteksi aktif pada database penunjang sosial di dua wilayah administratif berbeda.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Penonaktifan salah satu data ganda oleh direktorat kependudukan terkait.<br>
+✅ Penetapan status kependudukan definitif di wilayah domisili sekolah saat ini.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             sari: {
@@ -1391,18 +3133,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.71, anomaly: 'Status Bantuan Inactive',
                 anomalyType: 'Bantuan Inactive', severity: 'amber',
                 lmsActivity: '41% (Sedang)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-3691 | Sari Indrawati (15 th)<br>
-📍 Kec. Telukjambe Timur, Kab. Karawang<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG-TINGGI (0.71)</b>.<br>
-1. KIP inactive karena perubahan alamat.<br>
-2. Ayah buruh pabrik yang di-PHK.<br>
-3. LMS 41%, masih berusaha aktif.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Re-aktivasi KIP via Dapodik.<br>
-✅ Usulkan KPS untuk keluarga PHK.<br>
-✅ Bimbingan karir vokasi.<br>
-✅ Magang di industri Karawang.<br>
+                agency: 'Dinas Sosial Kab. Karawang',
+                report: `📋 <b>LAPORAN RE-AKTIVASI KEPESERTAAAN SOSIAL — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kabupaten Karawang<br>
+🆔 #SR-3691 | Sari Indrawati (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Bantuan sosial dan status KIP non-aktif akibat kendala perubahan alamat domisili keluarga.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pengkinian data usulan melalui aplikasi SIKS-NG oleh operator desa/kecamatan.<br>
+✅ Percepatan pemulihan status penerima manfaat pada periode salur berikutnya.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             bayu: {
@@ -1411,18 +3150,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.86, anomaly: 'NISN Tidak Valid',
                 anomalyType: 'NISN Invalid', severity: 'rose',
                 lmsActivity: '14% (Kritis)', cluster: 'Wilayah 3T',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-4802 | Bayu Aji (14 th)<br>
-📍 Kec. Sentani, Kab. Jayapura<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.86)</b>.<br>
-1. NISN tidak terdaftar di sistem pusat.<br>
-2. Pindahan dari sekolah adat.<br>
-3. LMS 14%, kendala bahasa & teknologi.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Pendaftaran NISN melalui Dinas Papua.<br>
-✅ Guru pendamping bilingual.<br>
-✅ Modul adaptif budaya lokal.<br>
-✅ Program peer-teaching.<br>
+                agency: 'Dinas Pendidikan Kab. Jayapura',
+                report: `📋 <b>LAPORAN VALIDASI NOMOR INDUK SISWA — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Pendidikan Kabupaten Jayapura<br>
+🆔 #SR-4802 | Bayu Aji (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Nomor Induk Siswa Nasional (NISN) tidak terdaftar atau bermasalah akibat proses migrasi dari sekolah adat.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pengajuan verifikasi data siswa mutasi melalui sistem Verval PD.<br>
+✅ Penerbitan nomor induk baru yang sah secara nasional oleh dinas pendidikan.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             tina: {
@@ -1431,18 +3167,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.67, anomaly: 'Format NIK Non-Standard',
                 anomalyType: 'NIK Non-Standard', severity: 'amber',
                 lmsActivity: '52% (Cukup)', cluster: 'Siswa Aktif Mandiri',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-5913 | Tina Mariana (13 th)<br>
-📍 Kec. Sukajadi, Kota Bandung<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG (0.67)</b>.<br>
-1. NIK 15 digit (kurang 1 digit).<br>
-2. Anak pekerja informal (PKL).<br>
-3. LMS 52%, aktif tapi terkendala admin.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Perbaikan NIK di Dukcapil Bandung.<br>
-✅ Program after-school gratis.<br>
-✅ Beasiswa CSR perusahaan Bandung.<br>
-✅ Mentoring relawan mahasiswa.<br>
+                agency: 'Dinas Dukcapil Kota Bandung',
+                report: `📋 <b>LAPORAN KOREKSI DIGIT NIK — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Dukcapil Kota Bandung<br>
+🆔 #SR-5913 | Tina Mariana (13 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Kesalahan struktur digit NIK (kurang 1 digit dari ketentuan standar nasional 16 digit).<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Koreksi database kependudukan lokal melalui loket pelayanan cepat Dukcapil.<br>
+✅ Sinkronisasi ulang data pada platform manajemen sekolah.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             reza: {
@@ -1451,18 +3184,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.93, anomaly: 'Domisili Invalid (Zona Tambang)',
                 anomalyType: 'Domisili Invalid', severity: 'rose',
                 lmsActivity: '7% (Kritis)', cluster: 'Wilayah 3T',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-6024 | Reza Mahendra (16 th)<br>
-📍 Kec. Tembagapura, Kab. Mimika (Zona Tambang)<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SANGAT TINGGI (0.93)</b>.<br>
-1. Domisili zona tambang, DTSEN Agimuga.<br>
-2. Akses internet sangat terbatas.<br>
-3. LMS 7%, hampir dropout total.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Fasilitasi CSR Freeport untuk pendidikan.<br>
-✅ Asrama siswa di Timika.<br>
-✅ Program vokasi pertambangan.<br>
-✅ Pendampingan khusus OAP.<br>
+                agency: 'Dinas Sosial Kab. Mimika',
+                report: `📋 <b>LAPORAN PENYESUAIAN DOMISILI KHUSUS — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kabupaten Mimika & Dinas Dukcapil Papua Tengah<br>
+🆔 #SR-6024 | Reza Mahendra (16 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Ketidaksesuaian domisili kawasan khusus/zona tambang dengan pangkalan data DTSEN pusat.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Validasi status kependudukan khusus wilayah operasional perusahaan mitra.<br>
+✅ Penyesuaian titik layanan sosial dan fasilitasi akses pendidikan wilayah 3T.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             linda: {
@@ -1471,18 +3201,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.74, anomaly: 'Data Ganda DTSEN',
                 anomalyType: 'DTSEN Ganda', severity: 'amber',
                 lmsActivity: '36% (Rendah)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-7135 | Linda Kusuma (14 th)<br>
-📍 Kec. Pontianak Tenggara, Kota Pontianak<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.74)</b>.<br>
-1. Ganda di DTSEN Pontianak & Kubu Raya.<br>
-2. Keluarga nelayan tradisional.<br>
-3. LMS 36%, aktif saat cuaca buruk.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi lintas Dinsos Kalbar.<br>
-✅ Subsidi kuota fleksibel.<br>
-✅ Program sekolah nelayan modern.<br>
-✅ Vokasi kelautan.<br>
+                agency: 'Pusdatin Kesos RI & Dinsos Pontianak',
+                report: `📋 <b>LAPORAN AUDIT DUPLIKASI DATA SOSIAL — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Pusdatin Kesos RI & Dinas Sosial Kota Pontianak<br>
+🆔 #SR-7135 | Linda Kusuma (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Duplikasi data keluarga penerima manfaat antara wilayah Pontianak dan Kubu Raya.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pembersihan data ganda (de-duplication) pada server pusat data kesejahteraan sosial.<br>
+✅ Penetapan satu basis wilayah aktif penyaluran hak sosial anak.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             yanto: {
@@ -1491,18 +3218,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.79, anomaly: 'Status Bantuan Inactive',
                 anomalyType: 'Bantuan Inactive', severity: 'amber',
                 lmsActivity: '29% (Rendah)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-8246 | Yanto Wijaya (15 th)<br>
-📍 Kec. Banjarmasin Utara, Kota Banjarmasin<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.79)</b>.<br>
-1. PKH inactive 4 bulan.<br>
-2. Keluarga pedagang pasar terapung.<br>
-3. LMS 29%, terkendala sinyal sungai.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Re-aktivasi PKH via Dinsos Kalsel.<br>
-✅ Modul pembelajaran offline.<br>
-✅ Program sekolah sungai.<br>
-✅ Beasiswa dari CSR pasar.<br>
+                agency: 'Dinas Sosial Kota Banjarmasin',
+                report: `📋 <b>LAPORAN PEMULIHAN STATUS PKH — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Provinsi Kalimantan Selatan & Kota Banjarmasin<br>
+🆔 #SR-8246 | Yanto Wijaya (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Status kepesertaan Program Keluarga Harapan (PKH) non-aktif selama 4 bulan berturut-turut.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pengajuan usulan aktivasi ulang melalui sistem verifikasi kelayakan terpadu.<br>
+✅ Peninjauan lapangan oleh pendamping sosial setempat.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             fitri: {
@@ -1511,18 +3235,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.72, anomaly: 'Usia Tidak Sesuai Jenjang',
                 anomalyType: 'Usia-Jenjang', severity: 'amber',
                 lmsActivity: '48% (Sedang)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-9357 | Fitri Handayani (13 th)<br>
-📍 Kec. Palembayan, Kab. Agam, Sumbar<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG-TINGGI (0.72)</b>.<br>
-1. Usia 13 th di kelas 5 SD (terlambat 1 tahun).<br>
-2. Anak petani pedesaan.<br>
-3. LMS 48%, aktif di musim non-panen.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Program akselerasi 2 tahun → 1 tahun.<br>
-✅ Fleksibilitas jadwal saat panen.<br>
-✅ Beasiswa dari nagari.<br>
-✅ Mentoring pemuda nagari.<br>
+                agency: 'Tim Seleksi Calon Siswa & Dinsos Agam',
+                report: `📋 <b>LAPORAN VERIFIKASI USIA DAN KELAS — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Tim Seleksi Calon Siswa & Dinas Pendidikan Agam<br>
+🆔 #SR-9357 | Fitri Handayani (13 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Ketidaksesuaian rentang usia anak dengan tingkat kelas saat pendaftaran masuk.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Evaluasi khusus oleh tim seleksi dalam penentuan jalur penempatan belajar setara.<br>
+✅ Rekomendasi penyesuaian kurikulum kecepatan belajar (modul mandiri).<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             andi: {
@@ -1531,18 +3252,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.81, anomaly: 'NIK Ganda (DTSEN Gowa)',
                 anomalyType: 'NIK Ganda', severity: 'rose',
                 lmsActivity: '21% (Kritis)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-1468 | Andi Saputra (14 th)<br>
-📍 Kec. Mandai, Kab. Maros, Sulsel<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.81)</b>.<br>
-1. NIK ganda di DTSEN Maros & Gowa.<br>
-2. Anak pekerja bandara.<br>
-3. LMS 21%, sering offline.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi NIK lintas Dinsos Sulsel.<br>
-✅ Subsidi kuota & perangkat.<br>
-✅ Program vokasi pariwisata.<br>
-✅ Magang di bandara.<br>
+                agency: 'Dinas Dukcapil Kab. Maros & Gowa',
+                report: `📋 <b>LAPORAN SINKRONISASI KEPENDUDUKAN — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Dukcapil Kabupaten Maros & Kabupaten Gowa<br>
+🆔 #SR-1468 | Andi Saputra (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Nomor induk ganda terdaftar pada database sistem sosial di dua kabupaten bertetangga.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Koordinasi penyatuan data induk kependudukan pada server pusat kependudukan daerah.<br>
+✅ Penetapan kejelasan administratif domisili tempat tinggal saat ini.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             putu: {
@@ -1551,18 +3269,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.66, anomaly: 'Format NIK Non-Standard',
                 anomalyType: 'NIK Non-Standard', severity: 'amber',
                 lmsActivity: '55% (Cukup)', cluster: 'Siswa Aktif Mandiri',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-2579 | Putu Ayu (15 th)<br>
-📍 Kec. Ubud, Kab. Gianyar, Bali<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG (0.66)</b>.<br>
-1. NIK 15 digit (kesalahan input banjar).<br>
-2. Anak pengrajin seni.<br>
-3. LMS 55%, aktif di sela aktivitas seni.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Perbaikan NIK via Dukcapil Gianyar.<br>
-✅ Program sekolah seni terintegrasi.<br>
-✅ Beasiswa pariwisata budaya.<br>
-✅ Vokasi seni kriya.<br>
+                agency: 'Dinas Dukcapil Kab. Gianyar',
+                report: `📋 <b>LAPORAN KOREKSI DATA NIK BANJAR — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Dukcapil Kabupaten Gianyar<br>
+🆔 #SR-2579 | Putu Ayu (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Kesalahan penulisan atau digit pada bagian kode wilayah administrasi banjar/kecamatan dalam NIK.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pemutakhiran database kependudukan tingkat kabupaten secara cepat.<br>
+✅ Penyelarasan dokumen administrasi sekolah dengan data dukcapil terbaru.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             joko: {
@@ -1571,18 +3286,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.75, anomaly: 'Data Ganda DTSEN',
                 anomalyType: 'DTSEN Ganda', severity: 'amber',
                 lmsActivity: '34% (Rendah)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-3680 | Joko Susilo (16 th)<br>
-📍 Kec. Semarang Barat, Kota Semarang<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.75)</b>.<br>
-1. Ganda di DTSEN Semarang & Demak.<br>
-2. Anak buruh pelabuhan Tanjung Emas.<br>
-3. LMS 34%, bekerja paruh waktu.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi lintas Dinsos Jateng.<br>
-✅ Kejar paket C fleksibel.<br>
-✅ Vokasi logistik pelabuhan.<br>
-✅ Beasiswa kerja-studi.<br>
+                agency: 'Pusdatin Kesos RI & Dinsos Semarang',
+                report: `📋 <b>LAPORAN VALIDASI DUPLIKASI DTSEN REGIONAL — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Pusdatin Kesos RI & Dinas Sosial Kota Semarang<br>
+🆔 #SR-3680 | Joko Susilo (16 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Duplikasi data pencatatan kemiskinan pada lintas wilayah administratif Semarang dan Demak.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Verifikasi ulang kondisi faktual keluarga oleh tenaga kesejahteraan sosial.<br>
+✅ Pembersihan status ganda pada pangkalan data terpusat.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             nia: {
@@ -1591,18 +3303,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.80, anomaly: 'Domisili Invalid (Gempa 2018)',
                 anomalyType: 'Domisili Invalid', severity: 'rose',
                 lmsActivity: '24% (Rendah)', cluster: 'Butuh Pendampingan',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-4791 | Nia Kurniawati (14 th)<br>
-📍 Kec. Mataram, Kota Mataram, NTB<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>TINGGI (0.80)</b>.<br>
-1. Domisili Mataram, DTSEN Lombok Utara (pasca gempa).<br>
-2. Keluarga masih di hunian sementara.<br>
-3. LMS 24%, trauma masih terasa.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Verifikasi domisili lintas kabupaten.<br>
-✅ Trauma healing pasca-bencana.<br>
-✅ Subsidi kuota & perangkat.<br>
-✅ Program rehabilitasi psikososial.<br>
+                agency: 'Dinas Sosial Kota Mataram',
+                report: `📋 <b>LAPORAN PEMUTAKHIRAN KORBAN RELOKASI BENCANA — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kota Mataram & Kabupaten Lombok Utara<br>
+🆔 #SR-4791 | Nia Kurniawati (14 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Ketidaksesuaian domisili akibat perpindahan pasca-bencana masa lalu yang belum termutakhirkan dalam basis data sosial.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Penerbitan dokumen kepindahan resmi dan relokasi basis data terpadu.<br>
+✅ Integrasi hak jaminan sosial ke wilayah domisili hunian tetap saat ini.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             },
             rian: {
@@ -1611,18 +3320,15 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 riskScore: 0.70, anomaly: 'Status Bantuan Inactive',
                 anomalyType: 'Bantuan Inactive', severity: 'amber',
                 lmsActivity: '44% (Sedang)', cluster: 'Bantuan Ekonomi',
-                report: `📋 <b>LAPORAN INTERVENSI — SR-QA INSIGHT</b><br>
-🆔 #SR-5802 | Rian Saputra (15 th)<br>
-📍 Kec. Palembayan, Kab. Agam, Sumbar<br><br>
-<b>🔍 DIAGNOSIS:</b> Risiko <b>SEDANG-TINGGI (0.70)</b>.<br>
-1. KIP inactive karena migrasi keluarga.<br>
-2. Anak petani kopi.<br>
-3. LMS 44%, aktif di luar musim panen.<br><br>
-<b>🎯 REKOMENDASI:</b><br>
-✅ Re-aktivasi KIP via Dapodik Sumbar.<br>
-✅ Program vokasi pertanian kopi.<br>
-✅ Fleksibilitas jadwal sekolah.<br>
-✅ Magang di UMKM kopi lokal.<br>
+                agency: 'Dinas Sosial Kab. Agam',
+                report: `📋 <b>LAPORAN EVALUASI STATUS BANTUAN ANAK — SR-QA INSIGHT</b><br>
+📌 <b>Ditujukan Kepada:</b> Dinas Sosial Kabupaten Agam & Dinas Pendidikan<br>
+🆔 #SR-5802 | Rian Saputra (15 th)<br><br>
+<b>🔍 DIAGNOSIS MASALAH:</b><br>
+Status kepesertaan bantuan sosial pendidikan non-aktif menyusul proses migrasi domisili keluarga.<br><br>
+<b>🎯 TINDAK LANJUT KONSEKUENSI:</b><br>
+✅ Pembaruan data usulan oleh operator dinas sosial kabupaten.<br>
+✅ Pengaktifan kembali fasilitas bantuan pada satuan pendidikan tujuan.<br>
 <i>— SR-QA LLM, 14 Agustus 2026</i>`
             }
         };
@@ -1631,15 +3337,14 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
         // DATA DUMMY MODEL PERANGKINGAN MPI (MULTIDIMENSIONAL POVERTY)
         // ============================================================
         const mpiCandidates = [
-            { id: '#SR-REG-001', name: 'Asep Kurnia', school: 'SR Bandung', desil: 'Desil 1 (Sangat Rentan)', score: 94.5, status: 'LOLOS KUOTA', social: 98, edu: 95, econ: 90, living: 92, geo: 85 },
-            { id: '#SR-REG-002', name: 'Maria Kogoya', school: 'SR Jayapura', desil: 'Desil 1 (Sangat Rentan)', score: 92.8, status: 'LOLOS KUOTA', social: 90, edu: 96, econ: 88, living: 90, geo: 100 },
-            { id: '#SR-REG-003', name: 'Rahmat Hidayat', school: 'SR Medan', desil: 'Desil 1 (Sangat Rentan)', score: 89.2, status: 'LOLOS KUOTA', social: 92, edu: 88, econ: 94, living: 85, geo: 75 },
-            { id: '#SR-REG-004', name: 'Siti Badriah', school: 'SR Bandung', desil: 'Desil 1 (Sangat Rentan)', score: 86.7, status: 'LOLOS KUOTA', social: 85, edu: 90, econ: 85, living: 88, geo: 80 },
-            { id: '#SR-REG-005', name: 'Yohanes Wama', school: 'SR Jayapura', desil: 'Desil 2 (Rentan)', score: 83.1, status: 'LOLOS KUOTA', social: 80, edu: 82, econ: 80, living: 85, geo: 95 },
-            // Cutoff threshold (Kuota 5 Siswa untuk Demo)
-            { id: '#SR-REG-006', name: 'Bambang Supriadi', school: 'SR Medan', desil: 'Desil 2 (Rentan)', score: 78.4, status: 'CADANGAN 1', social: 75, edu: 80, econ: 78, living: 80, geo: 70 },
-            { id: '#SR-REG-007', name: 'Novi Larasati', school: 'SR Bandung', desil: 'Desil 2 (Rentan)', score: 74.2, status: 'CADANGAN 2', social: 72, edu: 75, econ: 70, living: 78, geo: 65 },
-            { id: '#SR-REG-008', name: 'Dedi Mulyadi', school: 'SR Medan', desil: 'Desil 3 (Hampir Rentan)', score: 68.9, status: 'CADANGAN 3', social: 65, edu: 70, econ: 68, living: 72, geo: 60 }
+            { id: '#SR-REG-001', name: 'Asep Kurnia', school: 'SR Bandung', desil: 'Desil 1 (Sangat Rentan)', score: 94.5, status: 'LOLOS KUOTA', social: 98, edu: 95, econ: 90, living: 92, geo: 85, photo: '' },
+            { id: '#SR-REG-002', name: 'Maria Kogoya', school: 'SR Jayapura', desil: 'Desil 1 (Sangat Rentan)', score: 92.8, status: 'LOLOS KUOTA', social: 90, edu: 96, econ: 88, living: 90, geo: 100, photo: 'FotoCasis/81d3a350-dcc5-49d1-ab98-f069f6a387dc.jpg' },
+            { id: '#SR-REG-003', name: 'Rahmat Hidayat', school: 'SR Medan', desil: 'Desil 1 (Sangat Rentan)', score: 89.2, status: 'LOLOS KUOTA', social: 92, edu: 88, econ: 94, living: 85, geo: 75, photo: 'FotoCasis/285e3c25-5728-493f-8676-07294fb04195.jpg' },
+            { id: '#SR-REG-004', name: 'Siti Badriah', school: 'SR Bandung', desil: 'Desil 1 (Sangat Rentan)', score: 86.7, status: 'LOLOS KUOTA', social: 85, edu: 90, econ: 85, living: 88, geo: 80, photo: 'FotoCasis/a8d95f74-f873-4198-a095-4d7e19d71f66.jpg' },
+            { id: '#SR-REG-005', name: 'Yohanes Wama', school: 'SR Jayapura', desil: 'Desil 2 (Rentan)', score: 83.1, status: 'LOLOS KUOTA', social: 80, edu: 82, econ: 80, living: 85, geo: 95, photo: 'FotoCasis/fa8ad456-0454-4c4e-a878-8f8828d97c2e.jpg' },
+            { id: '#SR-REG-006', name: 'Bambang Supriadi', school: 'SR Medan', desil: 'Desil 2 (Rentan)', score: 78.4, status: 'CADANGAN 1', social: 75, edu: 80, econ: 78, living: 80, geo: 70, photo: 'FotoCasis/a64f433d-f805-4ac7-81f0-08edeb904202.jpg' },
+            { id: '#SR-REG-007', name: 'Novi Larasati', school: 'SR Bandung', desil: 'Desil 2 (Rentan)', score: 74.2, status: 'CADANGAN 2', social: 72, edu: 75, econ: 70, living: 78, geo: 65, photo: 'FotoCasis/a025bf33-883d-4b20-9a7e-2b2e129c5f2a.jpg' },
+            { id: '#SR-REG-008', name: 'Dedi Mulyadi', school: 'SR Medan', desil: 'Desil 3 (Hampir Rentan)', score: 68.9, status: 'CADANGAN 3', social: 65, edu: 70, econ: 68, living: 72, geo: 60, photo: 'FotoCasis/285e3c25-5728-493f-8676-07294fb04195.jpg' }
         ];
 
         let prophetChart, xgboostChart, kmeansChart, mpiRadarChart;
@@ -1685,8 +3390,13 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 row.innerHTML = `
                     <td class="py-3 px-3 font-bold ${index < 5 ? 'text-cyan-400' : 'text-slate-500'}">#${index + 1}</td>
                     <td class="py-3 px-3">
-                        <div class="font-semibold text-slate-200">${c.name}</div>
-                        <div class="text-[10px] text-slate-500">${c.id}</div>
+                        <div class="flex items-center space-x-2.5">
+                            <img src="${c.photo}" alt="${c.name}" class="w-8 h-8 rounded-full object-cover border border-cyan-500/30 flex-shrink-0" onerror="this.src='FotoCasis/28e6e49a-8854-4b83-9f9f-0f36807613eb.jpg'">
+                            <div>
+                                <div class="font-semibold text-slate-200">${c.name}</div>
+                                <div class="text-[10px] text-slate-500">${c.id}</div>
+                            </div>
+                        </div>
                     </td>
                     <td class="py-3 px-3 text-slate-300">${c.school}</td>
                     <td class="py-3 px-3 text-slate-400">${c.desil}</td>
@@ -1697,14 +3407,14 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                         </span>
                     </td>
                     <td class="py-3 px-3 text-right">
-                        <button onclick="event.stopPropagation(); alert('Detail skor MPI ${c.name}:\\n• Social: ${c.social}\\n• Edu: ${c.edu}\\n• Econ: ${c.econ}\\n• Living: ${c.living}\\n• Geo: ${c.geo}')" class="px-2 py-1 bg-slate-700 hover:bg-slate-600 rounded text-[10px] text-slate-200">
+                        <button onclick="event.stopPropagation(); openDetailModal(${JSON.stringify(c).replace(/"/g, '&quot;')}, ${index + 1})" class="px-2.5 py-1 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 border border-cyan-500/30 rounded-lg text-[10px] font-medium transition flex items-center ml-auto">
+                            <i data-lucide="eye" class="w-3 h-3 mr-1"></i>
                             Detail
                         </button>
                     </td>
                 `;
                 tbody.appendChild(row);
 
-                // Sisipkan garis batas kuota setelah peringkat 5
                 if (index === 4 && filterSchool === 'all') {
                     const cutoffRow = document.createElement('tr');
                     cutoffRow.innerHTML = `
@@ -1732,6 +3442,49 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 mpiRadarChart.data.datasets[0].data = [candidate.social, candidate.edu, candidate.econ, candidate.living, candidate.geo];
                 mpiRadarChart.update();
             }
+        }
+
+        function openDetailModal(candidate, rank) {
+            selectMPICandidate(candidate);
+            
+            document.getElementById('modalRank').textContent = `Rank #${rank}`;
+            document.getElementById('modalName').textContent = candidate.name;
+            document.getElementById('modalId').textContent = candidate.id;
+            document.getElementById('modalSchool').textContent = candidate.school;
+            document.getElementById('modalDesil').textContent = candidate.desil;
+            document.getElementById('modalScore').textContent = candidate.score.toFixed(1);
+            document.getElementById('modalPhoto').src = candidate.photo;
+            
+            const badge = document.getElementById('modalStatusBadge');
+            const isLolos = candidate.status.includes('LOLOS');
+            badge.textContent = candidate.status;
+            badge.className = isLolos 
+                ? 'text-xs font-semibold px-2 py-0.5 rounded border bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                : 'text-xs font-semibold px-2 py-0.5 rounded border bg-amber-500/10 text-amber-400 border-amber-500/20';
+
+            const indicators = [
+                { key: 'social', val: candidate.social },
+                { key: 'edu', val: candidate.edu },
+                { key: 'econ', val: candidate.econ },
+                { key: 'living', val: candidate.living },
+                { key: 'geo', val: candidate.geo }
+            ];
+
+            indicators.forEach(ind => {
+                document.getElementById(`val${capitalize(ind.key)}`).textContent = `${ind.val}/100`;
+                document.getElementById(`bar${capitalize(ind.key)}`).style.width = `${ind.val}%`;
+            });
+
+            document.getElementById('mpiModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeMPIModal() {
+            document.getElementById('mpiModal').classList.add('hidden');
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         }
 
         function exportMPIList() {
@@ -1857,6 +3610,14 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                 mpiRadarChart.options.scales.r.pointLabels.color = textColor;
                 mpiRadarChart.update('none');
             }
+
+            if (anomalyModalChart) {
+                anomalyModalChart.options.scales.x.ticks.color = textColor;
+                anomalyModalChart.options.scales.y.ticks.color = textColor;
+                anomalyModalChart.options.scales.x.grid.color = gridColor;
+                anomalyModalChart.options.scales.y.grid.color = gridColor;
+                anomalyModalChart.update('none');
+            }
         }
 
         applyTheme(getPreferredTheme());
@@ -1949,7 +3710,7 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
         mpiRadarChart = new Chart(ctxMPIRadar, {
             type: 'radar',
             data: {
-                labels: ['Sosial & Bansos', 'Pendidikan (ATS)', 'Ekonomi Wali', 'Sanitasi/Rumah', 'Geografis 3T'],
+                labels: ['Sosial/ Bansos', 'Pendidikan ', 'Ekonomi Keluarga', 'Sanitasi/Rumah', 'Geografis 3T'],
                 datasets: [{
                     label: 'Tingkat Deprivasi (%)',
                     data: [98, 95, 90, 92, 85],
@@ -2017,6 +3778,7 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
             const btn = document.getElementById('generateBtn');
             const output = document.getElementById('llmOutput');
             const status = document.getElementById('llmStatus');
+            const sendAgencyText = document.getElementById('sendAgencyText');
             const selected = document.getElementById('studentSelect').value;
             const profile = studentProfiles[selected];
 
@@ -2041,6 +3803,8 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
 
             streamingEl.classList.remove('cursor-blink');
             
+            sendAgencyText.textContent = `Kirim ke ${profile.agency}`;
+            
             btn.disabled = false;
             btn.innerHTML = '<i data-lucide="sparkles" class="w-4 h-4 mr-2"></i>Regenerate Laporan';
             status.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span>Completed';
@@ -2060,14 +3824,70 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
             alert('📄 Fitur Export PDF akan memanggil endpoint /api/export-pdf (mocked untuk demo).');
         }
 
-        function sendWhatsApp() {
-            alert('📱 Mengirim laporan ke Pekerja Sosial Kecamatan melalui WhatsApp Gateway API...');
+        function sendToAgency() {
+            const selected = document.getElementById('studentSelect').value;
+            const profile = studentProfiles[selected];
+            alert(`📱 Mengirim dokumen laporan resmi ke instansi penerima: ${profile.agency} via API Gateway...`);
         }
 
         function selectStudent(id) {
             document.getElementById('studentSelect').value = id;
             updateContext();
             document.querySelector('#generateBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function openLogsModal() {
+            document.getElementById('logsModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeLogsModal() {
+            document.getElementById('logsModal').classList.add('hidden');
+        }
+
+        function exportLogs() {
+            alert('📥 Mengunduh file log sistem (setara_lms_error_20260814.log)...');
+        }
+
+        function triggerRetryLogs() {
+            alert('🔄 Menjalankan ulang antrean sinkronisasi (Retry Queue) untuk koneksi SETARA ↔ LMS EL-Setara...');
+            closeLogsModal();
+        }
+
+        function openLogsModalLmsSiakad() {
+            document.getElementById('logsModalLmsSiakad').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeLogsModalLmsSiakad() {
+            document.getElementById('logsModalLmsSiakad').classList.add('hidden');
+        }
+
+        function exportLogsLmsSiakad() {
+            alert('📥 Mengunduh file log sistem (lms_siakad_critical_20260814.log)...');
+        }
+
+        function triggerEscalateLmsSiakad() {
+            alert('🚨 Eskalasi insiden critical ke tim DevOps & Backend Engineer berhasil dikirim!');
+            closeLogsModalLmsSiakad();
+        }
+
+        function openLogsModalSetaraSiakad() {
+            document.getElementById('logsModalSetaraSiakad').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeLogsModalSetaraSiakad() {
+            document.getElementById('logsModalSetaraSiakad').classList.add('hidden');
+        }
+
+        function exportLogsSetaraSiakad() {
+            alert('📥 Mengunduh file log sistem (setara_siakad_master_20260814.log)...');
+        }
+
+        function triggerVerifySetaraSiakad() {
+            alert('🔍 Menjalankan ulang verifikasi menyeluruh Master Data & Kurikulum...');
+            closeLogsModalSetaraSiakad();
         }
 
         function sendChat() {
@@ -2116,7 +3936,7 @@ Risiko putus sekolah <b>SANGAT TINGGI (0.92)</b>.<br>
                     const breakdownText = Object.entries(breakdown)
                         .map(([type, count]) => `${count} ${type}`)
                         .join(', ');
-                    response = `Sistem Isolation Forest mendeteksi <b>25 anomali data</b> dari 25.607 record (0.098%). Breakdown: ${breakdownText}. Semua telah di-flagging untuk verifikasi lapangan.`;
+                    response = `Sistem Isolation Forest mendeteksi <b>25 anomali data</b> dari 32.291 record (0.098%). Breakdown: ${breakdownText}. Semua telah di-flagging untuk verifikasi lapangan.`;
                 } else if (q.includes('intervensi') || q.includes('efektif')) {
                     response = 'Intervensi paling efektif berdasarkan historical success rate:<br>1. <b>Pendampingan sosial</b>: 78% success rate<br>2. <b>Subsidi kuota + offline LMS</b>: 65% success rate<br>3. <b>Bantuan modal belajar</b>: 52% success rate';
                 } else {
