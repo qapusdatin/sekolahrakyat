@@ -2134,6 +2134,17 @@
 
     
     <script>
+
+// ============================================================
+        // MODAL OUTSIDE CLICK TO CLOSE (AUTO-HIDE)
+        // ============================================================
+        window.addEventListener('click', function(event) {
+            // Mengecek apakah elemen yang diklik memiliki class backdrop modal
+            if (event.target.classList.contains('bg-black/70') && event.target.classList.contains('backdrop-blur-sm')) {
+                event.target.classList.add('hidden');
+            }
+        });
+        
 // Data MPI berdasarkan dokumen mpi.pdf
 const mpiRawData = [
     { province: "ACEH", sosial: 85.1, pendidikan: 87.0, ekonomi: 87.2, sanitasi: 95.5, geografis: 84.5, rerata: 87.9 },
